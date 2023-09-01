@@ -63,12 +63,30 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+The travel companion is an app that helps you plan, track your travels, and create lifetime memories of each trip. The web based app creates an all in one package of important features to make your trip smooth sailing and unforgettable. You can list your visited destinations, create destination bucket lists, and plan your trips and expenses.
+
+### Features
+
+* Journal/notes: simple text-based + images (write about a trip while being able to add pics and vids)
+* Checklists: 
+** Packing lists:
+*** general
+*** specific, like “I should bring my camera to the museum” connected to museum destination/activity
+*** specific, including costs (with currency converter)
+** Destination bucketlists, activities bucketlists
+* Destinations (chaining to a path to plan roundtrip)
+* Reviews of destinations and activities
+* Travel expense calc
+
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Main page containing a map for searching and/or saving possible destinations, activities, and chaining paths. Clicking on the map brings up a menu containing options like “Save to destination bucketlist” or “Save to visited”
+* Left Sidebar Menu containing entries for Journal, Locations, Activities, Checklists, User preferences etc
+* Right sidebar for additional details and options of location/list/note, pops up when location/list/note is selected
+* Page for Journal with access to checklists, destinations
+* User page for gps location, with saved preferences and with access to saved checklist, locations and quick access to journal. 
+
 
 ### Entity-Relationship (ER) Diagram
 
