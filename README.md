@@ -1,6 +1,6 @@
 # Backend and Frontend Template
 
-Latest version: https://git.chalmers.se/courses/dit342/group-00-web
+Latest version: https://git.chalmers.se/courses/dit342/2023/group-09-web
 
 This template refers to itself as `group-00-web`. In your project, use your group number in place of `00`.
 
@@ -31,7 +31,7 @@ You can also use alternative tools if you know how to configure them (e.g., Fire
     * Create an SSH key pair `ssh-keygen -t ed25519 -C "email@example.com"` (skip if you already have one)
     * Add your public SSH key to your Gitlab profile under https://git.chalmers.se/profile/keys
     * Make sure the email you use to commit is registered under https://git.chalmers.se/profile/emails
-  * Checkout the [Backend-Frontend](https://git.chalmers.se/courses/dit342/group-00-web) template `git clone git@git.chalmers.se:courses/dit342/group-00-web.git`
+  * Checkout the [Backend-Frontend](https://git.chalmers.se/courses/dit342/group-00-web) template `git clone git@git.chalmers.se:courses/dit342/2023/group-09-web.git`
 * [Server Requirements](./server/README.md#Requirements)
 * [Client Requirements](./client/README.md#Requirements)
 
@@ -39,7 +39,7 @@ You can also use alternative tools if you know how to configure them (e.g., Fire
 
 ```bash
 # Clone repository
-git clone git@git.chalmers.se:courses/dit342/group-00-web.git
+git clone git@git.chalmers.se:courses/dit342/2023/group-09-web.git
 
 # Change into the directory
 cd group-00-web
@@ -67,23 +67,24 @@ The travel companion is an app that helps you plan, track your travels, and crea
 
 ### Features
 
+* Destination map and planner (chaining to a path to plan roundtrip: "travel via")
 * Journal/notes: simple text-based + images (write about a trip while being able to add pics and vids)
 * Checklists: 
   * Packing lists:
     * general
     * specific, like “I should bring my camera to the museum” connected to museum destination/activity
-    * specific, including costs (with currency converter)
-  * Destination bucketlists, activities bucketlists
-* Destinations (chaining to a path to plan roundtrip)
+  * Bucket lists:
+    * Destinations
+    * Activities
+  * Expenses lists:
+    * Travel expenses, including calculation of sum and currency converter
 * Reviews of destinations and activities
-* Travel expense calc
-
 
 ### Pages
 
 * Main page containing a map for searching and/or saving possible destinations, activities, and chaining paths. Clicking on the map brings up a menu containing options like “Save to destination bucketlist” or “Save to visited”
 * Left Sidebar Menu containing entries for Journal, Locations, Activities, Checklists, User preferences etc
-* Right sidebar for additional details and options of location/list/note, pops up when location/list/note is selected
+* Right Sidebar Menu for additional details and options of location/list/note, pops up when location/list/note is selected
 * Page for Journal with access to checklists, destinations
 * User page for gps location, with saved preferences and with access to saved checklist, locations and quick access to journal. 
 
