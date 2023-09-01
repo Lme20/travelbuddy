@@ -69,11 +69,11 @@ The travel companion is an app that helps you plan, track your travels, and crea
 
 * Journal/notes: simple text-based + images (write about a trip while being able to add pics and vids)
 * Checklists: 
-** Packing lists:
-*** general
-*** specific, like “I should bring my camera to the museum” connected to museum destination/activity
-*** specific, including costs (with currency converter)
-** Destination bucketlists, activities bucketlists
+  * Packing lists:
+    * general
+    * specific, like “I should bring my camera to the museum” connected to museum destination/activity
+    * specific, including costs (with currency converter)
+  * Destination bucketlists, activities bucketlists
 * Destinations (chaining to a path to plan roundtrip)
 * Reviews of destinations and activities
 * Travel expense calc
