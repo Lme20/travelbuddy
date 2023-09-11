@@ -8,5 +8,5 @@ var activitySchema = new Schema({
     review: { type: String}
 });
 
-module.exports = mongoose.model('journals', journalSchema);
+module.exports = mongoose.model('activities', activitySchema);
 
