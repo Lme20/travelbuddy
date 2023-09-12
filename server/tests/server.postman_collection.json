@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3b7b636e-86af-48d0-b7d0-6e4ada524eb0",
+		"_postman_id": "582d7c6e-37a0-4d96-b0da-4408dd14a886",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29410838"
+		"_exporter_id": "29410972"
 	},
 	"item": [
 		{
@@ -79,6 +79,94 @@
 					"path": [
 						"api",
 						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Ben\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/checklists",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    //\"owner\": {\"name\": \"Ben\"},\r\n    \"type\": \"packing\",\r\n    \"totalCost\": 200,\r\n    \"items\": [\"clothes\", \"shoes\"]\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/checklists",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"checklists"
 					]
 				}
 			},

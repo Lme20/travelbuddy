@@ -6,7 +6,9 @@ var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
 var activitiesController = require('./controllers/activities');
+var checklistController = require('./controllers/checklists');
 var journalsController = require('./controllers/journals');
+var usersController = require('./controllers/users');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
@@ -14,12 +16,11 @@ var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI).catch(function(err) {
-    if (err) {
-        console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
-        console.error(err.stack);
-        process.exit(1);
-    }
-    console.log(`Connected to MongoDB with URI: ${mongoURI}`);
+    console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
+    console.error(err.stack);
+    process.exit(1);
+}).then(function() {
+    console.log(`Connected to MongoDB with URI: ${mongoURI}`); // mistake when forward porting
 });
 
 // Create Express app
@@ -39,8 +40,9 @@ app.get('/api', function(req, res) {
 });
 
 app.use(activitiesController);
+app.use(checklistController);
 app.use(journalsController);
-
+app.use(usersController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
