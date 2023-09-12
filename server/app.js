@@ -11,7 +11,7 @@ var checklistRouter = require('./controllers/reviewRoutes');
 var userRouter = require('./controllers/locationRoutes');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB

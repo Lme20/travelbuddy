@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Location = require('./Location');
+const Location = require('../models/location');
+const Checklist = require('../models/checklist');
+const Activity = require('../models/activity');
+const Review = require('../models/review');
 
 // POST Create Location
 router.post('/locations', async (req, res) => {
