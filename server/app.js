@@ -14,12 +14,11 @@ var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI).catch(function(err) {
-    if (err) {
-        console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
-        console.error(err.stack);
-        process.exit(1);
-    }
-    console.log(`Connected to MongoDB with URI: ${mongoURI}`);
+    console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
+    console.error(err.stack);
+    process.exit(1);
+}).then(function() {
+    console.log(`Connected to MongoDB with URI: ${mongoURI}`); // mistake when forward porting
 });
 
 // Create Express app
