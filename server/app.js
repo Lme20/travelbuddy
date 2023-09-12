@@ -5,6 +5,11 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
+/******* IMPORTING ROUTERS *******/
+// Import Checklist Router
+var checklistRouter = require('./controllers/reviewRoutes');
+var userRouter = require('./controllers/locationRoutes');
+
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
@@ -21,12 +26,15 @@ mongoose.connect(mongoURI).catch(function(err) {
 
 // Create Express app
 var app = express();
+
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // HTTP request logger
 app.use(morgan('dev'));
-// Enable cross-origin resource sharing for frontend must be registered before api
+
+// Enable CORS
 app.options('*', cors());
 app.use(cors());
 
@@ -35,22 +43,28 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
+/******* USING ROUTERS *******/
+// Use the Checklist Router
+app.use(checklistRouter);
+
+// Use the User Router
+app.use(userRouter); 
+
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
 });
 
 // Configuration for serving frontend in production mode
-// Support Vuejs HTML 5 history mode
 app.use(history());
+
 // Serve static assets
 var root = path.normalize(__dirname + '/..');
 var client = path.join(root, 'client', 'dist');
 app.use(express.static(client));
 
-// Error handler (i.e., when exception is thrown) must be registered last
+// Error handler (i.e., when an exception is thrown)
 var env = app.get('env');
-// eslint-disable-next-line no-unused-vars
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     var err_res = {
@@ -58,7 +72,6 @@ app.use(function(err, req, res, next) {
         'error': {}
     };
     if (env === 'development') {
-        // Return sensitive stack trace only in dev mode
         err_res['error'] = err.stack;
     }
     res.status(err.status || 500);
