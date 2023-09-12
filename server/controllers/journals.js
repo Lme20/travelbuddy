@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Journal = require('../models/journal');
 
+/*
+This is the previous code that doesn't work due to .save() not allowing callbacks:
 router.post('/api/journals', function(req, res, next){
     var journal = new Journal(req.body);
     journal.save(function(err, journal) {
@@ -9,6 +11,20 @@ router.post('/api/journals', function(req, res, next){
         res.status(201).json(journal);
     })
 });
+The code below for post is inspired from chatGPT to use async to wait for a response:
+*/
+
+router.post('/api/journals', async (req, res, next) => {
+    try {
+      const journal = new Journal(req.body);
+      const savedJournal = await journal.save();
+      res.status(201).json(savedJournal);
+    } catch (error) {
+      next(error); // Pass the error to the error-handling middleware
+    }
+  });
+
+
 
 router.get('/api/journals/:id', function(req, res, next) {
     var id = req.params.id;
