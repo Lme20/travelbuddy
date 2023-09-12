@@ -3,17 +3,29 @@ const router = express.Router();
 const User = require('../models/user');
 const Checklist = require('../models/checklist');
 
+// POST user
 router.post('/api/users', async (req, res) => {
     const user = new User(req.body);
     await user.save();
     res.status(201).send(user);
 });
 
+// GET all users
 router.get('/api/users', async (req, res) => {
     const user = await User.find();
-    res.json({'users': user});
+    //res.json({'users': user});
     res.status(200).send(user);
 });
+
+// DELETE user (id)
+router.delete('/api/users/:id', async(req, res) => {
+    var id = req.params.id;
+    var ack = await User.deleteOne({_id:id});
+    res.status(200).send(ack);
+});
+
+// PUT user (id)
+// TODO
 
 // POST checklist to user (owner)
 router.post('/api/users/:id/checklists', async (req, res) => {
@@ -60,5 +72,14 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
         });
     });
 });
+
+// PUT user's checklist (id)
+// TODO
+
+// DELETE user's checklists
+// TODO
+
+// DELETE user's checklist (id)
+// TODO
 
 module.exports = router;
