@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    _id: { type: String },
     name: { type: String },
     gpsLocation: { type: String }, // type?
     prefCurrency: { type: String },
@@ -14,5 +13,5 @@ var userSchema = new Schema({
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'review' }]
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('users', userSchema);
 
