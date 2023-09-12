@@ -3,14 +3,7 @@ var router = express.Router();
 var Activity = require('../models/activity');
 
 /*
-This is the previous code that doesn't work due to .save() not allowing callbacks:
-router.post('/api/activities', function(req, res, next){
-    var activity = new Activity(req.body);
-    activity.save(function(err, activity) {
-        if (err) { return next(err); }
-        res.status(201).json(activity);
-    })
-});
+This is the previous code that doesn't work due to .save(), .find() not allowing callbacks:
 The code below for post is inspired from chatGPT to use async to wait for a response:
 */
 
@@ -19,16 +12,18 @@ router.post('/api/activities', async (req, res, next) => {
       const activity = new Activity(req.body);
       const savedActivity = await activity.save();
       res.status(201).json(savedActivity);
-    } catch (error) {
-      next(error); // Pass the error to the error-handling middleware
+    } catch (err) {
+      next(err); // Pass the error to the error-handling middleware
     }
   });
 
-router.get('/api/activities', function(req, res, next) {
-    Activity.find(function(err, activities) {
-        if (err) { return next(err); }
-        res.json({'activities': activities });
-    });
+router.get('/api/activities', async (req, res, next) => {
+    try {
+        const activities = await Activity.find();
+        res.json({ 'activities': activities });
+      } catch (err) {
+        return next(err);
+      }
 });
 
 router.get('/api/activities/:id', function(req, res, next) {
