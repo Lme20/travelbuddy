@@ -8,4 +8,10 @@ router.post('/api/users', async (req, res) => {
     res.status(201).send(user);
 });
 
+router.get('/api/users', async (req, res) => {
+    const user = await User.find();
+    res.json({'users': user});
+    res.status(200).send(user);
+});
+
 module.exports = router;
