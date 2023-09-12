@@ -11,6 +11,7 @@ var checklistSchema = new Schema({
 
 module.exports = mongoose.model('checklists', checklistSchema);
 
+// TODO this does not work.
 checklistSchema.pre('save', function(next) {
     if (this.costItems != null) {
         module.exports.aggregate(

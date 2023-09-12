@@ -11,7 +11,7 @@ var journalsController = require('./controllers/journals');
 var usersController = require('./controllers/users');
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/serverTestDB';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB

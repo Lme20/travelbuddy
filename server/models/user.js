@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    name: { type: String},
+    name: { type: String, required: true },
     gpsLocation: { type: String }, // type?
     prefCurrency: { type: String },
     prefUnit: { type: String },
