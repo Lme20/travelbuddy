@@ -7,8 +7,8 @@ var history = require('connect-history-api-fallback');
 
 /******* IMPORTING ROUTERS *******/
 // Import Checklist Router
-var checklistRouter = require('./controllers/reviewRoutes');
-var userRouter = require('./controllers/locationRoutes');
+var checklistRouter = require('./controllers/reviews');
+var userRouter = require('./controllers/locations');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/animalDevelopmentDB';
