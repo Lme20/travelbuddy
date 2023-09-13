@@ -12,7 +12,6 @@
 *
 *   The operations are asynchronous, using the `async/await` syntax to handle asynchronous database operations.
 *   SUGGESTIONS:
-*   -  Delete Operations: Ensure child item references are removed from the parent (Location) when deleted.
 *   - Validation: Validate data before saving to prevent malicious input or errors.
 *   - Check Location Existence: Verify if a location exists before adding related items; return an error if not found.
 */
@@ -57,7 +56,7 @@ router.get('/locations/:location_id/checklists', async (req, res) => {
         const location = await Location.findById(req.params.location_id).populate('checklists');
         res.send(location.checklists);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting checklists for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting checklists for location', error: error.message });
     }
 });
 
@@ -67,17 +66,24 @@ router.get('/locations/:location_id/checklists/:checklist_id', async (req, res) 
         const checklist = await Checklist.findById(req.params.checklist_id);
         res.send(checklist);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting specific checklist for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting specific checklist for location', error: error.message });
     }
 });
 
 // DELETE Checklist from a Location
 router.delete('/locations/:location_id/checklists/:checklist_id', async (req, res) => {
     try {
+        // Deleting  checklist
         const checklist = await Checklist.findByIdAndRemove(req.params.checklist_id);
+        
+        // Removing reference from location
+        const location = await Location.findById(req.params.location_id);
+        location.checklists.pull(req.params.checklist_id);
+        await location.save();
+
         res.send({message: 'Checklist removed', checklist});
     } catch (error) {
-        res.status(500).send({ message: 'Error deleting checklist from a location', error: error.message });
+        res.status(500).send({ message: 'Error deleting checklist from location', error: error.message });
     }
 });
 
@@ -94,7 +100,7 @@ router.post('/locations/:location_id/activities', async (req, res) => {
         await location.save();
         res.status(201).send(activity);
     } catch (error) {
-        res.status(500).send({ message: 'Error creating activity for a location', error: error.message });
+        res.status(500).send({ message: 'Error creating activity for location', error: error.message });
     }
 });
 
@@ -104,7 +110,7 @@ router.get('/locations/:location_id/activities', async (req, res) => {
         const location = await Location.findById(req.params.location_id).populate('activities');
         res.send(location.activities);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting activities for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting activities for location', error: error.message });
     }
 });
 
@@ -114,17 +120,24 @@ router.get('/locations/:location_id/activities/:activity_id', async (req, res) =
         const activity = await Activity.findById(req.params.activity_id);
         res.send(activity);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting specific activity for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting specific activity for location', error: error.message });
     }
 });
 
 //DELETE Activity from a Location
 router.delete('/locations/:location_id/activities/:activity_id', async (req, res) => {
     try {
+        // Deleting  activity
         const activity = await Activity.findByIdAndRemove(req.params.activity_id);
+        
+        // Removing reference from location
+        const location = await Location.findById(req.params.location_id);
+        location.activities.pull(req.params.activity_id);
+        await location.save();
+
         res.send({message: 'Activity removed', activity});
     } catch (error) {
-        res.status(500).send({ message: 'Error deleting activity from a location', error: error.message });
+        res.status(500).send({ message: 'Error deleting activity from location', error: error.message });
     }
 });
 
@@ -141,7 +154,7 @@ router.post('/locations/:location_id/reviews', async (req, res) => {
         await location.save();
         res.status(201).send(review);
     } catch (error) {
-        res.status(500).send({ message: 'Error creating review for a location', error: error.message });
+        res.status(500).send({ message: 'Error creating review for location', error: error.message });
     }
 });
 
@@ -151,7 +164,7 @@ router.get('/locations/:location_id/reviews', async (req, res) => {
         const location = await Location.findById(req.params.location_id).populate('reviews');
         res.send(location.reviews);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting reviews for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting reviews for location', error: error.message });
     }
 });
 
@@ -161,17 +174,24 @@ router.get('/locations/:location_id/reviews/:review_id', async (req, res) => {
         const review = await Review.findById(req.params.review_id);
         res.send(review);
     } catch (error) {
-        res.status(500).send({ message: 'Error getting specific review for a location', error: error.message });
+        res.status(500).send({ message: 'Error getting specific review for location', error: error.message });
     }
 });
 
 //DELETE Review from a Location
 router.delete('/locations/:location_id/reviews/:review_id', async (req, res) => {
     try {
+        // Deleting  review
         const review = await Review.findByIdAndRemove(req.params.review_id);
+        
+        // Removing reference from location
+        const location = await Location.findById(req.params.location_id);
+        location.reviews.pull(req.params.review_id);
+        await location.save();
+
         res.send({message: 'Review removed', review});
     } catch (error) {
-        res.status(500).send({ message: 'Error deleting review from a location', error: error.message });
+        res.status(500).send({ message: 'Error deleting review from location', error: error.message });
     }
 });
 
