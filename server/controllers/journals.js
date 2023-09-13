@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Journal = require('../models/journal');
+var Activity = require('../models/activity');
+var Location = require('../models/location');
 
 /*
 This is the previous code that doesn't work due to .save() not allowing callbacks:
@@ -25,28 +27,25 @@ router.post('/api/journals', async (req, res, next) => {
   });
 
 
-
-router.get('/api/journals/:id', function(req, res, next) {
-    var id = req.params.id;
-    Journal.findById(id, function(err, journal) {
-        if (err) { return next(err); }
-        if (journal === null) {
-            return res.status(404).json({'message': 'Journal not found'});
+  router.get('/api/journals/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const journal = await Journal.findById(id);
+        if (journal == null) {
+            return res.status(404).json({ 'message': 'Journal not found' });
         }
         res.json(journal);
-    });
+    } catch (err) {
+        next(err); 
+    }
 });
 
-router.delete('/api/journals/:id', function(req, res, next) {
+router.delete('/api/journals/:id', async (req, res, next) => {
     var id = req.params.id;
-    Journal.findOneAndDelete({_id: id}, function(err, journal) {
-        if (err) { return next(err); }
-        if (journal === null) {
-            return res.status(404).json({'message': 'Journal not found'});
-        }
-        res.json(journal);
-    });
+    var ack = await Journal.deleteOne({_id:id});
+    res.status(200).send(ack);
 });
+
 
 router.put('/api/journals/:id', function(req, res, next) {
     var id = req.params.id;
@@ -81,7 +80,69 @@ router.patch('/api/journals/:id', function(req, res, next) {
     });
 });
 
+// POST location to journal
+router.post('/api/journals/:jid/locations', async (req, res) => {
+    var location = new Location(req.body);
+    var jid = req.params.jid;
+    Journal.findById(jid).then( async(journal, journalres) => {
+        if (journal == null) {
+            return journalres.status(404).json({"message": "Journal not found"});
+        }
+        journal.locations.push(location);
+        await journal.save();
+        location.journals = journal;
+        await location.save();
+        res.status(201).send(location);
+    });
+});
 
+// GET activities that are reviewed
+router.get('/api/journals/:jid/locations', async (req, res) => {
+    var jid = req.params.jid;
+    Journal.findById(jid).then( async(journal, journalres) => {
+        if (journal == null) {
+            return journalres.status(404).json({"message": "Journal not found"});
+        }
+        Location.findById(journal.locations).then(async(location, locationres) => {
+            res.json({ 'locations': location });
+        });
+    });
+});
+
+// DELETE a specific review (id) for an activity (id)
+// TODO
+
+// POST activity to journal
+router.post('/api/journals/:jid/activities', async (req, res) => {
+    var activity = new Activity(req.body);
+    var jid = req.params.jid;
+    Journal.findById(jid).then( async(journal, journalres) => {
+        if (journal == null) {
+            return journalres.status(404).json({"message": "Journal not found"});
+        }
+        journal.activities.push(activity);
+        await journal.save();
+        activity.journals = activity;
+        await activity.save();
+        res.status(201).send(activity);
+    });
+});
+
+
+// GET activities that are in a journal
+router.get('/api/journals/:jid/activities', async (req, res) => {
+    var jid = req.params.jid;
+    Journal.findById(jid).then( async(journal, journalres) => {
+        if (journal == null) {
+            return journalres.status(404).json({"message": "Journal not found"});
+        }
+        Activity.findById(journal.activities).then(async(activity, activityres) => {
+            res.json({ 'activities': activity });
+        });
+    });
+});
+
+// DELETE a specific activity (id) froma journal (id)
+// TODO
 module.exports = router;
-
 

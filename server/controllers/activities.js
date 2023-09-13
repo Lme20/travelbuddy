@@ -83,7 +83,7 @@ router.post('/api/activities/:aid/reviews', async (req, res) => {
         }
         activity.reviews.push(review);
         await activity.save();
-        review.activity = activity;
+        review.activities = activity;
         await review.save();
         res.status(201).send(review);
     });

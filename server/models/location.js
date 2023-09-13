@@ -9,7 +9,9 @@ const locationSchema = new mongoose.Schema({
     distance_to_locations: { type: Number},
     checklists: [{type: mongoose.Schema.Types.ObjectId, ref: 'checklist'}], // Refencing to checklist model
     activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'activity'}], // Referencing to activity model
-    reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'review'}] // Referencing to review model
+    reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'review'}], // Referencing to review model
+    journals: {  type: mongoose.Schema.Types.ObjectId, ref: 'journal'}
+
 });
 
 module.exports = mongoose.model('Location', locationSchema);
