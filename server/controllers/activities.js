@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var Activity = require('../models/activity');
+var Review = require('../models/review');
+const activity = require('../models/activity');
 
 /*
 This is the previous code that doesn't work due to .save(), .find() not allowing callbacks:
 The code below for post is inspired from chatGPT to use async to wait for a response:
 */
 
+// POST activity
 router.post('/api/activities', async (req, res, next) => {
     try {
       const activity = new Activity(req.body);
@@ -17,6 +20,8 @@ router.post('/api/activities', async (req, res, next) => {
     }
   });
 
+
+// GET all activities
 router.get('/api/activities', async (req, res, next) => {
     try {
         const activities = await Activity.find();
@@ -26,30 +31,31 @@ router.get('/api/activities', async (req, res, next) => {
       }
 });
 
-router.get('/api/activities/:id', function(req, res, next) {
-    var id = req.params.id;
-    Activity.findById(id, function(err, activity) {
-        if (err) { return next(err); }
-        if (activity === null) {
-            return res.status(404).json({'message': 'Activity not found'});
+// GET activity (id)
+router.get('/api/activities/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const activity = await Activity.findById(id);
+        if (activity == null) {
+            return res.status(404).json({ 'message': 'Activity not found' });
         }
         res.json(activity);
-    });
+    } catch (err) {
+        next(err); 
+    }
 });
 
-router.delete('/api/activities/:id', function(req, res, next) {
+// DELETE activity (id)
+router.delete('/api/activities/:id', async (req, res, next) => {
     var id = req.params.id;
-    Activity.findOneAndDelete({_id: id}, function(err, activity) {
-        if (err) { return next(err); }
-        if (activity === null) {
-            return res.status(404).json({'message': 'Activity not found'});
-        }
-        res.json(activity);
-    });
+    var ack = await Activity.deleteOne({_id:id});
+    res.status(200).send(ack);
 });
 
 
 
+
+//PUT activity (id)
 router.put('/api/activities/:id', function(req, res, next) {
     var id = req.params.id;
     Activity.findById(id, function(err, activity) {
@@ -66,5 +72,54 @@ router.put('/api/activities/:id', function(req, res, next) {
     });
 });
 
+
+// POST activities to reviews
+router.post('/api/activities/:aid/reviews', async (req, res) => {
+    var review = new Review(req.body);
+    var aid = req.params.aid;
+    Activity.findById(aid).then( async(activity, activityres) => {
+        if (activity == null) {
+            return activityres.status(404).json({"message": "Activity not found"});
+        }
+        activity.reviews.push(review);
+        await activity.save();
+        review.activity = activity;
+        await review.save();
+        res.status(201).send(review);
+    });
+});
+
+// GET activities that are reviewed
+router.get('/api/activities/:aid/reviews', async (req, res) => {
+    var aid = req.params.aid;
+    Activity.findById(aid).then( async(activity, activityres) => {
+        if (activity == null) {
+            return activityres.status(404).json({"message": "Activity not found"});
+        }
+        Review.findById(activity.reviews).then(async(review, reviewres) => {
+            res.json({ 'reviews': review });
+        });
+    });
+});
+
+//GET specific review (id) of an activity
+router.get('/api/activities/:aid/reviews/:rid', async (req, res) => {
+    var aid = req.params.aid;
+    var rid = req.params.rid;
+    User.findById(aid).then( async(activity, activityres) => {
+        if (activity == null) {
+            return activityres.status(404).json({"message": "Activity not found"});
+        }
+        Review.findOne({_id: rid, activity: aid}).then(async(review, reviewres) => {
+            if (review == null) {
+                return reviewres.status(404).json({"message": "Review not found"});
+            }
+            res.json({ 'reviews': review });
+        });
+    });
+});
+
+// DELETE a specific review (id) for an activity
+// TODO
 
 module.exports = router;

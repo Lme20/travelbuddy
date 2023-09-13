@@ -7,7 +7,8 @@ const reviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
-    }
+    },
+    activity: { type: mongoose.Schema.Types.ObjectId, ref: 'activvity'}
 });
 
 module.exports = mongoose.model('Review', reviewSchema);
