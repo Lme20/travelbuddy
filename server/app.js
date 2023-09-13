@@ -25,12 +25,15 @@ mongoose.connect(mongoURI).catch(function(err) {
 
 // Create Express app
 var app = express();
+
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // HTTP request logger
 app.use(morgan('dev'));
-// Enable cross-origin resource sharing for frontend must be registered before api
+
+// Enable CORS
 app.options('*', cors());
 app.use(cors());
 
@@ -50,16 +53,15 @@ app.use('/api/*', function (req, res) {
 });
 
 // Configuration for serving frontend in production mode
-// Support Vuejs HTML 5 history mode
 app.use(history());
+
 // Serve static assets
 var root = path.normalize(__dirname + '/..');
 var client = path.join(root, 'client', 'dist');
 app.use(express.static(client));
 
-// Error handler (i.e., when exception is thrown) must be registered last
+// Error handler (i.e., when an exception is thrown)
 var env = app.get('env');
-// eslint-disable-next-line no-unused-vars
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     var err_res = {
@@ -67,7 +69,6 @@ app.use(function(err, req, res, next) {
         'error': {}
     };
     if (env === 'development') {
-        // Return sensitive stack trace only in dev mode
         err_res['error'] = err.stack;
     }
     res.status(err.status || 500);
