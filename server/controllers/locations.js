@@ -19,8 +19,8 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Location = require('../models/location');
-//const Checklist = require('../models/checklist');
-//const Activity = require('../models/activity');
+const Checklist = require('../models/checklist');
+const Activity = require('../models/activity');
 const Review = require('../models/review');
 
 // POST Create Location
@@ -30,7 +30,7 @@ router.post('/api/locations', async (req, res) => {
         await location.save();
         res.status(201).send(location);
     } catch (error) {
-        res.status(500).send({ message: 'Error creating location', error: error.message });
+        res.status(500).send(location);
     }
 });
 
