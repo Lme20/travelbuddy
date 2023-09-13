@@ -5,10 +5,10 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
-/******* IMPORTING ROUTERS *******/
-// Import Checklist Router
-var checklistController = require('./controllers/reviews');
-var userController = require('./controllers/locations');
+var activitiesController = require('./controllers/activities');
+var checklistController = require('./controllers/checklists');
+var journalsController = require('./controllers/journals');
+var usersController = require('./controllers/users');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/serverTestDB';
@@ -42,9 +42,10 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-/******* USING ROUTERS *******/
-app.use(checklistController); // Use the Checklist Router
-app.use(userController); // Use the User Router
+app.use(activitiesController);
+app.use(checklistController);
+app.use(journalsController);
+app.use(usersController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
