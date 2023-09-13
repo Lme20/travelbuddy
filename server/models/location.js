@@ -12,5 +12,5 @@ const locationSchema = new mongoose.Schema({
     reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'review'}] // Referencing to review model
 });
 
-module.exports = mongoose.model('Location', locationSchema);
+module.exports = mongoose.model('locations', locationSchema);
 
