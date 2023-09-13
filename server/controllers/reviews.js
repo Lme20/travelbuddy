@@ -26,7 +26,7 @@ router.post('/users/:user_id/reviews', async (req, res) => {
     res.status(201).send(review);
 });
 
-//GET All Reviews of a User
+/*GET All Reviews of a User
 router.get('/users/:user_id/reviews', async (req, res) => {
     try {
         const reviews = await Review.find({ userId: req.params.user_id });
@@ -60,6 +60,6 @@ router.delete('/users/:user_id/reviews/:review_id', async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: "Error deleting specific review" });
     }
-});
+});*/
 
 module.exports = router;
