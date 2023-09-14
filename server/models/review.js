@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema({
     text: { type: String},
     userId: { //can be considered as 'author'
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'users',
         required: true
     }
 });

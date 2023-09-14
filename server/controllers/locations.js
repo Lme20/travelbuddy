@@ -22,6 +22,7 @@ const Location = require('../models/location');
 const Checklist = require('../models/checklist');
 const Activity = require('../models/activity');
 const Review = require('../models/review');
+const User = require('../models/user');
 
 // POST Create Location
 router.post('/api/locations', async (req, res) => {
@@ -57,20 +58,18 @@ router.delete('/api/locations', async (req, res) => {
 // GET Single location by ID
 router.get('/api/locations/:id', async (req, res) => {
     var id = req.params.id;
-
-        // Check if ID is a valid ObjectId - for validation purposes only
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).send({ message: 'Invalid ID format' });
-        }
-
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: 'Invalid ID format' });
+    }
     try {
-        const location = await Location.findOne({_id:id});
+        const location = await Location.findOne({_id:id})
         if (!location) return res.status(404).send({ message: 'Location not found' });
         res.status(200).send(location);
     } catch (error) {
         res.status(500).send({ message: 'Error fetching location', error: error.message });
     }
 });
+
 
 // PUT (update) Single location by ID
 router.put('/api/locations/:id', async (req, res) => {
@@ -205,20 +204,35 @@ router.delete('api/locations/:location_id/activities/:activity_id', async (req, 
 
 
 /* REVIEWS ROUTES */
-//POST Create Review for a Location
+/*POST Create Review for a Location
 router.post('/api/locations/:id/reviews', async (req, res) => {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+        return res.status(404).send({ message: "User with provided userId not found" });
+    }
+
+    console.log(req.body);
     try {
-        const location = await Location.findById(req.params.location_id);
+        const location = await Location.findById(req.params.id);   
+        // Check if the location exists
+        if (!location) {
+            return res.status(404).send({ message: 'Location not found' });
+        }
+
         const review = new Review(req.body);
-        review.location = location._id;
+        review.location = location.id;
         await review.save();
+        
         location.reviews.push(review);
         await location.save();
         res.status(201).send(review);
+
     } catch (error) {
         res.status(500).send({ message: 'Error creating review for location', error: error.message });
     }
 });
+
 
 //GET Reviews for a Location
 router.get('api/locations/:location_id/reviews', async (req, res) => {
@@ -255,6 +269,6 @@ router.delete('api/locations/:id/reviews', async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: 'Error deleting review from location', error: error.message });
     }
-});
+});*/
 
 module.exports = router;

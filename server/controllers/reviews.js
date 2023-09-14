@@ -27,10 +27,10 @@ router.post('/api/users/:id/reviews', async (req, res) => {
         
         const review = new Review({
             ...req.body,
-            userId: user._id  // note: it's 'userId' to match the review schema
+            userId: user.id  // note: it's 'userId' to match the review schema
         });
         await review.save();
-        user.reviews.push(review._id);
+        user.reviews.push(review.id);
         await user.save();
         
         res.status(201).send(review);
@@ -42,38 +42,48 @@ router.post('/api/users/:id/reviews', async (req, res) => {
 //GET All Reviews of a User
 router.get('/api/users/:id/reviews', async (req, res) => {
     try {
-        const reviews = await Review.find({ id: req.params.id });
+        const reviews = await Review.find({ userId: req.params.id }).select('stars text _id');
         res.status(200).send(reviews);
     } catch (error) {
-        res.status(500).send({ message: "Error retrieving reviews" });
+        res.status(500).send({ message: "Error retrieving reviews", error: error.message });
     }
 });
 
 //GET a Specific Review of a User
-router.get('/api/users/:id/reviews/:rId', async (req, res) => {
+router.get('/api/users/:userId/reviews/:reviewId', async (req, res) => {
     try {
-        const review = await Review.findOne({ rId: req.params.reviewId, _id: req.params.userId });
-        if (!review) {
-            return res.status(404).send({ message: "Specific review not found" });
+        const review = await Review.findById(req.params.reviewId).populate('userId'); // Populating the userId field
+
+        if (!review) { // Check if the review exists
+            return res.status(404).send({ message: "Review not found" });
         }
+        if (review.userId._id.toString() !== req.params.userId) { // Check if the review's userId matches the provided userId
+            return res.status(404).send({ message: "Review not found for this user" });
+        }
+        // Respond with the review data
         res.status(200).send(review);
     } catch (error) {
-        res.status(500).send({ message: "Error retrieving specific review" });
+        res.status(500).send({ message: "Error retrieving specific review", error: error.message });
     }
 });
 
 //DELETE a Specific Review of a User
-router.delete('/api/users/:id/reviews/:rId', async (req, res) => {
+router.delete('/api/users/:userId/reviews/:reviewId', async (req, res) => {
     try {
-        const review = await Review.findOneAndDelete({ rId: req.params.reviewId, _id: req.params.userId });
+        const review = await Review.findOneAndDelete({ 
+            _id: req.params.reviewId, 
+            userId: req.params.userId 
+        });
+
         if (!review) {
             return res.status(404).send({ message: "Specific review not found" });
         }
         res.status(200).send({ message: "Specific review deleted successfully" });
     } catch (error) {
-        res.status(500).send({ message: "Error deleting specific review" });
+        res.status(500).send({ message: "Error deleting specific review", error: error.message });
     }
 });
+
 
 // PUT
 

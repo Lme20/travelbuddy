@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "582d7c6e-37a0-4d96-b0da-4408dd14a886",
+		"_postman_id": "326c23b9-f2dc-4008-b156-cfc370d5c26a",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29410972"
+		"_exporter_id": "19472229"
 	},
 	"item": [
 		{
@@ -253,24 +253,6 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /api/locations",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "GET /api/locations/:id",
 			"request": {
 				"method": "GET",
@@ -288,7 +270,7 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
+							"value": "6503897955602d42dc5e9903"
 						}
 					]
 				}
@@ -313,7 +295,7 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
+							"value": "6503897955602d42dc5e9903"
 						}
 					]
 				}
@@ -338,7 +320,155 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
+							"value": "6503897955602d42dc5e9903"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/users/:id/reviews",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/users/:uid/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						":uid",
+						"reviews"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "6503896d55602d42dc5e98ff"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/users/:id/reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/:uid/reviews",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						":uid",
+						"reviews"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "6503896d55602d42dc5e98ff"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/users/:id/reviews/:reviewId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/:userId/reviews/:reviewId",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						":userId",
+						"reviews",
+						":reviewId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "6503896d55602d42dc5e98ff"
+						},
+						{
+							"key": "reviewId",
+							"value": "650389ce55602d42dc5e990b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/locations",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/users/:userId/reviews/:reviewId",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/users/:userId/reviews/:reviewId",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"users",
+						":userId",
+						"reviews",
+						":reviewId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "65034e136b009544de159a77"
+						},
+						{
+							"key": "reviewId",
+							"value": "65035f77271901b686e2b875"
 						}
 					]
 				}

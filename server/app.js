@@ -48,6 +48,7 @@ app.get('/api', function(req, res) {
 app.use(activitiesController);
 app.use(checklistController);
 app.use(journalsController);
+app.use(usersController);
 app.use(locationsController);
 app.use(reviewsController);
 
