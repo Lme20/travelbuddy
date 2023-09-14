@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Activity = require('../models/activity');
 var Review = require('../models/review');
-const activity = require('../models/activity');
+var User = require('../models/user');
 
 /*
 This is the previous code that doesn't work due to .save(), .find() not allowing callbacks:
@@ -52,9 +52,6 @@ router.delete('/api/activities/:id', async (req, res, next) => {
     res.status(200).send(ack);
 });
 
-
-
-
 //PUT activity (id)
 router.put('/api/activities/:id', function(req, res, next) {
     var id = req.params.id;
@@ -71,7 +68,6 @@ router.put('/api/activities/:id', function(req, res, next) {
         res.json(activity);
     });
 });
-
 
 // POST activities to reviews
 router.post('/api/activities/:aid/reviews', async (req, res) => {
@@ -120,6 +116,55 @@ router.get('/api/activities/:aid/reviews/:rid', async (req, res) => {
 });
 
 // DELETE a specific review (id) for an activity
+// TODO
+
+// POST activities to user
+router.post('/api/users/:uid/activites', async (req, res) => {
+    var activity = new Activity(req.body);
+    var uid = req.params.uid;
+    User.findById(uid).then( async(user, userres) => {
+        if (user == null) {
+            return userres.status(404).json({"message": "User not found"});
+        }
+        user.activities.push(activity);
+        await user.save();
+        activity.users = user;
+        await activity.save();
+        res.status(201).send(activity);
+    });
+});
+
+// GET user's acitivity (id)
+router.get('/api/users/:uid/activities/:aid', async (req, res) => {
+    var uid = req.params.uid;
+    var aid = req.params.aid;
+    User.findById(uid).then( async(user, userres) => {
+        if (user == null) {
+            return userres.status(404).json({"message": "User not found"});
+        }
+        Activity.findOne({_id: aid, owner: uid}).then(async(activity, activityres) => {
+            if (activity == null) {
+                return activityres.status(404).json({"message": "Activity not found"});
+            }
+            res.json({ 'activities': activity });
+        });
+    });
+});
+
+// GET user's activities
+router.get('/api/users/:uid/activities', async (req, res) => {
+    var uid = req.params.uid;
+    User.findById(uid).then( async(user, userres) => {
+        if (user == null) {
+            return userres.status(404).json({"message": "User not found"});
+        }
+        Activity.findById(user.activities).then(async(activity, activityres) => {
+            res.json({ 'activities': activity });
+        });
+    });
+});
+
+// DELETE user's activity (id)
 // TODO
 
 module.exports = router;
