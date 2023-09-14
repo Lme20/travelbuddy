@@ -631,6 +631,135 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "POST /api/locations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/locations",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/locations/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/locations/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /api/locations/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

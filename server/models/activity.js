@@ -10,8 +10,9 @@ var activitySchema = new Schema({
     name: { type: String },
     is_visited: { type: Boolean },
     is_on_bucketlist: { type: Boolean },
-    review: { type: String}
+    reviews: {  type: mongoose.Schema.Types.ObjectId, ref: 'review'},
+    journals: {  type: mongoose.Schema.Types.ObjectId, ref: 'journal'},
+    users:{  type: mongoose.Schema.Types.ObjectId, ref: 'user'}
 });
-
 module.exports = mongoose.model('activities', activitySchema);
 

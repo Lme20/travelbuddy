@@ -15,7 +15,7 @@
 *   - Validation: Validate data before saving to prevent malicious input or errors.
 *   - Check Location Existence: Verify if a location exists before adding related items; return an error if not found.
 */
-
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Location = require('../models/location');
@@ -24,19 +24,81 @@ const Activity = require('../models/activity');
 const Review = require('../models/review');
 
 // POST Create Location
-router.post('/locations', async (req, res) => {
+router.post('/api/locations', async (req, res) => {
     try {
         const location = new Location(req.body);
         await location.save();
         res.status(201).send(location);
     } catch (error) {
-        res.status(500).send({ message: 'Error creating location', error: error.message });
+        res.status(500).send(location);
+    }
+});
+
+// GET All locations
+router.get('/api/locations', async (req, res) => {
+    try {
+        const locations = await Location.find({});
+        res.status(200).send(locations);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching locations', error: error.message });
+    }
+});
+
+// Delete All locations
+router.delete('/api/locations', async (req, res) => {
+    try {
+        await Location.deleteMany({});
+        res.status(200).send({ message: 'All locations deleted successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting locations', error: error.message });
+    }
+});
+
+// GET Single location by ID
+router.get('/api/locations/:id', async (req, res) => {
+    var id = req.params.id;
+
+        // Check if ID is a valid ObjectId - for validation purposes only
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Invalid ID format' });
+        }
+
+    try {
+        const location = await Location.findOne({_id:id});
+        if (!location) return res.status(404).send({ message: 'Location not found' });
+        res.status(200).send(location);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching location', error: error.message });
+    }
+});
+
+// PUT (update) Single location by ID
+router.put('/api/locations/:id', async (req, res) => {
+    try {
+        var id = req.params.id;
+        const location = await Location.findOneAndUpdate({_id:id}, req.body, { new: true });
+        if (!location) return res.status(404).send({ message: 'Location not found' });
+        res.status(200).send(location);
+    } catch (error) {
+        res.status(500).send({ message: 'Error updating location', error: error.message });
+    }
+});
+
+// PATCH (partial update) Single location by ID
+router.patch('/api/locations/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const location = await Location.findByIdAndUpdate(id, req.body, { new: true });
+        if (!location) return res.status(404).send({ message: 'Location not found' });
+        res.status(200).send(location);
+    } catch (error) {
+        res.status(500).send({ message: 'Error partially updating location', error: error.message });
     }
 });
 
 /* CHECKLISTS ROUTES */
-// POST Create Checklist for a Location 
-router.post('/locations/:location_id/checklists', async (req, res) => {
+/* POST Create Checklist for a Location 
+router.post('api/locations/:location_id/checklists', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id);
         const checklist = new Checklist(req.body);
@@ -48,30 +110,30 @@ router.post('/locations/:location_id/checklists', async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: 'Error creating checklist for location', error: error.message });
     }
-});
+});*/
 
-// GET Checklists for a Location
-router.get('/locations/:location_id/checklists', async (req, res) => {
+/* GET Checklists for a Location
+router.get('api/locations/:location_id/checklists', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id).populate('checklists');
         res.send(location.checklists);
     } catch (error) {
         res.status(500).send({ message: 'Error getting checklists for location', error: error.message });
     }
-});
+});*/
 
-// GET Specific Checklist for a Location
-router.get('/locations/:location_id/checklists/:checklist_id', async (req, res) => {
+/* GET Specific Checklist for a Location
+router.get('api/locations/:location_id/checklists/:checklist_id', async (req, res) => {
     try {
         const checklist = await Checklist.findById(req.params.checklist_id);
         res.send(checklist);
     } catch (error) {
         res.status(500).send({ message: 'Error getting specific checklist for location', error: error.message });
     }
-});
+});*/
 
-// DELETE Checklist from a Location
-router.delete('/locations/:location_id/checklists/:checklist_id', async (req, res) => {
+/* DELETE Checklist from a Location
+router.delete('api/locations/:location_id/checklists/:checklist_id', async (req, res) => {
     try {
         // Deleting  checklist
         const checklist = await Checklist.findByIdAndRemove(req.params.checklist_id);
@@ -85,12 +147,12 @@ router.delete('/locations/:location_id/checklists/:checklist_id', async (req, re
     } catch (error) {
         res.status(500).send({ message: 'Error deleting checklist from location', error: error.message });
     }
-});
+});*/
 
 
 /*  ACTIVITIES ROUTES */
-//POST Create Activity for a Location
-router.post('/locations/:location_id/activities', async (req, res) => {
+/*POST Create Activity for a Location
+router.post('api/locations/:location_id/activities', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id);
         const activity = new Activity(req.body);
@@ -102,30 +164,30 @@ router.post('/locations/:location_id/activities', async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: 'Error creating activity for location', error: error.message });
     }
-});
+});*/
 
-//GET Activities for a Location
-router.get('/locations/:location_id/activities', async (req, res) => {
+/*GET Activities for a Location
+router.get('api/locations/:location_id/activities', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id).populate('activities');
         res.send(location.activities);
     } catch (error) {
         res.status(500).send({ message: 'Error getting activities for location', error: error.message });
     }
-});
+});*/
 
-//GET Specific Activity for a Location
-router.get('/locations/:location_id/activities/:activity_id', async (req, res) => {
+/*GET Specific Activity for a Location
+router.get('api/locations/:location_id/activities/:activity_id', async (req, res) => {
     try {
         const activity = await Activity.findById(req.params.activity_id);
         res.send(activity);
     } catch (error) {
         res.status(500).send({ message: 'Error getting specific activity for location', error: error.message });
     }
-});
+});*/
 
-//DELETE Activity from a Location
-router.delete('/locations/:location_id/activities/:activity_id', async (req, res) => {
+/*DELETE Activity from a Location
+router.delete('api/locations/:location_id/activities/:activity_id', async (req, res) => {
     try {
         // Deleting  activity
         const activity = await Activity.findByIdAndRemove(req.params.activity_id);
@@ -139,12 +201,12 @@ router.delete('/locations/:location_id/activities/:activity_id', async (req, res
     } catch (error) {
         res.status(500).send({ message: 'Error deleting activity from location', error: error.message });
     }
-});
+});*/
 
 
 /* REVIEWS ROUTES */
 //POST Create Review for a Location
-router.post('/locations/:location_id/reviews', async (req, res) => {
+router.post('/api/locations/:id/reviews', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id);
         const review = new Review(req.body);
@@ -159,7 +221,7 @@ router.post('/locations/:location_id/reviews', async (req, res) => {
 });
 
 //GET Reviews for a Location
-router.get('/locations/:location_id/reviews', async (req, res) => {
+router.get('api/locations/:location_id/reviews', async (req, res) => {
     try {
         const location = await Location.findById(req.params.location_id).populate('reviews');
         res.send(location.reviews);
@@ -169,7 +231,7 @@ router.get('/locations/:location_id/reviews', async (req, res) => {
 });
 
 //GET Specific Review for a Location
-router.get('/locations/:location_id/reviews/:review_id', async (req, res) => {
+router.get('api/locations/:location_id/reviews/:review_id', async (req, res) => {
     try {
         const review = await Review.findById(req.params.review_id);
         res.send(review);
@@ -179,7 +241,7 @@ router.get('/locations/:location_id/reviews/:review_id', async (req, res) => {
 });
 
 //DELETE Review from a Location
-router.delete('/locations/:location_id/reviews/:review_id', async (req, res) => {
+router.delete('api/locations/:id/reviews', async (req, res) => {
     try {
         // Deleting  review
         const review = await Review.findByIdAndRemove(req.params.review_id);

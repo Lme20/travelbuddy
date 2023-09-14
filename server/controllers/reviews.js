@@ -15,21 +15,34 @@
 const express = require('express');
 const router = express.Router();
 const Review = require('../models/review');
+const User = require('../models/user');
 
-// POST Create Review
-router.post('/users/:user_id/reviews', async (req, res) => {
-    const review = new Review({
-        ...req.body,
-        userId: req.params.user_id
-    });
-    await review.save();
-    res.status(201).send(review);
+// POST Create Review for a User
+router.post('/api/users/:id/reviews', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        
+        const review = new Review({
+            ...req.body,
+            userId: user._id  // note: it's 'userId' to match the review schema
+        });
+        await review.save();
+        user.reviews.push(review._id);
+        await user.save();
+        
+        res.status(201).send(review);
+    } catch (error) {
+        res.status(500).send({ message: "Error creating review", error: error.message });
+    }
 });
 
 //GET All Reviews of a User
-router.get('/users/:user_id/reviews', async (req, res) => {
+router.get('/api/users/:id/reviews', async (req, res) => {
     try {
-        const reviews = await Review.find({ userId: req.params.user_id });
+        const reviews = await Review.find({ id: req.params.id });
         res.status(200).send(reviews);
     } catch (error) {
         res.status(500).send({ message: "Error retrieving reviews" });
@@ -37,9 +50,9 @@ router.get('/users/:user_id/reviews', async (req, res) => {
 });
 
 //GET a Specific Review of a User
-router.get('/users/:user_id/reviews/:review_id', async (req, res) => {
+router.get('/api/users/:id/reviews/:rId', async (req, res) => {
     try {
-        const review = await Review.findOne({ _id: req.params.review_id, userId: req.params.user_id });
+        const review = await Review.findOne({ rId: req.params.reviewId, _id: req.params.userId });
         if (!review) {
             return res.status(404).send({ message: "Specific review not found" });
         }
@@ -50,9 +63,9 @@ router.get('/users/:user_id/reviews/:review_id', async (req, res) => {
 });
 
 //DELETE a Specific Review of a User
-router.delete('/users/:user_id/reviews/:review_id', async (req, res) => {
+router.delete('/api/users/:id/reviews/:rId', async (req, res) => {
     try {
-        const review = await Review.findOneAndDelete({ _id: req.params.review_id, userId: req.params.user_id });
+        const review = await Review.findOneAndDelete({ rId: req.params.reviewId, _id: req.params.userId });
         if (!review) {
             return res.status(404).send({ message: "Specific review not found" });
         }
@@ -61,5 +74,10 @@ router.delete('/users/:user_id/reviews/:review_id', async (req, res) => {
         res.status(500).send({ message: "Error deleting specific review" });
     }
 });
+
+// PUT
+
+
+// PATCH 
 
 module.exports = router;
