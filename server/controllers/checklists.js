@@ -47,7 +47,6 @@ router.put('/api/checklists/:id', async (req, res) => {
     }
 });
 
-
 // // PATCH checklists (update total cost)
 // // Note: work in progress
 // router.patch('/api/checklists', async(req, res) => {
@@ -66,6 +65,9 @@ router.put('/api/checklists/:id', async (req, res) => {
 //         res.status(500).send({ message: 'Error in DELETE checklists', error: error.message });
 //     }
 // });
+
+// DELETE checklist (id)
+// should probably not be exposed, use DELETE /users/:uid/checklists/:cid instead
 
 // POST checklist to user (owner)
 router.post('/api/users/:id/checklists', async (req, res) => {
