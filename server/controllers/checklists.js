@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Checklist = require('../models/checklist');
 const User = require('../models/user');
+const user = require('../models/user');
 
 // // should not be exposed? owner needed.
 // router.post('/api/checklists', async (req, res) => {
@@ -15,6 +16,13 @@ router.get('/api/checklists', async (req, res) => {
     const checklist = await Checklist.find();
     res.json({'checklists': checklist});
     res.status(200).send(checklist);
+});
+
+// PATCH checklists (update total cost)
+router.patch('/api/checklists', async(req, res) => {
+    // Checklist.find().then(
+    //     aggregate(....)
+    // )
 });
 
 // POST checklist to user (owner)
@@ -60,7 +68,24 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
 });
 
 // PUT user's checklist (id)
-// TODO
+// TODO test
+router.put('/api/users/:uid/checklists/:cid', async(req, res) => {
+    User.findById(req.params.uid).then( async (ureq, ures) => {
+        if (user == null) {
+            return userres.status(404).json({ message: "User not found" });
+        }
+        Checklist.findOne({_id: req.params.cid, owner: req.params.uid}).then(async(cl, clres) => {
+            if (cl == null) {
+                return clres.status(404).json({ message: "Checklist not found" });
+            }
+            cl = req.body.checklists;
+            user.checklists = cl;
+            await cl.save();
+            await user.save();
+            res.status(200).send(user);
+        });
+    });
+});
 
 // DELETE user's checklists
 // TODO not working as expected
