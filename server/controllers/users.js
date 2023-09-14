@@ -53,7 +53,7 @@ router.put('/api/users/:id', async (req, res) => {
 // Note: clean up checklist owners (decoupling)
 router.delete('/api/users', async (req, res) => {
     try {
-        await Users.deleteMany({});
+        await User.deleteMany({});
         res.status(200).send({ message: 'Success' });
     } catch (error) {
         res.status(500).send({ message: 'Error in DELETE users', error: error.message });
