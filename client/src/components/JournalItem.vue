@@ -1,5 +1,6 @@
+<!--check this file to incorporate into journals.vue-->
 <template>
-    <div>
+     <div>
         <b-button variant="danger" v-on:click="$emit('del-journal', journal._id)">X</b-button>
         <div> {{ journal.title }} </div>
         <div class="detail"> date {{ journal.date }}</div>
