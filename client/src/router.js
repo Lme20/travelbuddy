@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Journals from './views/Journals.vue'
 import JournalEntry from './views/JournalEntry.vue'
+import Settings from './views/Settings.vue'
+import About from './views/About.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -13,6 +16,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
     },
     {
       path: '/journals',
