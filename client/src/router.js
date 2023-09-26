@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Journals from './views/Journals.vue'
-import JournalEntry from './views/JournalEntry.vue'
 import Settings from './views/Settings.vue'
 import About from './views/About.vue'
 
@@ -31,11 +30,6 @@ export default new Router({
       path: '/journals',
       name: 'journals',
       component: Journals
-    },
-    {
-      path: '/journalEntry',
-      name: 'journalEntry',
-      component: JournalEntry
     }
   ]
 })
