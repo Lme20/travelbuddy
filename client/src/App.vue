@@ -1,12 +1,19 @@
 <template>
   <div id="app">
     <div id="nav">
-      <left-sidebar/>
-      <right-sidebar/>
-      <router-link to="/">Home</router-link> |
-      <router-link to="journals">Journals</router-link>
+      <div>
+        <b-navbar variant="faded" type="light">
+          <b-button v-b-toggle.sidebar-left>Menu</b-button>
+          <b-navbar-brand href="/"> Travelbuddy </b-navbar-brand>
+        </b-navbar>
+      </div>
+
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="journals">Journals</router-link> -->
     </div>
     <!-- Render the content of the current page view -->
+    <left-sidebar/>
+    <right-sidebar/>
     <router-view/>
   </div>
 </template>
