@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
+      <!-- <router-link to="/">Home</router-link> -->
       <left-sidebar/>
       <right-sidebar/>
-      <router-link to="/">Home</router-link>
     </div>
     <!-- Render the content of the current page view -->
     <router-view/>
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import LeftSidebar from '@/components/LeftSidebar.vue'
-import RightSidebar from '@/components/RightSidebar.vue'
+import LeftSidebar from './components/LeftSidebar.vue'
+import RightSidebar from './components/RightSidebar.vue'
 
 export default {
   components: {
