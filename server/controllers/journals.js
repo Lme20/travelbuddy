@@ -26,6 +26,14 @@ router.post('/api/journals', async (req, res, next) => {
     }
   });
 
+  router.get('/api/journals', async (req, res, next) => {
+    try {
+        const journals = await Journal.find();
+        res.json({ 'journals': journals });
+      } catch (err) {
+        return next(err);
+      }
+});
 
   router.get('/api/journals/:id', async (req, res, next) => {
     try {
