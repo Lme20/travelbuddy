@@ -1,24 +1,15 @@
 <template>
   <div>
-    <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
-      <p>Message from the server:<br/>
-      {{ message }}</p>
-    </b-jumbotron>
-    <div>
-      <p>
-        This is the main page. It should contain the map. When the map is clicked, the
-        right sidebar should show up like this:
-      </p>
+    <h2>MAP VERY WIP</h2>
       <create-new/>
-    </div>
+      <GoogleMap />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import { Api } from '@/Api'
 import SidebarCreate from '@/components/SidebarCreate.vue'
+import GoogleMap from '@/components/Map.vue'
 
 export default {
   name: 'home',
@@ -39,13 +30,8 @@ export default {
     }
   },
   components: {
-    'create-new': SidebarCreate
+    'create-new': SidebarCreate,
+    GoogleMap
   }
 }
 </script>
-
-<style>
-.btn_message {
-  margin-bottom: 1em;
-}
-</style>
