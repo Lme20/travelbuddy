@@ -15,7 +15,7 @@
 
     <b-list-group>
         <h1>All journals</h1>
-        <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4" href="journalEntry">
+        <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4" href="/journalEntry">
           <div>
         <div> {{ journal.title }} </div>
         <div class="detail"> date {{ journal.date }}</div>

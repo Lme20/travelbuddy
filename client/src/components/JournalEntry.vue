@@ -43,7 +43,7 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
+      <b-button variant="danger" v-on:click="$emit('del-journal', journal._id)">X</b-button>    </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
@@ -51,7 +51,9 @@
 </template>
 
 <script>
+import { Api } from '@/Api'
 export default {
+  name: 'journalEntry',
   data() {
     return {
       form: {
@@ -84,6 +86,15 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    deleteCamel(id) {
+      console.log(`Delete journal with id ${id}`)
+      Api.delete(`/journals/${id}`)
+        .then(response => {
+          const index = this.journals.findIndex(journal => journal._id === id)
+          this.journals.splice(index, 1)
+        })
+        // TODO: catch error
     }
   }
 }
