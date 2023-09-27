@@ -7,15 +7,9 @@
           <b-navbar-brand href="/"> Travelbuddy </b-navbar-brand>
         </b-navbar>
       </div>
-
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="journals">Journals</router-link> -->
     </div>
     <!-- Render the content of the current page view -->
     <left-sidebar/>
-    <!-- <create-journal-sidebar/>
-    <create-checklist-sidebar/> -->
-    <my-sidebar/>
     <router-view/>
   </div>
 </template>
