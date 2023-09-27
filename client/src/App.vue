@@ -13,19 +13,22 @@
     </div>
     <!-- Render the content of the current page view -->
     <left-sidebar/>
-    <right-sidebar/>
+    <create-journal-sidebar/>
+    <create-checklist-sidebar/>
     <router-view/>
   </div>
 </template>
 
 <script>
 import LeftSidebar from './components/LeftSidebar.vue'
-import RightSidebar from './components/RightSidebar.vue'
+import CreateJournalSidebar from './components/CreateJournalSidebar.vue'
+import CreateChecklistSidebar from './components/CreateChecklistSidebar.vue'
 
 export default {
   components: {
     'left-sidebar': LeftSidebar,
-    'right-sidebar': RightSidebar
+    'create-journal-sidebar': CreateJournalSidebar,
+    'create-checklist-sidebar': CreateChecklistSidebar
   }
 }
 </script>

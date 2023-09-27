@@ -11,8 +11,8 @@
         right sidebar should show up like this:
       </p>
       <b-dropdown id="dd-create" text="Create..." class="m-md-2">
-        <b-dropdown-item v-b-toggle.sidebar-right>Journal entry</b-dropdown-item>
-        <b-dropdown-item v-b-toggle.sidebar-right disabled>Checklist</b-dropdown-item>
+        <b-dropdown-item v-b-toggle.create-journal-sidebar>Journal entry</b-dropdown-item>
+        <b-dropdown-item v-b-toggle.create-checklist-sidebar>Checklist</b-dropdown-item>
         <b-dropdown-item v-b-toggle.sidebar-right disabled>Review</b-dropdown-item>
       </b-dropdown>
     </div>
