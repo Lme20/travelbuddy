@@ -3,6 +3,7 @@
       <b-dropdown id="dd-create" text="Create..." class="m-md-2">
         <b-dropdown-item @click="openSidebar(1)">Journal entry</b-dropdown-item>
         <b-dropdown-item @click="openSidebar(2)">Checklist</b-dropdown-item>
+        <b-dropdown-item @click="openSidebar(3)" disabled>Activity</b-dropdown-item>
         <b-dropdown-item @click="openSidebar(3)" disabled>Review</b-dropdown-item>
       </b-dropdown>
       <b-sidebar v-model="sidebarOpen" id="sidebar-create" title="Create new" right>
