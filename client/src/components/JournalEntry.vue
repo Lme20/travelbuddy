@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
       <b-form-group id="titleInput" label="Your Title:" label-for="titleInput">
         <b-form-input

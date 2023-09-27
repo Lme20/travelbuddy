@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Journals from './views/Journals.vue'
+import Settings from './views/Settings.vue'
+import About from './views/About.vue'
+
 import JournalEntry from './views/JournalEntry.vue'
-import Journal from './views/Journal.vue'
 
 Vue.use(Router)
 
@@ -17,6 +19,16 @@ export default new Router({
       component: Home
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
+    },
+    {
       path: '/journals',
       name: 'journals',
       component: Journals
@@ -25,11 +37,6 @@ export default new Router({
       path: '/journalEntry',
       name: 'journalEntry',
       component: JournalEntry
-    },
-    {
-      path: '/journalEntry/:id',
-      name: 'journal',
-      component: Journal
     }
 
   ]

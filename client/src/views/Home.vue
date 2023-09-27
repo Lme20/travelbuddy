@@ -5,6 +5,17 @@
       <p>Message from the server:<br/>
       {{ message }}</p>
     </b-jumbotron>
+    <div>
+      <p>
+        This is the main page. It should contain the map. When the map is clicked, the
+        right sidebar should show up like this:
+      </p>
+      <b-dropdown id="dd-create" text="Create..." class="m-md-2">
+        <b-dropdown-item v-b-toggle.sidebar-right>Journal entry</b-dropdown-item>
+        <b-dropdown-item v-b-toggle.sidebar-right disabled>Checklist</b-dropdown-item>
+        <b-dropdown-item v-b-toggle.sidebar-right disabled>Review</b-dropdown-item>
+      </b-dropdown>
+    </div>
   </div>
 </template>
 
