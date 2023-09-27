@@ -5,6 +5,8 @@ import Journals from './views/Journals.vue'
 import Settings from './views/Settings.vue'
 import About from './views/About.vue'
 
+import JournalEntry from './views/JournalEntry.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -30,6 +32,12 @@ export default new Router({
       path: '/journals',
       name: 'journals',
       component: Journals
+    },
+    {
+      path: '/journalEntry',
+      name: 'journalEntry',
+      component: JournalEntry
     }
+
   ]
 })
