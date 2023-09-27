@@ -5,7 +5,7 @@ import Journals from './views/Journals.vue'
 import Settings from './views/Settings.vue'
 import About from './views/About.vue'
 
-import JournalEntry from './views/JournalEntry.vue'
+import JournalEntry from './components/JournalEntry.vue'
 
 Vue.use(Router)
 
