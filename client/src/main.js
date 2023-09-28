@@ -7,14 +7,17 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// Importing bootstrap Vue
 Vue.use(BootstrapVue)
 
-console.log('API KEY:', process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
+// Use only for debugging purposes
+// console.log('API KEY:', process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
 
+// Importing Google Maps API
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-    libraries: 'places,drawing,visualization' // Libraries
+    libraries: 'places,drawing,visualization' // Google libraries
   },
   installComponents: true
 })
