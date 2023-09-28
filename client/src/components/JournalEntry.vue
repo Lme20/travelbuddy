@@ -42,6 +42,7 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button variant="danger" @click="deleteJournalEntry">Delete</b-button>
 </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -68,6 +69,7 @@ export default {
       created() {
         const journalId = this.$route.params.id
         this.getJournalData(journalId)
+        this.deleteJournalEntry(journalId)
       }
     }
   },
@@ -106,7 +108,17 @@ export default {
           console.error('Error fetching journal data:', error)
         // Handle errors or display an error message to the user
         })
+    }/*,
+    deleteJournalEntry(journalId) {
+      Api.delete(`/journals/${journalId}`)
+        .then(response => {
+          this.$router.push('/journals') // Redirect to another page after deletion
+        })
+        .catch(error => {
+          console.error('Error deleting journal entry:', error)
+        })
     }
+    */
   }
 }
 </script>
