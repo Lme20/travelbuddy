@@ -1,23 +1,11 @@
 <template>
-  <!--<b-containter fluid class="myContainer">
-        <b-row>
-        <b-col cols="3">
-          <b-button>Create New</b-button>
-        </b-col>
-      </b-row>
-        <b-row>
-            <h1>All journals</h1>
-        <b-col v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4">
-            <journal-item v-bind:journal="journal" v-on:del-journal="deleteJournal"/>
-        </b-col>
-      </b-row>
-    </b-containter>-->
-
     <b-list-group>
         <h1>All journals</h1>
-        <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4" href="journalEntry">
+        <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4">
+          <router-link :to="{ name: 'journalEntry', params: { id: journal._id } }">
+    {{ journal.title }}
+  </router-link>
           <div>
-        <div> {{ journal.title }} </div>
         <div class="detail"> date {{ journal.date }}</div>
     </div>
         </b-list-group-item>
@@ -47,8 +35,7 @@ export default {
   },
   data() {
     return {
-      journals: [],
-      text: ''
+      journals: []
     }
   }
 
