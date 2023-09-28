@@ -65,18 +65,41 @@ export default {
       },
       locations: [],
       activities: [],
-      show: true,
-      created() {
-        const journalId = this.$route.params.id
-        this.getJournalData(journalId)
-        this.deleteJournalEntry(journalId)
-      }
+      show: true
+
     }
+  },
+  mounted() {
+    console.log('PAGE is loaded!')
+    const journalId = this.$route.params.id
+    Api.get(`/journals/${journalId}`)
+      .then(response => {
+        console.log('API Response:', response.data)
+        const journalData = response.data
+        // Update your component's data with the fetched journal data
+        this.form.title = journalData.title
+        this.form.location = journalData.location
+        this.form.activity = journalData.activity
+        this.form.date = journalData.date
+        this.form.journalText = journalData.mainBodyText
+      })
+      .catch(error => {
+        console.error('Error fetching journal data:', error)
+        // Handle errors or display an error message to the user
+      })
+
+    // this.getJournalData(journalId)
+    // this.deleteJournalEntry(journalId)
   },
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      alert(JSON.stringify(this.form))
+      const journalId = this.$route.params.id
+      if (journalId) {
+        this.updateJournalEntry(journalId)
+      } else {
+        this.createJournalEntry()
+      }
     },
     onReset(event) {
       event.preventDefault()
@@ -108,7 +131,7 @@ export default {
           console.error('Error fetching journal data:', error)
         // Handle errors or display an error message to the user
         })
-    }/*,
+    },
     deleteJournalEntry(journalId) {
       Api.delete(`/journals/${journalId}`)
         .then(response => {
@@ -117,8 +140,25 @@ export default {
         .catch(error => {
           console.error('Error deleting journal entry:', error)
         })
+    },
+    updateJournalEntry(journalId) {
+      Api.put(`/journals/${journalId}`, this.form)
+        .then(response => {
+          console.log('Journal entry updated successfully:', response.data)
+        })
+        .catch(error => {
+          console.error('Error updating journal entry:', error)
+        })
+    },
+    createJournalEntry() {
+      Api.post('/yourApiEndpoint/', this.form)
+        .then(response => {
+          console.log('New journal entry created successfully:', response.data)
+        })
+        .catch(error => {
+          console.error('Error creating new journal entry:', error)
+        })
     }
-    */
   }
 }
 </script>
