@@ -16,7 +16,6 @@
           id="locationSelect"
           v-model="form.location"
           :options="locations"
-          required
         ></b-form-select>
       </b-form-group>
 
@@ -29,13 +28,13 @@
       </b-form-group>
 
       <b-form-group id="datePicker" label="Date:" label-for="datePicker">
-        <b-form-datepicker id="example-datepicker" v-model="date" class="mb-2"></b-form-datepicker>
+        <b-form-datepicker id="datepicker" v-model="form.date" class="mb-2"></b-form-datepicker>
       </b-form-group>
 
       <b-form-group id="journalEntry" label="JournalEntry:" label-for="journalEntry">
         <b-form-textarea
       id="journalEntry"
-      v-model="form.journal"
+      v-model="form.journalText"
       placeholder="Enter something..."
       rows="3"
     ></b-form-textarea>
@@ -43,7 +42,8 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
+      <b-button variant="danger" @click="deleteJournalEntry">Delete</b-button>
+</b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card>
@@ -51,25 +51,77 @@
 </template>
 
 <script>
+import { Api } from '@/Api'
 export default {
+  name: 'journalEntry',
   data() {
     return {
       form: {
         title: '',
         location: null,
+        date: null,
         activity: null,
-        date: '',
-        journal: ''
+        journalText: ''
       },
-      locations: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-      activities: [{ text: 'Select', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+      locations: [],
+      activities: [],
       show: true
+
     }
+  },
+  mounted() {
+    console.log('PAGE is loaded!')
+    const journalId = this.$route.params.id
+    Api.get(`/journals/${journalId}`)
+      .then(response => {
+        console.log('API Response:', response.data)
+        const journalData = response.data
+        // Update your component's data with the fetched journal data
+        this.form.title = journalData.title
+        this.form.location = journalData.location
+        this.form.activity = journalData.activity
+        this.form.date = journalData.date
+        this.form.journalText = journalData.mainBodyText
+      })
+      .catch(error => {
+        console.error('Error fetching journal data:', error)
+        // Handle errors or display an error message to the user
+      })
+
+    Api.get('locations')
+      .then(response => {
+        console.log('Locations:', response)
+        const locationData = response.data
+        this.locations = locationData.map(location => location.place_name)
+      })
+      .catch(error => {
+        console.error('Error fetching location data:', error)
+        // Handle errors or display an error message to the user
+      })
+
+    Api.get('activities')
+      .then(response => {
+        console.log('Activities:', response)
+        const ActivityData = response.data
+        this.activities = ActivityData.map(activity => activity.name)
+      })
+      .catch(error => {
+        console.error('Error fetching activity data:', error)
+        // Handle errors or display an error message to the user
+      })
+
+    // this.getJournalData(journalId)
+    // this.deleteJournalEntry(journalId)
   },
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      alert(JSON.stringify(this.form))
+      const journalId = this.$route.params.id
+      if (journalId) {
+        this.updateJournalEntry(journalId)
+      } else {
+        this.createJournalEntry()
+      }
     },
     onReset(event) {
       event.preventDefault()
@@ -78,12 +130,56 @@ export default {
       this.form.location = null
       this.form.activity = null
       this.form.date = ''
-      this.form.journal = ''
+      this.form.journalText = ''
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    getJournalData(journalId) {
+      Api.get(`/journals/${journalId}`)
+        .then(response => {
+          console.log('API Response:', response.data)
+          const journalData = response.data
+          // Update your component's data with the fetched journal data
+          this.form.title = journalData.title
+          this.form.location = journalData.location
+          this.form.activity = journalData.activity
+          this.form.date = journalData.date
+          this.form.journalText = journalData.journalText
+        })
+        .catch(error => {
+          console.error('Error fetching journal data:', error)
+        // Handle errors or display an error message to the user
+        })
+    },
+    deleteJournalEntry(journalId) {
+      Api.delete(`/journals/${journalId}`)
+        .then(response => {
+          this.$router.push('/journals') // Redirect to another page after deletion
+        })
+        .catch(error => {
+          console.error('Error deleting journal entry:', error)
+        })
+    },
+    updateJournalEntry(journalId) {
+      Api.put(`/journals/${journalId}`, this.form)
+        .then(response => {
+          console.log('Journal entry updated successfully:', response.data)
+        })
+        .catch(error => {
+          console.error('Error updating journal entry:', error)
+        })
+    },
+    createJournalEntry() {
+      Api.post('/journals', this.form)
+        .then(response => {
+          console.log('New journal entry created successfully:', response.data)
+        })
+        .catch(error => {
+          console.error('Error creating new journal entry:', error)
+        })
     }
   }
 }

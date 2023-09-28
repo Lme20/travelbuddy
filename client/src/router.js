@@ -4,7 +4,6 @@ import Home from './views/Home.vue'
 import Journals from './views/Journals.vue'
 import Settings from './views/Settings.vue'
 import About from './views/About.vue'
-
 import JournalEntry from './components/JournalEntry.vue'
 
 Vue.use(Router)
@@ -34,7 +33,7 @@ export default new Router({
       component: Journals
     },
     {
-      path: '/journalEntry',
+      path: '/journalEntry/:id',
       name: 'journalEntry',
       component: JournalEntry
     }
