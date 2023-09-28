@@ -75,14 +75,14 @@ router.post('/api/users/:id/checklists', async (req, res) => {
         var checklist = new Checklist(req.body);
         const user = await User.findById(req.params.id);
         if (!user) {
-            return userres.status(404).send({message: "User not found"});
+            return res.status(404).send({message: "User not found"});
         }
         checklist.owner = user;
         await checklist.save();
         user.checklists.push(checklist);
         await user.save();
         res.status(201).send(checklist);
-    } catch {
+    } catch (error) {
         res.status(500).send({ message: 'Error in POST /users/id/checklists', error: error.message });
     }
 });
