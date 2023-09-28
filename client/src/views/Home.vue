@@ -1,14 +1,18 @@
 <template>
-  <div>
+  <div class="home-container">
     <h2>MAP VERY WIP</h2>
-      <create-new/>
-      <GoogleMap />
+    <b-container fluid>
+      <b-row class="h-100">
+        <b-col lg="12" md="12" sm="12" class="h-100">
+          <GoogleMap />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import { Api } from '@/Api'
-import SidebarCreate from '@/components/SidebarCreate.vue'
 import GoogleMap from '@/components/Map.vue'
 
 export default {
@@ -30,8 +34,14 @@ export default {
     }
   },
   components: {
-    'create-new': SidebarCreate,
     GoogleMap
   }
 }
 </script>
+
+<style scoped>
+.home-container {
+  height: 100vh;
+  width: 100%;
+}
+</style>

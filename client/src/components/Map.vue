@@ -1,37 +1,26 @@
 <template>
-    <div>
-      <div>
-        <h2>Search and add a pin</h2>
-        <GmapAutocomplete
-          @place_changed='setPlace'
-        />
-        <button
-          @click='addMarker'
-        >
-          Add
-        </button>
-      </div>
-      <br>
-      <GmapMap
-        :center='center'
-        :zoom='12'
-        style='width:100%;  height: 400px;'
-      >
-        <GmapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          @click="center=m.position"
-        />
-      </GmapMap>
-    </div>
+  <b-container fluid class="map-wrapper">
+    <b-row>
+      <b-col md="10" class="map-container">
+        <GmapMap :center='center' :zoom='12' style='width:100%; height: 100vh;'>
+          <GmapMarker
+            :key="index"
+            v-for="(m, index) in markers"
+            :position="m.position"
+            @click="center=m.position"
+          />
+        </GmapMap>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import { Map as GmapMap, Marker as GmapMarker, Autocomplete as GmapAutocomplete } from 'vue2-google-maps'
+import { Map as GmapMap, Marker as GmapMarker } from 'vue2-google-maps'
+// import { BButton } from 'bootstrap-vue'
 
 export default {
-  components: { GmapMap, GmapMarker, GmapAutocomplete },
+  components: { GmapMap, GmapMarker },
   name: 'GoogleMap',
   data() {
     return {
@@ -71,3 +60,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .map-wrapper {
+    height: 100vh;
+    width: 100%;
+  }
+  .map-container {
+    height: 100vh;
+    width: 100%;
+  }
+</style>
