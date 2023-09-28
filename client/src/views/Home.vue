@@ -1,9 +1,11 @@
 <template>
   <div class="home-container">
-    <h2>MAP VERY WIP</h2>
     <b-container fluid>
       <b-row class="h-100">
         <b-col lg="12" md="12" sm="12" class="h-100">
+          <!-- Create request -->
+          <create-new />
+          <!-- Google map -->
           <GoogleMap />
         </b-col>
       </b-row>
@@ -14,6 +16,7 @@
 <script>
 import { Api } from '@/Api'
 import GoogleMap from '@/components/Map.vue'
+import SidebarCreate from '@/components/SidebarCreate.vue'
 
 export default {
   name: 'home',
@@ -34,6 +37,7 @@ export default {
     }
   },
   components: {
+    'create-new': SidebarCreate,
     GoogleMap
   }
 }
@@ -43,5 +47,9 @@ export default {
 .home-container {
   height: 100vh;
   width: 100%;
+}
+
+.footer {
+  /* Additional styles for  footer */
 }
 </style>

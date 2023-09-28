@@ -11,13 +11,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 // Use only for debugging purposes
-console.log('API KEY:', process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
+// console.log('API KEY:', process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
 
 // Importing Google Maps API
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-    libraries: 'places,drawing,visualization' // Libraries
+    libraries: 'places,drawing,visualization' // Google libraries
   },
   installComponents: true
 })

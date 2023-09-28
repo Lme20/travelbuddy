@@ -2,7 +2,7 @@
   <b-container fluid class="map-wrapper">
     <b-row>
       <b-col md="10" class="map-container">
-        <GmapMap :center='center' :zoom='12' style='width:100%; height: 100vh;'>
+        <GmapMap :center='center' :zoom='10' style='width:100%; height: 600px;'>
           <GmapMarker
             :key="index"
             v-for="(m, index) in markers"
