@@ -88,9 +88,9 @@ router.post('/api/users/:id/checklists', async (req, res) => {
 });
 
 // GET user's checklists
-router.get('api/users/:id/checklists', async (req, res) => {
+router.get('/api/users/:id/checklists', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate('checklists');
+        const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(404).send({message: "User not found"});
         }
@@ -107,9 +107,12 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "User not found" });
         }
-        const checklist = Checklist.findOne({_id: req.params.cid, owner: req.params.uid});
+        const checklist = await Checklist.findOne({_id: req.params.cid, owner: req.params.uid});
+        if (!checklist) {
+            return res.status(404).send({ message: "Checklist not found" });
+        }
         res.send(checklist);
-    } catch {
+    } catch (error) {
         res.status(500).send({ message: 'Error in GET /users/uid/checklists/cid', error: error.message });
     }
 });

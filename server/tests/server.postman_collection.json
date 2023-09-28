@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "326c23b9-f2dc-4008-b156-cfc370d5c26a",
+		"_postman_id": "9bc776d9-f4a6-4378-a52b-64d3b07e0309",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19472229"
+		"_exporter_id": "29410972"
 	},
 	"item": [
 		{
@@ -20,46 +20,32 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Ben\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
 						},
-						"url": {
-							"raw": "{{host}}/api/users",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /api/users/:id/checklists",
-					"event": [
 						{
-							"listen": "prerequest",
+							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();",
+									"var userId = jsonData._id",
+									"pm.environment.set(\"_id\", userId);",
+									"",
+									"var getUserId = pm.variables.get(\"_id\");",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Contents are correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Ben\");",
+									"    pm.expect(jsonData.prefCurrency).to.eql(\"SEK\");",
+									"    pm.expect(jsonData.prefUnit).to.eql(\"metric\");",
+									"});",
+									"",
+									"pm.test(\"Body has _id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData._id).to.be.a('String');",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -82,16 +68,99 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"owner\": {\"_id\": \"blah\", \"name\": \"Ben\"},\r\n    \"costItems\": [{\"item\": \"clothes\", \"cost\": 200}, {\"item\": \"shoes\", \"cost\": 300}]\r\n}"
+							"raw": "{\r\n    \"name\": \"Ben\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/checklists",
+							"raw": "{{host}}/api/users/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/users/:id/checklists",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"var userId = jsonData._id",
+									"pm.environment.set(\"_id\", userId);",
+									"",
+									"var getUserId = pm.variables.get(\"_id\");",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"// volatile",
+									"//pm.test(\"Contents are correct\", function () {",
+									"//    var jsonData = pm.response.json();",
+									"//    pm.expect(jsonData.owner).to.eql(\"6515fd5a0f7d46b2c289a718\");",
+									"//    pm.expect(jsonData.costItems).to.eql(\"\\[\\{\\\"item\\\": \\\"clothes\\\", \\\"cost\\\": 200\\}, \\{\\\"item\\\": \\\"shoes\\\", \\\"cost\\\": 300\\}\\]\");",
+									"//});",
+									"",
+									"pm.test(\"Body has _id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData._id).to.be.a('String');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"costItems\": [{\"item\": \"clothes\", \"cost\": 200}, {\"item\": \"shoes\", \"cost\": 300}]\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/users/:id/checklists",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":id",
 								"checklists"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6515fd5a0f7d46b2c289a718"
+								}
 							]
 						}
 					},
@@ -132,15 +201,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
+							"raw": "{{host}}/api/users",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
+								"users"
 							]
 						}
 					},
@@ -181,15 +248,20 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
+							"raw": "{{host}}/api/users/:id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6515fd5a0f7d46b2c289a718"
+								}
 							]
 						}
 					},
@@ -230,14 +302,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
+							"raw": "{{host}}/api/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
 								"checklists"
 							]
 						}
@@ -279,15 +349,20 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
+							"raw": "{{host}}/api/checklists/:id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
+								"checklists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "651600a176271bd1d8a67f52"
+								}
 							]
 						}
 					},
@@ -328,15 +403,21 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
+							"raw": "{{host}}/api/users/:id/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"6500baa1463358d4568a2fe4",
+								":id",
 								"checklists"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6515fd5a0f7d46b2c289a718"
+								}
 							]
 						}
 					},
@@ -391,11 +472,11 @@
 							"variable": [
 								{
 									"key": "uid",
-									"value": "6502137b2cfc570d57039e6c"
+									"value": "6515fd5a0f7d46b2c289a718"
 								},
 								{
 									"key": "cid",
-									"value": "6500d5e5350f3dad43568c0ds"
+									"value": "651600a176271bd1d8a67f52"
 								}
 							]
 						}
@@ -431,7 +512,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"name\": \"Ben2\",\n    \"gpsLocation\": \"\",\n    \"prefCurrency\": \"EUR\",\n    \"prefUnit\": \"metric\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/users/:id",
@@ -446,7 +527,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "6515fd5a0f7d46b2c289a718"
 								}
 							]
 						}
@@ -482,7 +563,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"items\": [\"clothes\",\"shoes\"],\n    \"costItems\": []\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/checklists/:id",
@@ -497,7 +578,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "651600a176271bd1d8a67f52"
 								}
 							]
 						}
@@ -533,7 +614,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"items\": [\"clothes\",\"shoes\",\"backpack\"],\n    \"costItems\": []\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/users/:uid/checklists/:cid",
@@ -550,11 +631,11 @@
 							"variable": [
 								{
 									"key": "uid",
-									"value": ""
+									"value": "6515fd5a0f7d46b2c289a718"
 								},
 								{
 									"key": "cid",
-									"value": ""
+									"value": "651600a176271bd1d8a67f52"
 								}
 							]
 						}
@@ -586,6 +667,12 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -593,18 +680,18 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:uid",
+							"raw": "{{host}}/api/users/:id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":uid"
+								":id"
 							],
 							"variable": [
 								{
-									"key": "uid",
+									"key": "id",
 									"value": ""
 								}
 							]
@@ -644,736 +731,19 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists",
+							"raw": "{{host}}/api/users/:id/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":uid",
+								":id",
 								"checklists"
-							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/users/:uid/checklists/:cid",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":uid",
-								"checklists",
-								":cid"
-							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": ""
-								},
-								{
-									"key": "cid",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "users and checklists",
-			"item": [
-				{
-					"name": "POST /api/users",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Ben\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
-						},
-						"url": {
-							"raw": "{{host}}/api/users",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /api/users/:id/checklists",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"owner\": {\"_id\": \"blah\", \"name\": \"Ben\"},\r\n    \"costItems\": [{\"item\": \"clothes\", \"cost\": 200}, {\"item\": \"shoes\", \"cost\": 300}]\r\n}"
-						},
-						"url": {
-							"raw": "{{host}}/api/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users/:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/checklists",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/checklists/:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users/:id/checklists",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/6500baa1463358d4568a2fe4/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"6500baa1463358d4568a2fe4",
-								"checklists"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users/:id/checklists/:cid",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":uid",
-								"checklists",
-								":cid"
-							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": "6502137b2cfc570d57039e6c"
-								},
-								{
-									"key": "cid",
-									"value": "6500d5e5350f3dad43568c0ds"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT /api/users/:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT /api/checklists/:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/checklists/:id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"checklists",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT /api/users/:uid/checklists/:cid",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":uid",
-								"checklists",
-								":cid"
-							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": ""
-								},
-								{
-									"key": "cid",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/users/:id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:uid",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":uid"
-							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/users/:id/checklists",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":uid",
-								"checklists"
-							],
-							"variable": [
-								{
-									"key": "uid",
 									"value": ""
 								}
 							]
@@ -1607,6 +977,53 @@
 			"response": []
 		},
 		{
+			"name": "GET /api/journals",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"mainBodyText\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/journals",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"journals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST /api/locations",
 			"request": {
 				"method": "POST",
@@ -1643,6 +1060,24 @@
 			"response": []
 		},
 		{
+			"name": "DELETE /api/locations",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET /api/locations/:id",
 			"request": {
 				"method": "GET",
@@ -1660,7 +1095,7 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "6503897955602d42dc5e9903"
+							"value": "65020ad57d446e28d9bc598b"
 						}
 					]
 				}
@@ -1685,7 +1120,7 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "6503897955602d42dc5e9903"
+							"value": "65020ad57d446e28d9bc598b"
 						}
 					]
 				}
@@ -1710,155 +1145,7 @@
 					"variable": [
 						{
 							"key": "uid",
-							"value": "6503897955602d42dc5e9903"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/users/:id/reviews",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/users/:uid/reviews",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						":uid",
-						"reviews"
-					],
-					"variable": [
-						{
-							"key": "uid",
-							"value": "6503896d55602d42dc5e98ff"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /api/users/:id/reviews",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/users/:uid/reviews",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						":uid",
-						"reviews"
-					],
-					"variable": [
-						{
-							"key": "uid",
-							"value": "6503896d55602d42dc5e98ff"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /api/users/:id/reviews/:reviewId",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/users/:userId/reviews/:reviewId",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						":userId",
-						"reviews",
-						":reviewId"
-					],
-					"variable": [
-						{
-							"key": "userId",
-							"value": "6503896d55602d42dc5e98ff"
-						},
-						{
-							"key": "reviewId",
-							"value": "650389ce55602d42dc5e990b"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /api/locations",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /api/users/:userId/reviews/:reviewId",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/users/:userId/reviews/:reviewId",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						":userId",
-						"reviews",
-						":reviewId"
-					],
-					"variable": [
-						{
-							"key": "userId",
-							"value": "65034e136b009544de159a77"
-						},
-						{
-							"key": "reviewId",
-							"value": "65035f77271901b686e2b875"
+							"value": "65020ad57d446e28d9bc598b"
 						}
 					]
 				}
