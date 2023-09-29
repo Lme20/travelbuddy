@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .home-container {
-  height: 100vh;
+  height: 700px;
   width: 100%;
 }
 
