@@ -49,7 +49,4 @@ export default {
   width: 100%;
 }
 
-.footer {
-  /* Additional styles for  footer */
-}
 </style>

@@ -2,41 +2,34 @@
   <div>
     <b-form id="checklist-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
-      <b-form-group id="titleInput" label="Title:" label-for="titleInput">
+      <b-form-group id="titleInput" label="" label-for="titleInput">
         <b-form-input
           id="titleInput"
           v-model="form.title"
-          placeholder="Enter title"
+          placeholder="Enter title..."
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="datePicker" label="Date:" label-for="datePicker">
-        <b-form-datepicker id="example-datepicker" v-model="date" class="mb-2"></b-form-datepicker>
-      </b-form-group>
-
       <b-form-tags
-        input-id="tags-separators"
-        v-model="form.items"
-        separator=",;"
-        placeholder="Enter new item"
+      input-id="tags-separators"
+      v-model="form.items"
+      separator=",;"
+      placeholder="Enter item..."
       ></b-form-tags>
       <p class="mt-2">Value: {{ form.items }}</p>
-
-      <b-form-group id="locationSelect" label="Locations:" label-for="locationSelect">
+      <!-- TODO -->
+      <!-- <div v-bind:items="form.items">
+        <ol>
+          <li v-bind:items="form.items" v-for="i in items">{{ i }}</li>
+        </ol>
+      </div> -->
+      <b-form-group id="locationSelect" label="" label-for="locationSelect">
         <b-form-select
           id="locationSelect"
           v-model="form.location"
           :options="locations"
           required
-        ></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="activitiesSelect" label="Activities:" label-for="activitiesSelect">
-        <b-form-select
-          id="activitiesSelect"
-          v-model="form.activity"
-          :options="activities"
         ></b-form-select>
       </b-form-group>
 
@@ -50,18 +43,17 @@
 </template>
 
 <script>
+import { Api } from '@/Api'
+
 export default {
   data() {
     return {
       form: {
         title: '',
         items: [],
-        date: '',
-        location: null,
-        activity: null
+        location: null
       },
-      locations: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-      activities: [{ text: 'Select', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+      locations: [{ text: 'Location...', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
       show: true
     }
   },
@@ -69,20 +61,29 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
+      this.createChecklist()
     },
     onReset(event) {
       event.preventDefault()
       // Reset our form values
       this.form.title = ''
-      this.form.date = ''
       this.form.items = []
       this.form.location = null
-      this.form.activity = null
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    createChecklist() {
+      const userid = 'placeholder' // TODO get userid? Cookie? Global variable?
+      Api.post('/api/users/' + userid + '/checklists', this.form)
+        .then(response => {
+          console.log('Success: ', response.data)
+        })
+        .catch(error => {
+          console.log('Failure: ', error)
+        })
     }
   }
 }

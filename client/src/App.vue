@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <!-- Header -->
-    <b-navbar variant="dark" type="dark" class="app-header">
+    <b-navbar type="dark" class="app-header">
       <b-button class="menu-button" v-b-toggle.sidebar-left>Menu</b-button>
-      <b-navbar-brand class="ml-3" href="/">Travelbuddy</b-navbar-brand>
+      <b-navbar-brand class="ml-3" href="/">
+        <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
+      </b-navbar-brand>
     </b-navbar>
 
     <!-- Sidebar -->
@@ -33,7 +35,7 @@ export default {
 
 <style>
 .app-header {
-  background-color: #343a40;
+  background-color: #021c51 !important;
   color: white;
   display: flex;
   align-items: center;
@@ -48,13 +50,22 @@ export default {
 }
 
 .app-footer {
-  background-color: #343a40;
+  background-color: #021c51;
   color: white;
   text-align: center;
   padding: 10px 0;
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+.navbar-logo {
+  height: auto; /* Maintain aspect ratio */
+  width: auto; /* Maintain aspect ratio */
+  max-height: 80px;
+  max-width: 300px;
+  padding: 5px 10px; /* Padding around logo */
+  vertical-align: middle; /* Align it vertically */
 }
 
 #main-content {
