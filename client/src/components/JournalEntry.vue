@@ -16,6 +16,8 @@
           id="locationSelect"
           v-model="form.location"
           :options="locations"
+          :text-field="'name'"
+          :value-field="'name'"
         ></b-form-select>
       </b-form-group>
 
@@ -52,6 +54,7 @@
 
 <script>
 import { Api } from '@/Api'
+import { EventBus } from '@/EventBus'
 export default {
   name: 'journalEntry',
   data() {
@@ -87,6 +90,9 @@ export default {
         console.error('Error fetching journal data:', error)
         // Handle errors or display an error message to the user
       })
+    EventBus.$on('new-location', (location) => {
+      this.locations.push(location) // Add the new location to your locations list
+    })
 
     // this.getJournalData(journalId)
     // this.deleteJournalEntry(journalId)

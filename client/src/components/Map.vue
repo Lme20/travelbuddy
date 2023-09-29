@@ -1,22 +1,22 @@
 <template>
-  <b-container fluid class="map-wrapper">
     <b-row>
-      <b-col md="10" class="map-container">
-        <GmapMap :center='center' :zoom='10' style='width:100%; height: 600px;'>
+        <GmapMap :center='center' :zoom='10' style='width:100%; height:700px;'>
           <GmapMarker
             :key="index"
             v-for="(m, index) in markers"
             :position="m.position"
             @click="center=m.position"
           />
+          <GmapAutocomplete
+            @place_changed = 'setPlace'
+          />
         </GmapMap>
-      </b-col>
     </b-row>
-  </b-container>
 </template>
 
 <script>
 import { Map as GmapMap, Marker as GmapMarker } from 'vue2-google-maps'
+import { EventBus } from '@/EventBus'
 // import { BButton } from 'bootstrap-vue'
 
 export default {
@@ -41,10 +41,11 @@ export default {
       if (this.currentPlace) {
         const marker = {
           lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+          lng: this.currentPlace.geometry.location.lng(),
+          name: this.currentPlace.formatted_address
         }
         this.markers.push({ position: marker })
-        this.places.push(this.currentPlace)
+        EventBus.$emit('new-location', marker) // Emitting the event
         this.center = marker
         this.currentPlace = null
       }
@@ -62,12 +63,5 @@ export default {
 </script>
 
 <style scoped>
-  .map-wrapper {
-    height: 100vh;
-    width: 100%;
-  }
-  .map-container {
-    height: 100vh;
-    width: 100%;
-  }
+
 </style>
