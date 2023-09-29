@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// import ChecklistEntry from './ChecklistEntry.vue'
+import { Api } from '@/Api'
 
 export default {
   data() {
@@ -61,6 +61,7 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
+      this.createChecklist()
     },
     onReset(event) {
       event.preventDefault()
@@ -73,6 +74,16 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    createChecklist() {
+      const userid = 'placeholder' // TODO get userid? Cookie? Global variable?
+      Api.post('/api/users/' + userid + '/checklists', this.form)
+        .then(response => {
+          console.log('Success: ', response.data)
+        })
+        .catch(error => {
+          console.log('Failure: ', error)
+        })
     }
   }
 }
