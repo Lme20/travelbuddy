@@ -99,7 +99,11 @@ export default {
       .then(response => {
         console.log('Locations:', response)
         const locationData = response.data
-        this.locations = locationData.map(location => location.place_name)
+        // Create a Set to store unique location names
+        const uniqueLocations = new Set(locationData.map(location => location.place_name))
+
+        // Convert the Set back to an array (if needed)
+        this.locations = [...uniqueLocations]
       })
       .catch(error => {
         console.error('Error fetching location data:', error)
@@ -110,14 +114,8 @@ export default {
       .then(response => {
         console.log('Activities:', response)
         const activityData = response.data
-
-        if (Array.isArray(activityData)) {
-          // Check if ActivityData is an array before using map
-          this.activities = activityData.map(activity => activity.name)
-        } else {
-          console.error('ActivityData is not an array:', activityData)
-          // Handle the case where ActivityData is not an array
-        }
+        const uniqueActivities = new Set(activityData.map(activity => activity.name))
+        this.activities = [...uniqueActivities]
       })
       .catch(error => {
         console.error('Error fetching activity data:', error)
