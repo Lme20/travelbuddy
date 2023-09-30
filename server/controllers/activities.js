@@ -22,13 +22,22 @@ router.post('/api/activities', async (req, res, next) => {
 
 
 // GET all activities
-router.get('/api/activities', async (req, res, next) => {
+/*router.get('/api/activities', async (req, res, next) => {
     try {
         const activities = await Activity.find();
         res.json({ 'activities': activities });
       } catch (err) {
         return next(err);
       }
+});
+*/
+router.get('/api/activities', async (req, res) => {
+    try {
+        const activities = await Activity.find({});
+        res.status(200).send(activities);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching activities', error: error.message });
+    }
 });
 
 // GET activity (id)

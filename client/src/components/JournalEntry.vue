@@ -44,7 +44,7 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button variant="danger" @click="deleteJournalEntry">Delete</b-button>
+      <b-button type="delete" variant="danger" @click="deleteJournalEntry(journalId)">Delete</b-button>
 </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -68,6 +68,7 @@ export default {
       },
       locations: [],
       activities: [],
+      journalId: null,
       show: true
 
     }
@@ -108,16 +109,20 @@ export default {
     Api.get('activities')
       .then(response => {
         console.log('Activities:', response)
-        const ActivityData = response.data
-        this.activities = ActivityData.map(activity => activity.name)
+        const activityData = response.data
+
+        if (Array.isArray(activityData)) {
+          // Check if ActivityData is an array before using map
+          this.activities = activityData.map(activity => activity.name)
+        } else {
+          console.error('ActivityData is not an array:', activityData)
+          // Handle the case where ActivityData is not an array
+        }
       })
       .catch(error => {
         console.error('Error fetching activity data:', error)
         // Handle errors or display an error message to the user
       })
-
-    // this.getJournalData(journalId)
-    // this.deleteJournalEntry(journalId)
   },
   methods: {
     onSubmit(event) {
@@ -142,23 +147,6 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
-    },
-    getJournalData(journalId) {
-      Api.get(`/journals/${journalId}`)
-        .then(response => {
-          console.log('API Response:', response.data)
-          const journalData = response.data
-          // Update your component's data with the fetched journal data
-          this.form.title = journalData.title
-          this.form.location = journalData.location
-          this.form.activity = journalData.activity
-          this.form.date = journalData.date
-          this.form.journalText = journalData.journalText
-        })
-        .catch(error => {
-          console.error('Error fetching journal data:', error)
-        // Handle errors or display an error message to the user
-        })
     },
     deleteJournalEntry(journalId) {
       Api.delete(`/journals/${journalId}`)
