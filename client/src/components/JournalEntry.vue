@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show">
 
       <b-form-group id="titleInput" label="Your Title:" label-for="titleInput">
         <b-form-input
@@ -44,7 +44,7 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button type="delete" variant="danger" @click="deleteJournalEntry(journalId)">Delete</b-button>
+      <b-button type="delete" variant="danger">Delete</b-button>
 </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -146,13 +146,17 @@ export default {
         this.show = true
       })
     },
-    deleteJournalEntry(journalId) {
+    onDelete(event) {
+      event.preventDefault()
+      const journalId = this.$route.params.id
       Api.delete(`/journals/${journalId}`)
         .then(response => {
-          this.$router.push('/journals') // Redirect to another page after deletion
+          console.log('Journal entry deleted successfully:', response.data)
+          // Handle success or perform any necessary actions
         })
         .catch(error => {
           console.error('Error deleting journal entry:', error)
+          // Handle the error and display an error message to the user
         })
     },
     updateJournalEntry(journalId) {

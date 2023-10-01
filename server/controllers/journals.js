@@ -48,26 +48,27 @@ router.post('/api/journals', async (req, res, next) => {
     }
 });
 
-router.delete('/api/journals/:id', async (req, res, next) => {
-    var id = req.params.id;
-    var ack = await Journal.deleteOne({_id:id});
-    res.status(200).send(ack);
+
+router.delete('/api/journals/:id', async(req, res) => {
+    try {
+        var journal = await Journal.findOneAndDelete({_id:req.params.id});
+    res.status(200).send(journal);
+    } catch {
+        res.status(500).send({ message: 'Error in DELETE /journals/id', error: error.message });
+    }
 });
 
 
-router.put('/api/journals/:id', function(req, res, next) {
-    var id = req.params.id;
-    Journal.findById(id, function(err, journal) {
-        if (err) { return next(err); }
-        if (journal == null) {
-            return res.status(404).json({"message": "Journal not found"});
+router.put('/api/journals/:id', async (req, res) => {
+    try {
+        const journal = await Journal.findOneAndUpdate({_id:req.params.id}, req.body, { new: true });
+        if (!journal) {
+            return res.status(404).send({ message: 'Journal not found' });
         }
-        journal.title = req.body.title;
-        journal.mainBodyText = req.body.mainBodyText;
-        journal.date = req.body.date;
-        journal.save();
-        res.json(journal);
-    });
+        res.status(200).send(journal);
+    } catch (error) {
+        res.status(500).send({ message: 'Error in PUT /journal/id', error: error.message });
+    }
 });
 
 router.patch('/api/journals/:id', function(req, res, next) {
