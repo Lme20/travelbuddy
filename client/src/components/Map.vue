@@ -1,6 +1,6 @@
 <template>
   <b-row>
-      <GmapMap v-if="center" :center='center' :zoom='10' style='width:100%; height:700px;' @click="mapClicked">
+      <GmapMap v-if="center" :center='center' :zoom='10' style='width:100%; height:600px;' @click="mapClicked">
         <!-- Marker -->
         <GmapMarker
           :key="index"
@@ -41,7 +41,7 @@ export default {
       // Marker styling
       customMarker: {
         url: require('@/assets/marker_icon.png'),
-        scale: 3
+        scale: 1.5
       },
 
       // Path styling
@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     this.geolocate()
-    this.customMarker.scaledSize = new google.maps.Size(20, 32)
+    this.customMarker.scaledSize = new google.maps.Size(21, 32)
   },
   methods: {
     setPlace(place) {
