@@ -152,7 +152,7 @@ export default {
       Api.delete(`/journals/${journalId}`)
         .then(response => {
           console.log('Journal entry deleted successfully:', response.data)
-          // Handle success or perform any necessary actions
+          this.$router.push({ path: '/journals' })
         })
         .catch(error => {
           console.error('Error deleting journal entry:', error)
