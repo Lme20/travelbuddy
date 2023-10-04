@@ -33,8 +33,8 @@
         <b-form-datepicker id="datepicker" v-model="form.date" class="mb-2"></b-form-datepicker>
       </b-form-group>
 
-      <b-form-group id="journalEntry" label="JournalEntry:" label-for="journalEntry">
-        <b-form-textarea id="journalEntry" v-model="form.journalText" placeholder="Enter something..." rows="3"></b-form-textarea>
+      <b-form-group id="journalEntryText" label="Journal entry:" label-for="journalEntryText">
+        <b-form-textarea id="journalentry" v-model="form.journalTextEntry" placeholder="Enter something..." rows="3"></b-form-textarea>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
@@ -58,7 +58,7 @@ export default {
         location: '',
         date: '',
         activity: '',
-        journalText: ''
+        journalTextEntry: ''
       },
       locations: [],
       activities: [],
@@ -79,7 +79,7 @@ export default {
         this.form.location = journalData.location
         this.form.activity = journalData.activity
         this.form.date = journalData.date
-        this.form.journalText = journalData.mainBodyText
+        this.form.journalTextEntry = journalData.journalTextEntry
       })
       .catch(error => {
         console.error('Error fetching journal data:', error)

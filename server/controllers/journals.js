@@ -79,7 +79,7 @@ router.patch('/api/journals/:id', function(req, res, next) {
             return res.status(404).json({"message": "Journal not found"});
         }
         journal.title = (req.body.title || journal.title);
-        journal.mainBodyText = (req.body.mainBodyText || journal.mainBodyText);
+        journal.journalTextEntry = (req.body.journalTextEntry || journal.journalTextEntry);
         journal.date = (req.body.date || journal.date);
         journal.save();
         res.json(journal);
