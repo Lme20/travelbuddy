@@ -34,12 +34,7 @@
       </b-form-group>
 
       <b-form-group id="journalEntry" label="JournalEntry:" label-for="journalEntry">
-        <b-form-textarea
-      id="journalEntry"
-      v-model="form.journalText"
-      placeholder="Enter something..."
-      rows="3"
-    ></b-form-textarea>
+        <b-form-textarea id="journalEntry" v-model="form.journalText" placeholder="Enter something..." rows="3"></b-form-textarea>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
@@ -54,16 +49,15 @@
 
 <script>
 import { Api } from '@/Api'
-import { EventBus } from '@/EventBus'
 export default {
   name: 'journalEntry',
   data() {
     return {
       form: {
         title: '',
-        location: null,
-        date: null,
-        activity: null,
+        location: '',
+        date: '',
+        activity: '',
         journalText: ''
       },
       locations: [],
@@ -78,8 +72,8 @@ export default {
     const journalId = this.$route.params.id
     Api.get(`/journals/${journalId}`)
       .then(response => {
-        console.log('API Response:', response.data)
         const journalData = response.data
+        console.log('API Response:', journalData)
         // Update your component's data with the fetched journal data
         this.form.title = journalData.title
         this.form.location = journalData.location
@@ -91,9 +85,6 @@ export default {
         console.error('Error fetching journal data:', error)
         // Handle errors or display an error message to the user
       })
-    EventBus.$on('new-location', (location) => {
-      this.locations.push(location) // Add the new location to your locations list
-    })
 
     Api.get('locations')
       .then(response => {

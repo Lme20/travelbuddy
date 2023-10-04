@@ -1,4 +1,4 @@
-<!--check this file to incorporate into journals.vue-->
+<!--check this file to incorporate into journals.vue
 <template>
      <div>
         <b-button variant="danger" v-on:click="$emit('del-journal', journal._id)">X</b-button>
@@ -17,3 +17,4 @@ export default {
 
 <style scoped>
 </style>
+-->

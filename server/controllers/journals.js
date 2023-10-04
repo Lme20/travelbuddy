@@ -78,9 +78,6 @@ router.patch('/api/journals/:id', function(req, res, next) {
         if (journal == null) {
             return res.status(404).json({"message": "Journal not found"});
         }
-        camel.color = (req.body.color || camel.color);
-        camel.position = (req.body.position || camel.position);
-        
         journal.title = (req.body.title || journal.title);
         journal.mainBodyText = (req.body.mainBodyText || journal.mainBodyText);
         journal.date = (req.body.date || journal.date);
