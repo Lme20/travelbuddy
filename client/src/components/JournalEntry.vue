@@ -119,6 +119,7 @@ export default {
       const journalId = this.$route.params.id
       if (journalId) {
         this.updateJournalEntry(journalId)
+        this.$router.push({ path: '/journals' })
       } else {
         this.createJournalEntry()
       }
