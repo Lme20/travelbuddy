@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class = "container">
     <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show">
 
       <b-form-group id="titleInput" label="Your Title:" label-for="titleInput">
@@ -37,9 +37,9 @@
         <b-form-textarea id="journalentry" v-model="form.journalTextEntry" placeholder="Enter something..." rows="3"></b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button type="delete" variant="danger" @click="onDelete">Delete</b-button>
+      <b-button type="submit" variant="primary" class="mx-1">Submit</b-button>
+      <b-button type="reset" variant="danger"  class="mx-1">Reset</b-button>
+      <b-button type="delete" variant="danger" @click="onDelete"  class="mx-1">Delete</b-button>
 </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -174,4 +174,7 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  padding: 10px; /* Add padding to create spacing from side walls */
+}
 </style>
