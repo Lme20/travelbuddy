@@ -12,6 +12,7 @@ import icon from '@/assets/TB_icon.png'
 // Importing bootstrap Vue
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(VueGeoLocation)
 
 // Use only for debugging purposes
 // console.log('API KEY:', process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-    libraries: 'places,drawing,visualization' // Google libraries
+    libraries: 'places,drawing,visualization,geometry'
   },
   installComponents: true
 })
