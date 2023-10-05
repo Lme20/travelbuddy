@@ -25,9 +25,10 @@ export default {
   data() {
     return {
       center: { lat: 57.7089, lng: 11.9746 }, // Latitude and Longitude object
-      radius: 50000, // Radius in meters
+      radius: 20000, // Radius in meters
       googleMapInstance: null,
-      markers: []
+      markers: [],
+      radiusCircle: null
     }
   },
   props: ['userLocation'],
@@ -37,6 +38,7 @@ export default {
   mounted() {
     this.$refs.gmap.$mapPromise.then((map) => {
       this.googleMapInstance = map
+      this.drawRadiusCircle() // Initialize circle
       google.maps.event.addListener(map, 'idle', () => {
         this.googleMapInstance = this.$refs.gmap.$mapObject
       })
@@ -120,11 +122,27 @@ export default {
       }
     },
     updateLocation(newLocation) {
-      console.log('Received newLocation:', newLocation)
+      console.log('Received newLocation:', newLocation) // Debug
       this.center = newLocation // { lat: ..., lng: ... }
-      this.radius = 50000 // 50 km in meters
+      this.radius = 20000 // 50 km in meters
       this.fetchMarkers()
-      console.log('newLocation and marker fecthed:', newLocation, this.fetchMarkers)
+      this.drawRadiusCircle() // Update drawRadiusCircle when location changed
+      console.log('newLocation and marker fecthed:', newLocation, this.fetchMarkers) // Debug
+    },
+    drawRadiusCircle() {
+      if (this.radiusCircle) {
+        this.radiusCircle.setMap(null) // Remove old circle
+      }
+      this.radiusCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: this.googleMapInstance,
+        center: this.center,
+        radius: this.radius
+      })
     }
   }
 }
