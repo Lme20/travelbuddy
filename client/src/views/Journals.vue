@@ -1,6 +1,8 @@
 <template>
     <b-list-group>
-        <h1>All journals</h1>
+      <div class="text-center">
+      <h1>All Journals</h1>
+      </div>
         <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4">
           <router-link :to="{ name: 'journalEntry', params: { id: journal._id } }">
     {{ journal.title }}
