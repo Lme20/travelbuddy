@@ -97,17 +97,20 @@ export default {
           } else if (result.types.includes('park') || result.types.includes('museum') || result.types.includes('tourist_attraction') || result.types.includes('amusement_park')) {
             markerIcon = attractionMarker
           }
-          const marker = new google.maps.Marker({
-            position: result.geometry.location,
-            map: this.googleMapInstance,
-            icon: {
-              url: markerIcon,
-              scaledSize: new google.maps.Size(30, 45) // size to 30x45 pixels
-            }
-          })
-          console.log('Marker:', marker)
-          this.markers.push(marker) // Push to Array
-          console.log('Marker placed at: ', result.geometry.location) // Debug
+          // Create a marker only if it's not a default marker
+          if (markerIcon !== defaultMarker) {
+            const marker = new google.maps.Marker({
+              position: result.geometry.location,
+              map: this.googleMapInstance,
+              icon: {
+                url: markerIcon,
+                scaledSize: new google.maps.Size(30, 45) // size to 30x45 pixels
+              }
+            })
+            // console.log('Marker:', marker) // Debug
+            this.markers.push(marker) // Push to Array
+            console.log('Marker placed at: ', result.geometry.location) // Debug
+          }
         })
       } catch (error) {
         console.error('Error in placeMarkers:', error)
