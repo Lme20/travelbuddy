@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       center: { lat: 57.7089, lng: 11.9746 }, // Latitude and Longitude object
-      radius: 20000, // Radius in meters
+      radius: 2000, // Radius in meters
       googleMapInstance: null,
       markers: [],
       radiusCircle: null
@@ -33,7 +33,6 @@ export default {
   },
   props: ['userLocation'],
   watch: {
-
   },
   mounted() {
     this.$refs.gmap.$mapPromise.then((map) => {
@@ -60,10 +59,8 @@ export default {
       const request = {
         location: new google.maps.LatLng(this.center.lat, this.center.lng), // Explicitly make it LatLng
         radius: this.radius,
-        type: ['church', 'city_hall', 'hindu_temple', 'mosque', 'airport', 'bus_station',
-          'taxi_stand', 'lodging', 'shopping_mall', 'store', 'supermarket', 'parking', 'ATM',
-          'movie_theater', 'casino', 'night_club', 'bar', 'aquarium', 'art_gallery', 'zoo',
-          'tourist_attraction', 'amusement_park', 'restaurant', 'park', 'museum']
+        type: ['church', 'hindu_temple', 'mosque', 'lodging', 'atm',
+          'casino', 'night_club', 'bar', 'tourist_attraction', 'amusement_park', 'restaurant', 'park', 'museum']
       }
 
       console.log('Radius:', this.radius) // Debug
@@ -85,24 +82,19 @@ export default {
         results.forEach((result) => {
           let markerIcon = defaultMarker
 
-          console.log('Marker Icon:', markerIcon) // Debug
+          // console.log('Marker Icon:', markerIcon) // Debug
 
           // LANDMARK CATEGORY
-          if (result.types.includes('church') || result.types.includes('city_hall') || result.types.includes('hindu_temple') ||
-                  result.types.includes('mosque')) {
+          if (result.types.includes('church') || result.types.includes('hindu_temple') || result.types.includes('mosque')) {
             markerIcon = landmarkMarker
             // FACILITY CATEGORY
-          } else if (result.types.includes('airport') || result.types.includes('bus_station') || result.types.includes('taxi_stand') ||
-                result.types.includes('lodging') || result.types.includes('shopping_mall') || result.types.includes('store') ||
-                result.types.includes('supermarket') || result.types.includes('parking') || result.types.includes('ATM') || result.types.includes('restaurant')) {
+          } else if (result.types.includes('lodging') || result.types.includes('atm') || result.types.includes('restaurant')) {
             markerIcon = facilityMarker
             // ENTERTAINMENT CATEGORY
-          } else if (result.types.includes('movie_theater') || result.types.includes('casino') || result.types.includes('night_club') ||
-                  result.types.includes('bar')) {
+          } else if (result.types.includes('casino') || result.types.includes('night_club') || result.types.includes('bar')) {
             markerIcon = entertainmentMarker
             // ATTRACTION CATEGORY
-          } else if (result.types.includes('park') || result.types.includes('aquarium') || result.types.includes('art_gallery') || result.types.includes('museum') ||
-                  result.types.includes('zoo') || result.types.includes('tourist_attraction') || result.types.includes('amusement_park')) {
+          } else if (result.types.includes('park') || result.types.includes('museum') || result.types.includes('tourist_attraction') || result.types.includes('amusement_park')) {
             markerIcon = attractionMarker
           }
           const marker = new google.maps.Marker({
@@ -110,7 +102,7 @@ export default {
             map: this.googleMapInstance,
             icon: {
               url: markerIcon,
-              scaledSize: new google.maps.Size(30, 45) // size to 25x25 pixels
+              scaledSize: new google.maps.Size(30, 45) // size to 30x45 pixels
             }
           })
           console.log('Marker:', marker)
@@ -124,7 +116,7 @@ export default {
     updateLocation(newLocation) {
       console.log('Received newLocation:', newLocation) // Debug
       this.center = newLocation // { lat: ..., lng: ... }
-      this.radius = 20000 // 50 km in meters
+      this.radius = 2000 // 50 km in meters
       this.fetchMarkers()
       this.drawRadiusCircle() // Update drawRadiusCircle when location changed
       console.log('newLocation and marker fecthed:', newLocation, this.fetchMarkers) // Debug
@@ -133,15 +125,25 @@ export default {
       if (this.radiusCircle) {
         this.radiusCircle.setMap(null) // Remove old circle
       }
+      // Circle radius specifics
       this.radiusCircle = new google.maps.Circle({
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: '#FF0000',
-        fillOpacity: 0.35,
+        fillOpacity: 0.15,
         map: this.googleMapInstance,
         center: this.center,
-        radius: this.radius
+        radius: this.radius,
+        draggable: true
+      })
+      // Listen to drag event
+      this.radiusCircle.addListener('dragend', (event) => {
+        const newCenter = {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng()
+        }
+        this.updateLocation(newCenter) // Update location and markers
       })
     }
   }
