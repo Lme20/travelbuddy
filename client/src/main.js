@@ -4,10 +4,11 @@ import router from './router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VueGeoLocation from 'vue-browser-geolocation'
+import icon from '@/assets/TB_icon.png'
+import { createApi } from 'unsplash-js'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import icon from '@/assets/TB_icon.png'
 
 // Importing bootstrap Vue
 Vue.use(BootstrapVue)
@@ -38,6 +39,13 @@ Vue.use(VueGoogleMaps, {
 Vue.use(VueGeoLocation)
 
 Vue.config.productionTip = false
+
+// Unsplash API
+const unsplashApi = createApi({
+  accessKey: process.env.VUE_APP_UNSPLASH_ACCESS_KEY
+})
+
+Vue.prototype.$unsplashApi = unsplashApi
 
 new Vue({
   router,

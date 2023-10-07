@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- Header -->
-    <b-navbar type="dark" class="app-header">
+    <!-- Navbar -->
+    <b-navbar class="app-header">
       <b-button class="menu-button" v-b-toggle.sidebar-left>Menu</b-button>
       <b-navbar-brand class="ml-3" href="/">
         <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
@@ -35,10 +35,13 @@ export default {
 
 <style>
 .app-header {
-  background-color: #021c51 !important;
-  color: white;
-  display: flex;
-  align-items: center;
+  color: rgb(255, 255, 255);
+  border-bottom: 2px solid hsla(0, 0%, 100%, 0.1);
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 4;
+  position: absolute;
 }
 
 .menu-button {

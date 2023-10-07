@@ -1,5 +1,9 @@
 <template>
-  <div class="home-container">
+  <div class="home-container" :style="{ backgroundImage: `url(${backgroundImage})` }">
+    <div class="hero-section">
+      <h1>EXPLORE THE WORLD</h1>
+      <button @click="scrollToMap" class="button-style">Find my destination</button>
+    </div>
     <b-container fluid>
       <!-- Input and Button for Location -->
         <b-form @submit.prevent="addLocation">
@@ -20,7 +24,7 @@
           <!-- Create request -->
           <create-new />
           <!-- Google map -->
-        <GoogleMap ref="googleMapRef" :userLocation="userLocation"/>
+        <GoogleMap ref="googleMapRef" :userLocation="userLocation" v-if="showMap"/>
         </b-col>
       </b-row>
     </b-container>
@@ -38,7 +42,9 @@ export default {
   data() {
     return {
       userLocation: null,
-      message: 'none'
+      message: 'none',
+      showMap: false,
+      backgroundImage: ''
     }
   },
   methods: {
@@ -72,7 +78,28 @@ export default {
       } catch (error) {
         console.error('Geocoding Error:', error)
       }
+    },
+    scrollToMap() {
+      this.showMap = true
+      this.$nextTick(() => {
+        const mapElement = this.$refs.googleMapRef.$el
+        mapElement.scrollIntoView({ behavior: 'smooth' })
+      })
+    },
+    async fetchImage() {
+      try {
+        const response = await this.$unsplashApi.photos.getRandom({ query: 'city, landmark' })
+        if (response.type === 'success') {
+          this.backgroundImage = response.response.urls.full
+        }
+      } catch (error) {
+        console.error('Unsplash Error:', error)
+      }
     }
+  },
+  // Fetch background image when component is created
+  created() {
+    this.fetchImage()
   },
   components: {
     'create-new': SidebarCreate,
@@ -83,8 +110,46 @@ export default {
 
 <style scoped>
 .home-container {
-  height: 700px;
+  height: 100vh; /* Making it full height */
   width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: hsla(0, 0%, 0%, 0.55);
+  background-blend-mode: overlay;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
 }
 
+.button-style {
+  border-color: #e070df;
+  background: hsla(0, 0%, 100%, 0.1);
+  font: inherit;
+  border-radius: 100px;
+  padding: 10px 50px;
+  color: var(--white);
+}
+
+.hero-section {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  min-height: 600px;
+  padding-top: 350px;
+  height: 100vh;
+  background-blend-mode: overlay;
+}
+
+.hero-section h1 {
+  font-size: 4em;
+  color: rgb(255, 255, 255);
+}
+
+.hero-section button {
+  margin-top: 60px;
+  /* Styling as you wish */
+}
 </style>
