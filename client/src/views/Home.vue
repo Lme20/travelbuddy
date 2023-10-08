@@ -125,11 +125,11 @@ export default {
 }
 
 .button-style {
-  border-color: #e070df;
-  background: hsla(0, 0%, 100%, 0.1);
+  border-color: #ffffff;
+  background: hsla(0, 0%, 100%, 0);
   font: inherit;
   border-radius: 100px;
-  padding: 10px 50px;
+  padding: 15px 50px;
   color: var(--white);
 }
 

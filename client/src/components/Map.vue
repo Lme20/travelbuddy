@@ -61,8 +61,7 @@ export default {
       const request = {
         location: new google.maps.LatLng(this.center.lat, this.center.lng), // Explicitly make it LatLng
         radius: this.radius,
-        type: ['church', 'hindu_temple', 'mosque', 'lodging', 'atm',
-          'casino', 'night_club', 'bar', 'tourist_attraction', 'amusement_park', 'restaurant', 'park', 'museum']
+        type: ['lodging', 'atm', 'casino', 'night_club', 'bar', 'tourist_attraction', 'amusement_park', 'restaurant', 'park', 'museum']
       }
 
       console.log('Radius:', this.radius) // Debug
@@ -87,7 +86,7 @@ export default {
           // console.log('Marker Icon:', markerIcon) // Debug
 
           // LANDMARK CATEGORY
-          if (result.types.includes('church') || result.types.includes('hindu_temple') || result.types.includes('mosque')) {
+          if (result.types.includes('landmark') || result.types.includes('tourist_attraction') || (result.types.includes('park'))) {
             markerIcon = landmarkMarker
             // FACILITY CATEGORY
           } else if (result.types.includes('lodging') || result.types.includes('atm') || result.types.includes('restaurant')) {
@@ -96,7 +95,7 @@ export default {
           } else if (result.types.includes('casino') || result.types.includes('night_club') || result.types.includes('bar')) {
             markerIcon = entertainmentMarker
             // ATTRACTION CATEGORY
-          } else if (result.types.includes('park') || result.types.includes('museum') || result.types.includes('tourist_attraction') || result.types.includes('amusement_park')) {
+          } else if (result.types.includes('museum') || result.types.includes('art_gallery') || result.types.includes('amusement_park')) {
             markerIcon = attractionMarker
           }
           // Create a marker only if it's not a default marker
@@ -131,7 +130,7 @@ export default {
       this.currentInfoWindow = new google.maps.InfoWindow()
 
       // Set content and open new window
-      this.currentInfoWindow.setContent(`<h4>${result.name}</h4><p>${result.vicinity}</p>`)
+      this.currentInfoWindow.setContent(`<h4>${result.name}</h4><p>${result.vicinity}</p><p>${result.description}</p><a href="${result.website}" target="_blank">Visit Website</a>`)
       this.currentInfoWindow.open(this.googleMapInstance, marker)
     },
     updateLocation(newLocation) {
