@@ -2,8 +2,14 @@
   <div id="app">
     <!-- Navbar -->
     <b-navbar class="app-header">
-      <b-button class="menu-button" v-b-toggle.sidebar-left>Menu</b-button>
+    <!-- Hamburger menu -->
+     <div class="hamburger-menu" @click="$root.$emit('bv::toggle::collapse', 'sidebar-left')">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       <b-navbar-brand class="ml-3" href="/">
+    <!-- navbar logo -->
         <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
       </b-navbar-brand>
     </b-navbar>
@@ -47,6 +53,25 @@ export default {
 .menu-button {
   margin-right: 20px; /* Space between Menu button and Travelbuddy */
 }
+
+.hamburger-menu {
+  width: 50px;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-menu div {
+  width: 100%;
+  height: 4px;
+  background-color: #e070de;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu div:nth-child(1) { top: 0; }
+.hamburger-menu div:nth-child(2) { top: 8px; }
+.hamburger-menu div:nth-child(3) { top: 16px; }
 
 .ml-3 {
   margin-left: 20px; /* Distance from Menu button */

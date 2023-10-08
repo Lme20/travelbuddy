@@ -28,7 +28,8 @@ export default {
       radius: 2000, // Radius in meters
       googleMapInstance: null,
       markers: [],
-      radiusCircle: null
+      radiusCircle: null,
+      currentInfoWindow: null
     }
   },
   props: ['userLocation'],
@@ -40,6 +41,7 @@ export default {
       this.drawRadiusCircle() // Initialize circle
       google.maps.event.addListener(map, 'idle', () => {
         this.googleMapInstance = this.$refs.gmap.$mapObject
+        this.currentInfoWindow = new google.maps.InfoWindow()
       })
     })
   },
@@ -107,6 +109,10 @@ export default {
                 scaledSize: new google.maps.Size(30, 45) // size to 30x45 pixels
               }
             })
+            // Click event listener to the marker
+            google.maps.event.addListener(marker, 'click', () => {
+              this.openInfoWindow(result, marker)
+            })
             // console.log('Marker:', marker) // Debug
             this.markers.push(marker) // Push to Array
             console.log('Marker placed at: ', result.geometry.location) // Debug
@@ -115,6 +121,18 @@ export default {
       } catch (error) {
         console.error('Error in placeMarkers:', error)
       }
+    },
+    openInfoWindow(result, marker) {
+    // Close previously opened window if it exists
+      if (this.currentInfoWindow) {
+        this.currentInfoWindow.close()
+      }
+      // Create a new InfoWindow
+      this.currentInfoWindow = new google.maps.InfoWindow()
+
+      // Set content and open new window
+      this.currentInfoWindow.setContent(`<h4>${result.name}</h4><p>${result.vicinity}</p>`)
+      this.currentInfoWindow.open(this.googleMapInstance, marker)
     },
     updateLocation(newLocation) {
       console.log('Received newLocation:', newLocation) // Debug

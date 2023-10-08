@@ -1,6 +1,6 @@
 <template>
   <div style="left">
-    <b-sidebar id="sidebar-left" title="Left Sidebar" aria-label="Menu sidebar" lazy backdrop shadow>
+    <b-sidebar id="sidebar-left" title="Menu" aria-label="Menu sidebar" lazy backdrop shadow>
 
       <div class="px-3 py-2">
         <router-link to="/">Home</router-link><br>
