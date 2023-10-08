@@ -15,6 +15,7 @@ import facilityMarker from '@/assets/facilityMarker.png'
 import entertainmentMarker from '@/assets/entertainmentMarker.png'
 import defaultMarker from '@/assets/default-marker.png'
 import attractionMarker from '@/assets/attractionMarker.png'
+import mapTheme from '@/assets/map-styling.json'
 
 import { Map as GmapMap, Polyline as GmapPolyline } from 'vue2-google-maps'
 // import { EventBus } from '@/EventBus'
@@ -29,7 +30,8 @@ export default {
       googleMapInstance: null,
       markers: [],
       radiusCircle: null,
-      currentInfoWindow: null
+      currentInfoWindow: null,
+      mapTheme
     }
   },
   props: ['userLocation'],
@@ -37,6 +39,7 @@ export default {
   },
   mounted() {
     this.$refs.gmap.$mapPromise.then((map) => {
+      map.setOptions({ styles: this.mapTheme })
       this.googleMapInstance = map
       this.drawRadiusCircle() // Initialize circle
       google.maps.event.addListener(map, 'idle', () => {
