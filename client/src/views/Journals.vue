@@ -27,7 +27,7 @@ export default {
         this.journals = response.data.journals
       })
       .catch(error => {
-        this.journlas = []
+        this.journals = []
         console.log(error)
         //   TODO: display some error message instead of logging to console
       })
