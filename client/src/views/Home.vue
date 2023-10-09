@@ -2,7 +2,7 @@
   <div class="home-container" :style="{ backgroundImage: `url(${backgroundImage})` }">
     <div class="hero-section">
       <h1>EXPLORE THE WORLD</h1>
-      <button @click="scrollToMap" class="button-style">Find my destination</button>
+      <b-button @click="scrollToMap" class="button-style" >Find my destination</b-button>
     </div>
     <b-container fluid>
       <!-- Input and Button for Location -->
@@ -13,16 +13,22 @@
             label-cols-sm="4"
             label-cols-lg="3"
             content-cols-sm
-            content-cols-lg="7"
-            >
-            <b-input v-model="userLocation" placeholder="Where are you going?"></b-input>
+            content-cols-lg="7">
+            <div class="d-flex align-items-center">
+              <!-- Create location request -->
+              <b-input v-model="userLocation" placeholder="Where are you going?" size="sm" class="search-box"></b-input>
+              <b-button type="submit">Confirm Location</b-button>
+              <!-- Create journal request -->
+              <b-button @click="contentToDisplay = 1">Create Journal</b-button>
+              <!-- Create checklist request -->
+              <b-button @click="contentToDisplay = 2">Create Checklist</b-button>
+            </div>
           </b-form-group>
-          <b-button type="submit">Confirm Location</b-button>
         </b-form>
       <b-row class="h-100">
         <b-col lg="12" md="12" sm="12" class="h-100">
-          <!-- Create request -->
-          <create-new />
+          <!-- Sidebar -->
+          <SidebarCreate :contentToDisplay="contentToDisplay" />
           <!-- Google map -->
         <GoogleMap ref="googleMapRef" :userLocation="userLocation" v-if="showMap"/>
         </b-col>
@@ -44,7 +50,9 @@ export default {
       userLocation: null,
       message: 'none',
       showMap: false,
-      backgroundImage: ''
+      backgroundImage: '',
+      contentToDisplay: null,
+      isButtonActive: false
     }
   },
   methods: {
@@ -102,7 +110,7 @@ export default {
     this.fetchImage()
   },
   components: {
-    'create-new': SidebarCreate,
+    SidebarCreate,
     GoogleMap
   }
 }
@@ -125,12 +133,23 @@ export default {
 }
 
 .button-style {
-  border-color: #ffffff;
-  background: hsla(0, 0%, 100%, 0);
+  border-color: #e751e4;
+  background: #e070de00;
+  border-width: 2px;
   font: inherit;
   border-radius: 100px;
   padding: 15px 50px;
   color: var(--white);
+  text-transform: uppercase;
+}
+
+.button-style:hover {
+  background-color: #e751e4;
+  border-color: #e751e4;
+}
+.button-style:active {
+  background-color: #e751e4;
+  border-color: #e751e4;
 }
 
 .hero-section {
@@ -152,4 +171,9 @@ export default {
   margin-top: 60px;
   /* Styling as you wish */
 }
+
+.search-box {
+  width: 30%;  /* or whatever width you prefer */
+}
+
 </style>

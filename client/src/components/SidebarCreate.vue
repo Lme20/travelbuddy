@@ -1,12 +1,6 @@
 <template>
     <div id="create-new-entry">
-      <b-dropdown id="dd-create" text="Create..." class="m-md-2">
-        <b-dropdown-item @click="openSidebar(1)">Journal entry</b-dropdown-item>
-        <b-dropdown-item @click="openSidebar(2)">Checklist</b-dropdown-item>
-        <b-dropdown-item @click="openSidebar(3)" disabled>Activity</b-dropdown-item>
-        <b-dropdown-item @click="openSidebar(3)" disabled>Review</b-dropdown-item>
-      </b-dropdown>
-      <b-sidebar v-model="sidebarOpen" id="sidebar-create" title="Create new" right>
+      <b-sidebar v-model="sidebarOpen" id="sidebar-create" :title="sidebarTitle" right>
         <!-- Conditional content based on button clicked -->
         <div v-if="sidebarContents === 1" class="px-3 py-2">
           <p>Create new journal entry.</p>
@@ -30,13 +24,34 @@ export default {
   data() {
     return {
       sidebarOpen: false,
-      sidebarContents: null
+      sidebarContents: null,
+      sidebarTitle: 'Create new'
+    }
+  },
+  props: {
+    contentToDisplay: {
+      type: Number,
+      default: null
+    }
+  },
+  watch: {
+    contentToDisplay(newVal) {
+      this.openSidebar(newVal)
     }
   },
   methods: {
     openSidebar(component) {
       this.sidebarContents = component
       this.sidebarOpen = true
+
+      // Set the title
+      if (component === 1) {
+        this.sidebarTitle = 'Create Journal Entry'
+      } else if (component === 2) {
+        this.sidebarTitle = 'Create Checklist'
+      } else {
+        this.sidebarTitle = 'Create new'
+      }
     },
     closeSidebar() {
       this.sidebarOpen = false

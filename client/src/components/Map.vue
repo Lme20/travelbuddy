@@ -150,11 +150,11 @@ export default {
       }
       // Circle radius specifics
       this.radiusCircle = new google.maps.Circle({
-        strokeColor: '#FF0000',
+        strokeColor: '#ca65c8',
         strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.15,
+        strokeWeight: 1,
+        fillColor: '#e070de',
+        fillOpacity: 0.1,
         map: this.googleMapInstance,
         center: this.center,
         radius: this.radius,
