@@ -136,7 +136,7 @@ export default {
   border-color: #e751e4;
   background: #e070de00;
   border-width: 2px;
-  font: inherit;
+  font-family: var(--ff-montserrat);
   border-radius: 100px;
   padding: 15px 50px;
   color: var(--white);
@@ -160,6 +160,7 @@ export default {
   padding-top: 350px;
   height: 100vh;
   background-blend-mode: overlay;
+  border-bottom: 2px solid hsla(0, 0%, 100%, 0.1);
 }
 
 .hero-section h1 {

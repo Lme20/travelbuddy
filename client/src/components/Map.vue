@@ -133,8 +133,24 @@ export default {
       this.currentInfoWindow = new google.maps.InfoWindow()
 
       // Set content and open new window
-      this.currentInfoWindow.setContent(`<h4>${result.name}</h4><p>${result.vicinity}</p><p>${result.description}</p><a href="${result.website}" target="_blank">Visit Website</a>`)
+      const contentString =
+      `<h4>${result.name}</h4>
+        <p>${result.vicinity}</p>
+        <p>${result.description}</p>
+        <a href="${result.website}" target="_blank">Visit Website</a>
+        <b-button id="add-location-button" class="location-btn" >Add Location</b-button>`
+
+      // Set content and open new window
+      this.currentInfoWindow.setContent(contentString)
       this.currentInfoWindow.open(this.googleMapInstance, marker)
+
+      // DOM listener for InfoWindow
+      google.maps.event.addListenerOnce(this.currentInfoWindow, 'domready', () => {
+        const button = document.getElementById('add-location-button')
+        button.addEventListener('click', () => {
+          this.handleAddLocationButtonClick(result)
+        })
+      })
     },
     updateLocation(newLocation) {
       console.log('Received newLocation:', newLocation) // Debug
@@ -143,6 +159,12 @@ export default {
       this.fetchMarkers()
       this.drawRadiusCircle() // Update drawRadiusCircle when location changed
       console.log('newLocation and marker fecthed:', newLocation, this.fetchMarkers) // Debug
+    },
+    handleAddLocationButtonClick(result) {
+      console.log('Add Location button clicked!', result)
+
+      // Here you can implement what should happen when the "Add Location" button is clicked.
+      // E.g., add the location to an array, send the location to the backend API, etc.
     },
     drawRadiusCircle() {
       if (this.radiusCircle) {

@@ -109,4 +109,16 @@ button:active {
 input:focus, textarea:focus {
   border: 2px solid #007bff;
 }
+
+/* Global styling for location button */
+.location-btn {
+  color: white;
+  background-color: green;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.location-btn:active {
+  background-color: darkgreen;
+}
 </style>
