@@ -8,7 +8,7 @@ router.post('/api/users', async (req, res) => {
         const user = new User(req.body);
         await user.save();
         res.status(201).send(user);
-    } catch {
+    } catch (error) {
         res.status(500).send({ message: 'Error in POST /users', error: error.message });
     }
 });
@@ -18,7 +18,7 @@ router.get('/api/users', async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).send(users);
-    } catch {
+    } catch (error) {
         res.status(500).send({ message: 'Error in GET /users', error: error.message });
     }
 });
@@ -61,11 +61,14 @@ router.delete('/api/users', async (req, res) => {
 });
 
 // DELETE user (id)
-router.delete('/api/users/:id', async(req, res) => {
+router.delete('/api/users/:id', async (req, res) => {
     try {
-        var user = await User.findOneAndDelete({_id:req.params.id});
-    res.status(200).send(user);
-    } catch {
+        const user = await User.findOneAndDelete({_id: req.params.id});
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        res.status(200).send(user);
+    } catch (error) {
         res.status(500).send({ message: 'Error in DELETE /users/id', error: error.message });
     }
 });

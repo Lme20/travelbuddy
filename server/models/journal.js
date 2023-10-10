@@ -13,5 +13,5 @@ var journalSchema = new Schema({
     locations: {  type: String, ref: 'locations'}
 });
 
-module.exports = mongoose.model('journals', journalSchema);
+module.exports = mongoose.model('Journal', journalSchema);
 
