@@ -10,9 +10,7 @@ var journalSchema = new Schema({
     title: { type: String },
     journalTextEntry: { type: String },
     date: { type: Date },
-    activities: {  type: mongoose.Schema.Types.ObjectId, ref: 'activity'},
-    locations: {  type: mongoose.Schema.Types.ObjectId, ref: 'location'}
-
+    locations: {  type: String, ref: 'locations'}
 });
 
 module.exports = mongoose.model('journals', journalSchema);

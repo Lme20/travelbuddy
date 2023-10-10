@@ -4,18 +4,6 @@ var Journal = require('../models/journal');
 var Activity = require('../models/activity');
 var Location = require('../models/location');
 
-/*
-This is the previous code that doesn't work due to .save() not allowing callbacks:
-router.post('/api/journals', function(req, res, next){
-    var journal = new Journal(req.body);
-    journal.save(function(err, journal) {
-        if (err) { return next(err); }
-        res.status(201).json(journal);
-    })
-});
-The code below for post is inspired from chatGPT to use async to wait for a response:
-*/
-
 router.post('/api/journals', async (req, res, next) => {
     try {
       const journal = new Journal(req.body);
@@ -71,6 +59,8 @@ router.put('/api/journals/:id', async (req, res) => {
     }
 });
 
+
+//yet to test
 router.patch('/api/journals/:id', function(req, res, next) {
     var id = req.params.id;
     Camel.findById(id, function(err, journal) {
@@ -87,9 +77,9 @@ router.patch('/api/journals/:id', function(req, res, next) {
 });
 
 // POST location to journal
-router.post('/api/journals/:jid/locations', async (req, res) => {
+router.post('/api/journals/:id/locations', async (req, res) => {
     var location = new Location(req.body);
-    var jid = req.params.jid;
+    var jid = req.params.id;
     Journal.findById(jid).then( async(journal, journalres) => {
         if (journal == null) {
             return journalres.status(404).json({"message": "Journal not found"});
@@ -102,26 +92,25 @@ router.post('/api/journals/:jid/locations', async (req, res) => {
     });
 });
 
-// GET activities that are reviewed
-router.get('/api/journals/:jid/locations', async (req, res) => {
-    var jid = req.params.jid;
-    Journal.findById(jid).then( async(journal, journalres) => {
-        if (journal == null) {
-            return journalres.status(404).json({"message": "Journal not found"});
-        }
-        Location.findById(journal.locations).then(async(location, locationres) => {
-            res.json({ 'locations': location });
-        });
-    });
-});
-
+  router.get('/api/journals/:id/locations', async (req, res, next) => {
+    const journalId = req.params.id 
+    try {
+        const journal = await Journal.findById(journalId);
+        if (!journal) {
+          return res.status(404).json({ message: 'Journal not found' });
+        }     
+        res.status(200).json(journal.locations);
+      } catch (error) {
+        res.status(500).json({ message: 'Error', error: error.message });
+      }
+  });
 // DELETE a specific review (id) for an activity (id)
 // TODO
 
 // POST activity to journal
 router.post('/api/journals/:jid/activities', async (req, res) => {
     var activity = new Activity(req.body);
-    var jid = req.params.jid;
+    var jid = req.params.id;
     Journal.findById(jid).then( async(journal, journalres) => {
         if (journal == null) {
             return journalres.status(404).json({"message": "Journal not found"});
@@ -134,19 +123,14 @@ router.post('/api/journals/:jid/activities', async (req, res) => {
     });
 });
 
-
-// GET activities that are in a journal
-router.get('/api/journals/:jid/activities', async (req, res) => {
-    var jid = req.params.jid;
-    Journal.findById(jid).then( async(journal, journalres) => {
-        if (journal == null) {
-            return journalres.status(404).json({"message": "Journal not found"});
-        }
-        Activity.findById(journal.activities).then(async(activity, activityres) => {
-            res.json({ 'activities': activity });
-        });
-    });
-});
+router.get('/api/journals/:id/activities', async (req, res, next) => {
+    try {
+      const journal = await Journal.findById(req.params.id).populate('activities');
+      res.send(journal.activities); 
+  } catch (error) {
+      res.status(500).send({ message: 'Error', error: error.message });
+  }
+  });
 
 // DELETE a specific activity (id) froma journal (id)
 // TODO
