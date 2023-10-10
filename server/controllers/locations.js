@@ -24,7 +24,7 @@ const Activity = require('../models/activity');
 const Review = require('../models/review');
 const User = require('../models/user');
 
-// POST Create Location
+// POST Create Location OK
 router.post('/api/locations', async (req, res) => {
     try {
         const location = new Location(req.body);
@@ -35,7 +35,7 @@ router.post('/api/locations', async (req, res) => {
     }
 });
 
-// GET All locations
+// GET All locations OK
 router.get('/api/locations', async (req, res) => {
     try {
         const locations = await Location.find({});
@@ -45,7 +45,7 @@ router.get('/api/locations', async (req, res) => {
     }
 });
 
-// Delete All locations
+// Delete All locations OK
 router.delete('/api/locations', async (req, res) => {
     try {
         await Location.deleteMany({});
@@ -55,7 +55,7 @@ router.delete('/api/locations', async (req, res) => {
     }
 });
 
-// GET Single location by ID
+// GET Single location by ID - NOT OK
 router.get('/api/locations/:id', async (req, res) => {
     var id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -71,7 +71,7 @@ router.get('/api/locations/:id', async (req, res) => {
 });
 
 
-// PUT (update) Single location by ID
+// PUT (update) Single location by ID - NOT OK
 router.put('/api/locations/:id', async (req, res) => {
     try {
         var id = req.params.id;
@@ -83,7 +83,7 @@ router.put('/api/locations/:id', async (req, res) => {
     }
 });
 
-// PATCH (partial update) Single location by ID
+// PATCH (partial update) Single location by ID - NOT OK
 router.patch('/api/locations/:id', async (req, res) => {
     try {
         const id = req.params.id;

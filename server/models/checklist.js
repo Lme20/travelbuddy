@@ -11,7 +11,7 @@ var checklistSchema = new Schema({
     totalCost: { type : Number }
 });
 
-module.exports = mongoose.model('checklists', checklistSchema);
+module.exports = mongoose.model('Checklist', checklistSchema);
 
 // TODO this does not work.
 checklistSchema.pre('save', function(next) {
