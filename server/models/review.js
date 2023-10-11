@@ -8,8 +8,8 @@ const reviewSchema = new mongoose.Schema({
         ref: 'users',
         required: true
     },
-    activities: { type: mongoose.Schema.Types.ObjectId, ref: 'activity'}
+    activities: { type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}
 });
 
-module.exports = mongoose.model('reviews', reviewSchema);
+module.exports = mongoose.model('Review', reviewSchema);
 

@@ -13,19 +13,11 @@
 
       <b-form-group id="locationSelect" label="Locations:" label-for="locationSelect">
         <b-form-select
-          id="locationSelect"
+          id="locationselect"
           v-model="form.location"
           :options="locations"
           :text-field="'name'"
           :value-field="'name'"
-        ></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="activitiesSelect" label="Activities:" label-for="activitiesSelect">
-        <b-form-select
-          id="activitiesSelect"
-          v-model="form.activity"
-          :options="activities"
         ></b-form-select>
       </b-form-group>
 
@@ -61,14 +53,11 @@ export default {
         title: '',
         location: '',
         date: '',
-        activity: '',
         journalTextEntry: ''
       },
       locations: [],
-      activities: [],
       journalId: null,
       show: true
-
     }
   },
   mounted() {
@@ -80,16 +69,25 @@ export default {
         console.log('API Response:', journalData)
         // Update your component's data with the fetched journal data
         this.form.title = journalData.title
-        this.form.location = journalData.location
-        this.form.activity = journalData.activity
         this.form.date = journalData.date
         this.form.journalTextEntry = journalData.journalTextEntry
+        this.form.location = journalData.location
       })
       .catch(error => {
         console.error('Error fetching journal data:', error)
         // Handle errors or display an error message to the user
       })
-
+    Api.get(`/journals/${journalId}/locations`)
+      .then(response => {
+        const locationsData = response.data
+        console.log('Location Response:', locationsData)
+        // Update your component's data with the fetched journal data
+        this.form.location = locationsData
+      })
+      .catch(error => {
+        console.error('Error fetching journal data:', error)
+        // Handle errors or display an error message to the user
+      })
     Api.get('locations')
       .then(response => {
         console.log('Locations:', response)
@@ -102,18 +100,6 @@ export default {
       })
       .catch(error => {
         console.error('Error fetching location data:', error)
-        // Handle errors or display an error message to the user
-      })
-
-    Api.get('activities')
-      .then(response => {
-        console.log('Activities:', response)
-        const activityData = response.data
-        const uniqueActivities = new Set(activityData.map(activity => activity.name))
-        this.activities = [...uniqueActivities]
-      })
-      .catch(error => {
-        console.error('Error fetching activity data:', error)
         // Handle errors or display an error message to the user
       })
   },
@@ -132,8 +118,7 @@ export default {
       event.preventDefault()
       // Reset our form values
       this.form.title = ''
-      this.form.location = null
-      this.form.activity = null
+      this.form.location = ''
       this.form.date = ''
       this.form.journalTextEntry = ''
       // Trick to reset/clear native browser form validation state
@@ -156,7 +141,13 @@ export default {
         })
     },
     updateJournalEntry(journalId) {
-      Api.put(`/journals/${journalId}`, this.form)
+      const requestData = {
+        title: this.form.title,
+        date: this.form.date,
+        journalTextEntry: this.form.journalTextEntry,
+        locations: this.form.location
+      }
+      Api.put(`/journals/${journalId}`, requestData)
         .then(response => {
           console.log('Journal entry updated successfully:', response.data)
         })
@@ -165,7 +156,13 @@ export default {
         })
     },
     createJournalEntry() {
-      Api.post('/journals', this.form)
+      const requestData = {
+        title: this.form.title,
+        date: this.form.date,
+        journalTextEntry: this.form.journalTextEntry,
+        locations: this.form.location
+      }
+      Api.post('/journals', requestData)
         .then(response => {
           console.log('New journal entry created successfully:', response.data)
         })

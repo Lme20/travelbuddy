@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
 
 const locationSchema = new mongoose.Schema({
-    LocationID: { type: Number}, //Might be changed later
-    place_name: { type: String}, //Should be changed based on Google's API
-    is_visited: { type: Boolean },
-    optional_review: { type: String},
-    is_on_bucketlist: { type: Boolean },
-    distance_to_locations: { type: Number},
-    checklists: [{type: mongoose.Schema.Types.ObjectId, ref: 'checklist'}], // Refencing to checklist model
-    activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'activity'}], // Referencing to activity model
-    reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'review'}], // Referencing to review model
-    journals: {  type: mongoose.Schema.Types.ObjectId, ref: 'journal'}
+    placeId: { type: String },  // Google's Place ID, useful for uniquely identifying locations
+    placeName: { type: String}, // Should be changed based on Google's API
+    placeType: { type: [String] },  // This can be an array of types like ['restaurant', 'bar']
+    placeCoordinates: { type: { lat: Number, lng: Number } },
+    address: { type: String },
+    isVisited: { type: Boolean },
+    optionalReview: { type: String},
+    isOnBucketlist: { type: Boolean },
+    distanceToLocations: { type: Number},
+    checklists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Checklist'}], // Refencing to checklist model
+    activities: [{type: mongoose.Schema.Types.ObjectId, ref: 'Activity'}], // Referencing to activity model
+    reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}], // Referencing to review model
+    journals: {  type: mongoose.Schema.Types.ObjectId, ref: 'Journal'}
 
 });
 
-module.exports = mongoose.model('locations', locationSchema);
+module.exports = mongoose.model('Location', locationSchema);
 

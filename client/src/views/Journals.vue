@@ -31,9 +31,6 @@ export default {
         console.log(error)
         //   TODO: display some error message instead of logging to console
       })
-      .then(() => {
-        console.log('This runs every time after success or error.')
-      })
   },
   data() {
     return {

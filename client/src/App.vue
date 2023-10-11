@@ -21,11 +21,6 @@
     <div id="main-content">
       <router-view/>
     </div>
-
-    <!-- Footer -->
-    <b-footer class="app-footer">
-      <p>&copy; 2023 Travelbuddy</p>
-    </b-footer>
   </div>
 </template>
 
@@ -51,7 +46,7 @@ export default {
 }
 
 .menu-button {
-  margin-right: 20px; /* Space between Menu button and Travelbuddy */
+  margin-right: 30px; /* Space between Menu button and Travelbuddy */
 }
 
 .hamburger-menu {
@@ -98,5 +93,31 @@ export default {
 
 #main-content {
   margin-bottom: 50px; /* Space for the footer */
+}
+
+/* Global effect for all buttons */
+button:hover {
+  background-color: #aaa;
+}
+
+button:active {
+  background-color: #555;
+}
+
+/* Global focus effect for all input and textarea elements */
+input:focus, textarea:focus {
+  border: 2px solid #007bff;
+}
+
+/* Global styling for location button */
+.location-btn {
+  color: white;
+  background-color: green;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.location-btn:active {
+  background-color: darkgreen;
 }
 </style>

@@ -3,11 +3,11 @@
     <b-sidebar id="sidebar-left" title="Menu" aria-label="Menu sidebar" lazy backdrop shadow>
 
       <div class="px-3 py-2">
-        <router-link to="/">Home</router-link><br>
+        <router-link to="/">Map</router-link><br>
         <br>
         <router-link to="/locations">Locations</router-link><br>
 
-        <router-link to="/journals">Journal entries</router-link><br>
+        <router-link to="/journals">Journals</router-link><br>
         <router-link to="/checklists">Checklists</router-link><br>
         <br>
         <router-link to="/settings">Settings</router-link><br>
