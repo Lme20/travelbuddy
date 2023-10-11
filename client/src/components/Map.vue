@@ -18,6 +18,7 @@ import attractionMarker from '@/assets/attractionMarker.png'
 import mapTheme from '@/assets/map-styling.json'
 
 import { Map as GmapMap, Polyline as GmapPolyline } from 'vue2-google-maps'
+import { Api } from '@/Api'
 // import { EventBus } from '@/EventBus'
 
 export default {
@@ -73,6 +74,8 @@ export default {
       service.nearbySearch(request, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           this.placeMarkers(results)
+        } else {
+          console.error(`Error occurred: ${status}`)
         }
       })
     },
@@ -155,16 +158,41 @@ export default {
     updateLocation(newLocation) {
       console.log('Received newLocation:', newLocation) // Debug
       this.center = newLocation // { lat: ..., lng: ... }
-      this.radius = 2000 // 50 km in meters
+      this.radius = 2000
       this.fetchMarkers()
       this.drawRadiusCircle() // Update drawRadiusCircle when location changed
       console.log('newLocation and marker fecthed:', newLocation, this.fetchMarkers) // Debug
     },
-    handleAddLocationButtonClick(result) {
+    async handleAddLocationButtonClick(result) {
       console.log('Add Location button clicked!', result)
 
-      // Here you can implement what should happen when the "Add Location" button is clicked.
-      // E.g., add the location to an array, send the location to the backend API, etc.
+      try {
+        // Prepare the data to send
+        const locationData = {
+          placeId: result.place_id,
+          placeName: result.name,
+          placeType: result.types,
+          placeCoordinates: {
+            lat: result.geometry.location.lat(),
+            lng: result.geometry.location.lng()
+          },
+          address: result.vicinity,
+          isVisited: false,
+          isOnBucketlist: false
+        }
+
+        // Make the API call
+        const response = await Api.post('/locations', locationData)
+
+        // Check if the response is successful
+        if (response.status === 201) {
+          console.log('Location added successfully:', response.data)
+          alert('Location added successfully')
+        }
+      } catch (error) {
+        console.error('Error while adding location:', error)
+        alert('Failed to add location')
+      }
     },
     drawRadiusCircle() {
       if (this.radiusCircle) {

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Journals from './views/Journals.vue'
 import Settings from './views/Settings.vue'
 import About from './views/About.vue'
-import JournalEntry from './components/JournalEntry.vue'
 import Locations from './views/Locations.vue'
+import Journals from './views/Journals.vue'
+import JournalEntry from './components/JournalEntry.vue'
+import Checklists from './views/Checklists.vue'
+import ChecklistEntry from './components/ChecklistEntry.vue'
 
 Vue.use(Router)
 
@@ -42,7 +44,16 @@ export default new Router({
       path: '/journalEntry/:id',
       name: 'journalEntry',
       component: JournalEntry
+    },
+    {
+      path: '/checklists',
+      name: 'checklists',
+      component: Checklists
+    },
+    {
+      path: '/users/:uid/checklists/:cid',
+      name: 'checklistEntry',
+      component: ChecklistEntry
     }
-
   ]
 })
