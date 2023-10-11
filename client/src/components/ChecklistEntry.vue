@@ -15,14 +15,6 @@
         ></b-form-select>
       </b-form-group> -->
 
-      <b-form inline>
-        <label class="sr-only" for="inline-form-input-name">Name</label>
-        <b-form-input v-model="elem" id="inline-form-input-name" class="mb-2 mr-sm-0 mb-sm-0"
-          placeholder="New item..."></b-form-input>
-
-        <b-button variant="primary" @click="onAddItem">Add</b-button>
-      </b-form>
-
       <table class="table mb-4">
         <thead>
           <tr>
@@ -40,12 +32,19 @@
         </tbody>
       </table>
 
+      <b-form inline>
+        <label class="sr-only" for="inline-form-input-text">Item</label>
+        <b-form-input v-model="elem" id="inline-form-input-text" class="mb-2 mr-sm-0 mb-sm-0"
+          placeholder="New item..."></b-form-input>
+        <b-button variant="primary" @click="onAddItem">Add</b-button>
+      </b-form>
+
       <b-button type="submit" variant="primary">Save</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
+    <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
-    </b-card>
+    </b-card> -->
   </div>
 </template>
 

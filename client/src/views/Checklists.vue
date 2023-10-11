@@ -12,25 +12,20 @@
         </b-list-group>
 
         <b-button-group>
-          <router-link :to="{ name: 'checklistEntry', params: { uid: checklist.owner, cid: checklist._id } }">
-            <b-button variant="success">Edit</b-button>
-          </router-link>
-
-          <b-button @click="contentToDisplay=2, userId=checklist.owner, entryId=checklist._id">Edit</b-button>
-
+          <b-button variant="success" @click="contentToDisplay=2, userId=checklist.owner, entryId=checklist._id">Edit</b-button>
           <b-button variant="danger" @click="onDelete(checklist.owner, checklist._id)">Delete</b-button>
         </b-button-group>
       </b-card>
     </b-card-group>
 
-    <SidebarCreate :contents="[contentToDisplay,userId,entryId]" />
+    <right-sidebar :contents="[contentToDisplay,userId,entryId]" />
 
   </div>
 </template>
 
 <script>
 import { Api } from '@/Api'
-import SidebarCreate from '@/components/SidebarCreate.vue'
+import RightSidebar from '@/components/RightSidebar.vue'
 
 export default {
   name: 'checklists',
@@ -48,7 +43,7 @@ export default {
     }
   },
   components: {
-    SidebarCreate
+    'right-sidebar': RightSidebar
   },
   methods: {
     getChecklists() {
