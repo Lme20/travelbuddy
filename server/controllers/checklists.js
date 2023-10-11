@@ -14,8 +14,8 @@ const User = require('../models/user');
 // GET all checklists
 router.get('/api/checklists', async (req, res) => {
     try {
-        const checklist = await Checklist.find();
-        res.status(200).send(checklist);
+        const checklists = await Checklist.find();
+        res.status(200).json({ 'checklists': checklists });
     } catch {
         res.status(500).send({ message: 'Error in GET checklists', error: error.message });
     }

@@ -4,11 +4,7 @@
       <h1>{ users }'s Checklists</h1>
     </div>
 
-    <ul>
-      <li v-for="checklist in checklists" :key="checklist">{{ checklist.owner }}</li>
-    </ul>
-
-    <b-card-group v-for="checklist in checklists" :key="checklist._id" columns>
+    <b-card-group columns v-for="checklist in checklists" :key="checklist._id">
       <b-card title={{ checklist.title }}>
         <b-card-text v-for="item in checklist.items" :key="item">
           <p>{{ checklist.items.item }}</p>
@@ -18,11 +14,11 @@
 
     <b-card-group columns>
 
-      <b-card header="Card with list group">
-        <b-list-group v-for="checklist in checklists" :key="checklist._id">
-          <b-list-group-item>{{ checklist.owner }}</b-list-group-item>
+      <b-card header="Card with list group" v-model="checklists">
+        <b-list-group v-for="item in checklists" :key="item._id">
           <b-list-group-item href="#">Dapibus ac facilisis in</b-list-group-item>
           <b-list-group-item href="#">Vestibulum at eros</b-list-group-item>
+          <b-list-group-item>{{ item._id }}</b-list-group-item>
         </b-list-group>
       </b-card>
 
@@ -41,7 +37,6 @@
 
 <script>
 import { Api } from '@/Api'
-
 export default {
   name: 'checklists',
   mounted() {
@@ -50,6 +45,7 @@ export default {
       .then(response => {
         console.log(response.data)
         this.checklists = response.data.checklists
+        console.log(this.checklists)
       })
       .catch(error => {
         this.checklists = []

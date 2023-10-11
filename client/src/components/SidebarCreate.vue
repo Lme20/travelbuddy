@@ -3,12 +3,10 @@
       <b-sidebar v-model="sidebarOpen" id="sidebar-create" :title="sidebarTitle" right>
         <!-- Conditional content based on button clicked -->
         <div v-if="sidebarContents === 1" class="px-3 py-2">
-          <p>Create new journal entry.</p>
           <journal-entry/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
         <div v-else-if="sidebarContents === 2" class="px-3 py-2">
-          <p>Create new checklist.</p>
           <checklist-entry/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>

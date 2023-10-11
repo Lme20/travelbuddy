@@ -29,7 +29,7 @@
           placeholder="New item..."
         ></b-form-input>
 
-        <b-button variant="primary" @click="onAdd">Add</b-button>
+        <b-button variant="primary" @click="onAddItem">Add</b-button>
       </b-form>
 
       <table class="table mb-4">
@@ -43,7 +43,7 @@
           <tr v-for="(item,index) in form.items" :key="item">
             <td>{{ item }}</td>
             <td>
-              <b-button variant="danger" @click="onDelete(index)">X</b-button>
+              <b-button variant="danger" @click="onDeleteItem(index)">X</b-button>
             </td>
           </tr>
         </tbody>
@@ -62,34 +62,69 @@
 import { Api } from '@/Api'
 
 export default {
+  name: 'checklistEntry',
   data() {
     return {
       form: {
         title: '',
         items: [],
-        location: null
+        location: ''
       },
-      list: [],
-      locations: [{ text: 'Location...', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+      locations: [],
       elem: '',
+      owner: null,
       show: true
     }
   },
+  mounted() {
+    console.log('mounting')
+    const uid = this.$route.params.uid
+    const cid = this.$route.params.cid
+    this.owner = uid
+    Api.get(`/users/${uid}/checklists/${cid}`)
+      .then(response => {
+        console.log('got ', response.data)
+        // Update your component's data with the fetched journal data
+        this.form.title = response.data.title
+        this.form.location = response.data.location
+        this.form.items = response.data.items
+      })
+      .catch(error => {
+        console.error('Error fetching checklist data:', error)
+        // Handle errors or display an error message to the user
+      })
+  },
   methods: {
-    onAdd() {
+    onAddItem() {
       this.form.items.push(this.elem)
     },
-    onDelete(index) {
+    onDeleteItem(index) {
       this.form.items.splice(index, 1)
     },
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
-      this.createChecklist()
+      console.log('postning to ' + this.owner)
+      this.postChecklist()
     },
-    createChecklist() {
-      const userid = 'placeholder' // TODO get userid? Cookie? Global variable?
-      Api.post('/api/users/' + userid + '/checklists', this.form)
+    onReset(event) {
+      event.preventDefault()
+      // Reset our form values
+      this.form.title = ''
+      this.form.items = []
+      this.form.location = ''
+      // Trick to reset/clear native browser form validation state
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
+    onDelete(event) {
+      event.preventDefault()
+      this.deleteChecklist(this.owner, this._id)
+    },
+    postChecklist() {
+      Api.post('/users/' + this.owner + '/checklists', this.form)
         .then(response => {
           console.log('Success: ', response.data)
         })
@@ -97,17 +132,25 @@ export default {
           console.log('Failure: ', error)
         })
     },
-    onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.title = ''
-      this.form.items = []
-      this.form.location = null
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
+    putChecklist(cid) {
+      Api.put(`/checklists/${cid}`, this.form)
+        .then(response => {
+          console.log('Success: ', response.data)
+        })
+        .catch(error => {
+          console.error('Failure: ', error)
+        })
+    },
+    deleteChecklist(uid, cid) {
+      Api.delete(`/users/${uid}/checklists/${cid}`)
+        .then(response => {
+          console.log('Success:', response.data)
+          this.$router.push({ path: '/checklists' })
+        })
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
     }
   }
 }
