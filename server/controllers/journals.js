@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Journal = require('../models/journal');
-var Activity = require('../models/activity');
 var Location = require('../models/location');
 
 router.post('/api/journals', async (req, res, next) => {
@@ -10,7 +9,7 @@ router.post('/api/journals', async (req, res, next) => {
       const savedJournal = await journal.save();
       res.status(201).json(savedJournal);
     } catch (error) {
-      next(error); // Pass the error to the error-handling middleware
+      next(error);
     }
   });
 
@@ -60,36 +59,45 @@ router.put('/api/journals/:id', async (req, res) => {
 });
 
 
-//yet to test
-router.patch('/api/journals/:id', function(req, res, next) {
-    var id = req.params.id;
-    Camel.findById(id, function(err, journal) {
-        if (err) { return next(err); }
+router.patch('/api/journals/:id', async function (req, res, next) {
+    try {
+        const journal = await Journal.findById(req.params.id);
+
         if (journal == null) {
             return res.status(404).json({"message": "Journal not found"});
         }
+
         journal.title = (req.body.title || journal.title);
         journal.journalTextEntry = (req.body.journalTextEntry || journal.journalTextEntry);
         journal.date = (req.body.date || journal.date);
-        journal.save();
+        journal.locations = (req.body.locations || journal.locations)
+        await journal.save();
+
         res.json(journal);
-    });
+    } catch (err) {
+        return next(err);
+    }
 });
 
-// POST location to journal
 router.post('/api/journals/:id/locations', async (req, res) => {
-    var location = new Location(req.body);
-    var jid = req.params.id;
-    Journal.findById(jid).then( async(journal, journalres) => {
-        if (journal == null) {
-            return journalres.status(404).json({"message": "Journal not found"});
+    try {
+        const location = new Location(req.body);
+        const journal = await Journal.findById(req.params.id);
+
+        if (!journal) {
+            return res.status(404).json({ "message": "Journal not found" });
         }
-        journal.locations.push(location);
+
+        journal.locations = location;
         await journal.save();
         location.journals = journal;
         await location.save();
-        res.status(201).send(location);
-    });
+
+        res.status(201).json(location);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "message": "Internal Server Error" });
+    }
 });
 
   router.get('/api/journals/:id/locations', async (req, res, next) => {
@@ -104,35 +112,5 @@ router.post('/api/journals/:id/locations', async (req, res) => {
         res.status(500).json({ message: 'Error', error: error.message });
       }
   });
-// DELETE a specific review (id) for an activity (id)
-// TODO
-
-// POST activity to journal
-router.post('/api/journals/:jid/activities', async (req, res) => {
-    var activity = new Activity(req.body);
-    var jid = req.params.id;
-    Journal.findById(jid).then( async(journal, journalres) => {
-        if (journal == null) {
-            return journalres.status(404).json({"message": "Journal not found"});
-        }
-        journal.activities.push(activity);
-        await journal.save();
-        activity.journals = activity;
-        await activity.save();
-        res.status(201).send(activity);
-    });
-});
-
-router.get('/api/journals/:id/activities', async (req, res, next) => {
-    try {
-      const journal = await Journal.findById(req.params.id).populate('activities');
-      res.send(journal.activities); 
-  } catch (error) {
-      res.status(500).send({ message: 'Error', error: error.message });
-  }
-  });
-
-// DELETE a specific activity (id) froma journal (id)
-// TODO
 module.exports = router;
 

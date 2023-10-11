@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1baabc13-6f7b-4273-a065-0e49dab9f6f4",
+		"_postman_id": "8ba98fc0-c4a1-4217-85d0-c6af1ed55916",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19472229"
+		"_exporter_id": "29410838"
 	},
 	"item": [
 		{
@@ -810,27 +810,15 @@
 			]
 		},
 		{
-			"name": "locations",
+			"name": "journals",
 			"item": [
 				{
-					"name": "POST /api/locations",
+					"name": "POST /api/journals",
 					"event": [
 						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"// Save response data in environment variable",
-									"const jsonData = pm.response.json();",
-									"pm.environment.set(\"location_id\", jsonData._id);",
-									"",
-									"// Use variable in later request",
-									"// GET {{host}}/api/locations/{{location_id}}",
-									"var getLocationId = pm.variables.get(\"location_id\");",
-									"",
-									"// Test assertion examples",
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -839,148 +827,131 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"placeId\": \"dummyPlaceId123\",\n  \"placeName\": \"Dummy Place\",\n  \"placeType\": [\"dummy_type1\", \"dummy_type2\"],\n  \"placeCoordinates\": {\n    \"lat\": 40.7128,\n    \"lng\": 74.0060\n  },\n  \"address\": \"123 Dummy St, Dummy City, DM\",\n  \"isVisited\": false,\n  \"optionalReview\": \"This is a dummy review.\",\n  \"isOnBucketlist\": true,\n  \"distanceToLocations\": 5.0,\n  \"checklists\": [],\n  \"activities\": [],\n  \"reviews\": []\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "{{host}}/api/locations",
+							"raw": "{{host}}/api/journals",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"locations"
+								"journals"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GET /api/locations",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/locations",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"locations"
-							]
+					"name": "POST /api/journals Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/locations/:id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					],
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "{{host}}/api/locations/{{location_id}}",
+							"raw": "{{host}}/api/journals",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"locations",
-								"{{location_id}}"
+								"journals"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "PUT /api/locations/:id",
+					"name": "POST /api/journals/:id/locations",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "PUT",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n    \"locations\": \"Sweden\"}\r\n"
 						},
 						"url": {
-							"raw": "{{host}}/api/locations/{{location_id}}",
+							"raw": "{{host}}/api/journals/:id/locations",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"locations",
-								"{{location_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH /api/locations/:id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/locations/{{location_id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"locations",
-								"{{location_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/locations",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/locations",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
+								"journals",
+								":id",
 								"locations"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6527105d5f55f3610c529a9c"
+								}
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "journals",
-			"item": [
+				},
 				{
 					"name": "GET /api/journals",
 					"event": [
@@ -1029,7 +1000,116 @@
 					"response": []
 				},
 				{
-					"name": "POST /api/journals",
+					"name": "GET /api/journals/id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/journals/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"journals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "652699b348001f3852912e23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/journals/id/locations",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/journals/:id/locations",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"journals",
+								":id",
+								"locations"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "652699b348001f3852912e23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /api/journals/id",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1042,7 +1122,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Accept",
@@ -1060,13 +1140,122 @@
 							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"mainBodyText\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/journals",
+							"raw": "{{host}}/api/journals/:id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"journals"
+								"journals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "652699b348001f3852912e23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/journals/id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Gothenburg visit1\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!1\",\r\n    \"date\": \"12-10-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/journals/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"journals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "652699b348001f3852912e23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/journals/id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Gothenburg visit2\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/journals/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"journals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "652699b348001f3852912e23"
+								}
 							]
 						}
 					},
@@ -1191,6 +1380,135 @@
 					"path": [
 						"api",
 						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/locations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/locations",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/locations/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/locations/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /api/locations/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/locations/:uid",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid",
+							"value": "65020ad57d446e28d9bc598b"
+						}
 					]
 				}
 			},
