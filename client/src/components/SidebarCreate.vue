@@ -7,7 +7,7 @@
           <b-button @click="closeSidebar">Close</b-button>
         </div>
         <div v-else-if="sidebarContents === 2" class="px-3 py-2">
-          <checklist-entry/>
+          <checklist-entry :open="[this.sidebarUser, this.sidebarEntry]"/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
       </b-sidebar>
@@ -23,22 +23,31 @@ export default {
     return {
       sidebarOpen: false,
       sidebarContents: null,
-      sidebarTitle: 'Create new'
+      sidebarTitle: '',
+      sidebarUser: '',
+      sidebarEntry: ''
     }
   },
   props: {
     contentToDisplay: {
       type: Number,
       default: null
+    },
+    contents: {
+      type: Array,
+      default: null
     }
   },
   watch: {
     contentToDisplay(newVal) {
-      this.openSidebar(newVal)
+      this.openCreateSidebar(newVal)
+    },
+    contents(newVal) {
+      this.openEditSidebar(newVal)
     }
   },
   methods: {
-    openSidebar(component) {
+    openCreateSidebar(component) {
       this.sidebarContents = component
       this.sidebarOpen = true
 
@@ -49,6 +58,20 @@ export default {
         this.sidebarTitle = 'Create Checklist'
       } else {
         this.sidebarTitle = 'Create new'
+      }
+    },
+    openEditSidebar(components) {
+      this.sidebarContents = components[0]
+      this.sidebarUser = components[1]
+      this.sidebarEntry = components[2]
+      this.sidebarOpen = true
+
+      if (components[0] === 1) {
+        this.sidebarTitle = 'Edit Journal Entry'
+      } else if (components[0] === 2) {
+        this.sidebarTitle = 'Edit Checklist'
+      } else {
+        this.sidebarTitle = 'Edit other'
       }
     },
     closeSidebar() {

@@ -3,12 +3,7 @@
     <b-form id="checklist-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
       <b-form-group id="titleInput" label="" label-for="titleInput">
-        <b-form-input
-          id="titleInput"
-          v-model="form.title"
-          placeholder="Enter title..."
-          required
-        ></b-form-input>
+        <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title..." required></b-form-input>
       </b-form-group>
 
       <!-- <b-form-group id="locationSelect" label="" label-for="locationSelect">
@@ -22,12 +17,8 @@
 
       <b-form inline>
         <label class="sr-only" for="inline-form-input-name">Name</label>
-        <b-form-input
-          v-model="elem"
-          id="inline-form-input-name"
-          class="mb-2 mr-sm-0 mb-sm-0"
-          placeholder="New item..."
-        ></b-form-input>
+        <b-form-input v-model="elem" id="inline-form-input-name" class="mb-2 mr-sm-0 mb-sm-0"
+          placeholder="New item..."></b-form-input>
 
         <b-button variant="primary" @click="onAddItem">Add</b-button>
       </b-form>
@@ -40,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item,index) in form.items" :key="item">
+          <tr v-for="(item, index) in form.items" :key="item">
             <td>{{ item }}</td>
             <td>
               <b-button variant="danger" @click="onDeleteItem(index)">X</b-button>
@@ -76,43 +67,31 @@ export default {
       show: true
     }
   },
-  // props: {
-  //   user: {
-  //     type: String,
-  //     default: null
-  //   },
-  //   entry: {
-  //     type: String,
-  //     default: null
-  //   }
-  // },
-  // watch: {
-  //   user(newVal) {
-  //     this.userId = newVal
-  //   },
-  //   entry(newVal) {
-  //     this.entryId = newVal
-  //   }
-  // },
+  props: {
+    data: {
+      type: Array,
+      default: null
+    }
+  },
+  watch: {
+    data(newVal) {
+      this.loadData(newVal)
+    }
+  },
   mounted() {
     console.log('mounting')
     const uid = this.$route.params.uid
     const cid = this.$route.params.cid
     this.owner = uid
-    Api.get(`/users/${uid}/checklists/${cid}`)
-      .then(response => {
-        console.log('got ', response.data)
-        // Update your component's data with the fetched journal data
-        this.form.title = response.data.title
-        this.form.location = response.data.location
-        this.form.items = response.data.items
-      })
-      .catch(error => {
-        console.error('Error fetching checklist data:', error)
-        // Handle errors or display an error message to the user
-      })
+    this.getChecklist(uid, cid)
   },
   methods: {
+    loadData(components) {
+      const uid = components[0]
+      const cid = components[1]
+      this.owner = uid
+      this.getChecklist(uid, cid)
+    },
     onAddItem() {
       this.form.items.push(this.elem)
     },
@@ -140,6 +119,20 @@ export default {
     onDelete(event) {
       event.preventDefault()
       this.deleteChecklist(this.owner, this._id)
+    },
+    getChecklist(uid, cid) {
+      Api.get(`/users/${uid}/checklists/${cid}`)
+        .then(response => {
+          console.log('got ', response.data)
+          // Update your component's data with the fetched journal data
+          this.form.title = response.data.title
+          this.form.location = response.data.location
+          this.form.items = response.data.items
+        })
+        .catch(error => {
+          console.error('Error fetching checklist data:', error)
+          // Handle errors or display an error message to the user
+        })
     },
     postChecklist() {
       Api.post('/users/' + this.owner + '/checklists', this.form)
