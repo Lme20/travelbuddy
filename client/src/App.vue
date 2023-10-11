@@ -95,12 +95,11 @@ export default {
   margin-bottom: 50px; /* Space for the footer */
 }
 
-/* Global hover effect for all buttons */
+/* Global effect for all buttons */
 button:hover {
   background-color: #aaa;
 }
 
-/* Global active effect for all buttons */
 button:active {
   background-color: #555;
 }
