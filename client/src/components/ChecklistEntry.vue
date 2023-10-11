@@ -63,6 +63,7 @@ export default {
       locations: [],
       elem: '',
       owner: null,
+      httpmethod: () => { this.postChecklist() },
       show: true
     }
   },
@@ -105,8 +106,11 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
-      console.log('postning to ' + this.owner)
-      this.postChecklist()
+      if (this.data[0]) {
+        this.putChecklist(this.data[1], this.data[2])
+      } else {
+        this.postChecklist()
+      }
     },
     onReset(event) {
       event.preventDefault()
