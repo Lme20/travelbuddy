@@ -80,10 +80,15 @@ export default {
   },
   mounted() {
     console.log('mounting')
-    const uid = this.$route.params.uid
-    const cid = this.$route.params.cid
-    this.owner = uid
-    this.getChecklist(uid, cid)
+    console.log(this.data)
+    if (this.data) {
+      this.loadData(this.data)
+    } else {
+      const uid = this.$route.params.uid
+      const cid = this.$route.params.cid
+      this.owner = uid
+      this.getChecklist(uid, cid)
+    }
   },
   methods: {
     loadData(components) {

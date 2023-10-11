@@ -7,7 +7,7 @@
           <b-button @click="closeSidebar">Close</b-button>
         </div>
         <div v-else-if="sidebarContents === 2" class="px-3 py-2">
-          <checklist-entry :open="[this.sidebarUser, this.sidebarEntry]"/>
+          <checklist-entry :data="[this.sidebarUser, this.sidebarEntry]"/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
       </b-sidebar>
@@ -43,7 +43,9 @@ export default {
       this.openCreateSidebar(newVal)
     },
     contents(newVal) {
-      this.openEditSidebar(newVal)
+      if (newVal[0] > 0) {
+        this.openEditSidebar(newVal)
+      }
     }
   },
   methods: {
@@ -61,6 +63,7 @@ export default {
       }
     },
     openEditSidebar(components) {
+      console.log(components)
       this.sidebarContents = components[0]
       this.sidebarUser = components[1]
       this.sidebarEntry = components[2]
