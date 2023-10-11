@@ -4,32 +4,15 @@
       <h1>{ users }'s Checklists</h1>
     </div>
 
-    <b-card-group columns v-for="checklist in checklists" :key="checklist._id">
-      <b-card title={{ checklist.title }}>
-        <b-card-text v-for="item in checklist.items" :key="item">
-          <p>{{ checklist.items.item }}</p>
-        </b-card-text>
-      </b-card>
-    </b-card-group>
-
     <b-card-group columns>
-
-      <b-card header="Card with list group" v-model="checklists">
-        <b-list-group v-for="item in checklists" :key="item._id">
-          <b-list-group-item href="#">Dapibus ac facilisis in</b-list-group-item>
-          <b-list-group-item href="#">Vestibulum at eros</b-list-group-item>
-          <b-list-group-item>{{ item._id }}</b-list-group-item>
+      <b-card v-for="checklist in checklists" :key="checklist._id" header="checklist.title" v-model="checklists">
+        <router-link :to="{ name: 'checklistEntry', params: { uid: checklist.owner, cid: checklist._id } }">
+          <p>View and edit</p>
+        </router-link>
+        <b-list-group>
+          <b-list-group-item v-for="item in checklist.items" :key="item._id">{{ item }}</b-list-group-item>
         </b-list-group>
       </b-card>
-
-      <b-card>
-        <b-card-title>Title</b-card-title>
-        <b-card-text>
-          This card has supporting text below as a natural lead-in to additional content.
-        </b-card-text>
-        <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
-      </b-card>
-
     </b-card-group>
 
   </div>
