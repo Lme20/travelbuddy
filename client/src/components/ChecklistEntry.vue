@@ -76,6 +76,24 @@ export default {
       show: true
     }
   },
+  // props: {
+  //   user: {
+  //     type: String,
+  //     default: null
+  //   },
+  //   entry: {
+  //     type: String,
+  //     default: null
+  //   }
+  // },
+  // watch: {
+  //   user(newVal) {
+  //     this.userId = newVal
+  //   },
+  //   entry(newVal) {
+  //     this.entryId = newVal
+  //   }
+  // },
   mounted() {
     console.log('mounting')
     const uid = this.$route.params.uid

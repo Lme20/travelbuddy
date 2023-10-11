@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-center">
-      <h1>{ users }'s Checklists</h1>
+      <h1>Checklists</h1>
     </div>
 
     <b-card-group columns>
@@ -9,17 +9,22 @@
         <router-link :to="{ name: 'checklistEntry', params: { uid: checklist.owner, cid: checklist._id } }">
           <p>View and edit</p>
         </router-link>
+        <!-- <b-button @click="contentToDisplay=2, userId=checklist.owner, entryId=checklist._id">Edit Checklist</b-button> -->
         <b-list-group>
           <b-list-group-item v-for="item in checklist.items" :key="item._id">{{ item }}</b-list-group-item>
         </b-list-group>
       </b-card>
     </b-card-group>
 
+    <!-- <SidebarCreate :contentToDisplay="contentToDisplay" :userId="userId" :entryId="entryId" /> -->
+
   </div>
 </template>
 
 <script>
 import { Api } from '@/Api'
+// import SidebarCreate from '@/components/SidebarCreate.vue'
+
 export default {
   name: 'checklists',
   mounted() {
@@ -41,9 +46,14 @@ export default {
   },
   data() {
     return {
-      checklists: []
+      checklists: [],
+      username: '',
+      contentToDisplay: null
     }
-  }
+  }//
+  // components: {
+  //   SidebarCreate
+  // }
 }
 </script>
 
