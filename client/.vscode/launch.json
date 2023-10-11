@@ -11,6 +11,17 @@
       "sourceMapPathOverrides": {
         "webpack:///src/*": "${webRoot}/*"
       }
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "name": "Debug Client with Firefox",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}/src",
+      "breakOnLoad": true,
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
     }
   ]
 }

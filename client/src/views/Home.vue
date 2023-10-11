@@ -28,7 +28,7 @@
       <b-row class="h-100">
         <b-col lg="12" md="12" sm="12" class="h-100">
           <!-- Sidebar -->
-          <SidebarCreate :contentToDisplay="contentToDisplay" />
+          <right-sidebar :contentToDisplay="contentToDisplay" />
           <!-- Google map -->
         <GoogleMap ref="googleMapRef" :userLocation="userLocation" v-if="showMap"/>
         </b-col>
@@ -41,7 +41,7 @@
 import { Api } from '@/Api'
 import GoogleMap from '@/components/Map.vue'
 import axios from 'axios'
-import SidebarCreate from '@/components/SidebarCreate.vue'
+import RightSidebar from '@/components/RightSidebar.vue'
 
 export default {
   name: 'home',
@@ -110,7 +110,7 @@ export default {
     this.fetchImage()
   },
   components: {
-    SidebarCreate,
+    'right-sidebar': RightSidebar,
     GoogleMap
   }
 }
