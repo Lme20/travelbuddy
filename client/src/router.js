@@ -35,6 +35,11 @@ export default new Router({
       component: Locations
     },
     {
+      path: '/locations/:id', // Accept an id parameter
+      name: 'locationEntry',
+      component: Locations
+    },
+    {
       path: '/journals',
       name: 'journals',
       component: Journals
