@@ -5,7 +5,7 @@
     <b-card-group columns>
       <b-card header="Users">
         <b-button @click="contentToDisplay = 3">Create User</b-button>
-        <b-button variant="danger" @click="onDeleteUsers">Delete all</b-button>
+        <b-button variant="danger" @click="deleteUsers()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="user in users" :key="user._id">
             {{ user.name }}
@@ -13,7 +13,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Checklists">
-        <b-button variant="danger" @click="onDeleteChecklists">Delete all</b-button>
+        <b-button variant="danger" @click="deleteChecklists()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="checklist in checklists" :key="checklist._id">
             {{ checklist.title }}
@@ -21,7 +21,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Journals">
-        <b-button variant="danger" @click="onDeleteJournals">Delete all</b-button>
+        <b-button variant="danger" @click="deleteJournals()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="journal in Journals" :key="journal._id">
             {{ journal.title }}
@@ -29,7 +29,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Locations">
-        <b-button variant="danger" @click="onDeleteLocations">Delete all</b-button>
+        <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="location in locations" :key="location._id">
             {{ location.placeName }}
@@ -123,10 +123,56 @@ export default {
           console.log('This runs every time after success or error.')
         })
     },
+    deleteUsers() {
+      Api.delete('/users')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getUsers())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteChecklists() {
+      Api.delete('/checklists')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getChecklists())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteJournals() {
+      Api.delete('/journals')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getJournals())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteLocations() {
+      Api.delete('/locations')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getLocations())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
       this.createUser()
+      this.getUsers()
+      this.$router.push({ path: '/settings' })
     },
     onReset(event) {
       event.preventDefault()
@@ -144,6 +190,7 @@ export default {
       Api.post('/users', this.form)
         .then(response => {
           console.log('Success: ', response.data)
+          this.$router.push({ path: '/settings' })
           // TODO set cookie?
         })
         .catch(error => {
