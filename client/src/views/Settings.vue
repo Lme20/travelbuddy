@@ -1,6 +1,6 @@
 <template>
   <div class="col-9">
-    <h1>Settings</h1>
+    <h1>Settings (i.e. temporary test data page)</h1>
 
     <b-card-group columns>
       <b-card header="Users">

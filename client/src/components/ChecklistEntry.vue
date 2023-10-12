@@ -2,6 +2,14 @@
   <div>
     <b-form id="checklist-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
+        <b-form-select
+          id="ownerselect"
+          v-model="owner"
+          :options="users"
+          :text-field="'name'"
+          :value-field="'_id'"
+        ></b-form-select>
+
       <b-form-group id="titleInput" label="" label-for="titleInput">
         <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title..." required></b-form-input>
       </b-form-group>
@@ -60,6 +68,7 @@ export default {
         items: [],
         location: ''
       },
+      users: [],
       locations: [],
       elem: '',
       owner: null,
@@ -78,24 +87,21 @@ export default {
     }
   },
   mounted() {
-    console.log('mounting')
-    console.log(this.data)
-    if (this.data) {
-      this.loadData(this.data)
+    this.getUsers()
+    if (this.data[0]) {
+      const uid = this.data[0]
+      const cid = this.data[1]
+      this.owner = uid
+      this.getChecklist(uid, cid)
     } else {
       const uid = this.$route.params.uid
       const cid = this.$route.params.cid
       this.owner = uid
       this.getChecklist(uid, cid)
     }
+    console.log(this.owner)
   },
   methods: {
-    loadData(components) {
-      const uid = components[0]
-      const cid = components[1]
-      this.owner = uid
-      this.getChecklist(uid, cid)
-    },
     onAddItem() {
       this.form.items.push(this.elem)
     },
@@ -106,7 +112,7 @@ export default {
       event.preventDefault()
       alert(JSON.stringify(this.form))
       if (this.data[0]) {
-        this.putChecklist(this.data[1], this.data[2])
+        this.putChecklist(this.data[0], this.data[1])
       } else {
         this.postChecklist()
       }
@@ -168,6 +174,20 @@ export default {
         .catch(error => {
           console.error('Failure:', error)
           // Handle the error and display an error message to the user
+        })
+    },
+    getUsers() {
+      Api.get('/users')
+        .then(response => {
+          this.users = response.data.users
+        })
+        .catch(error => {
+          this.users = []
+          console.log(error)
+          //   TODO: display some error message instead of logging to console
+        })
+        .then(() => {
+          console.log('This runs every time after success or error.')
         })
     }
   }
