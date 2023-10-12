@@ -105,8 +105,11 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
-      console.log('postning to ' + this.owner)
-      this.postChecklist()
+      if (this.data[0]) {
+        this.putChecklist(this.data[1], this.data[2])
+      } else {
+        this.postChecklist()
+      }
     },
     onReset(event) {
       event.preventDefault()
@@ -139,7 +142,7 @@ export default {
         })
     },
     postChecklist() {
-      Api.post('/users/' + this.owner + '/checklists', this.form)
+      Api.post(`/users/${this.owner}/checklists`, this.form)
         .then(response => {
           console.log('Success: ', response.data)
         })

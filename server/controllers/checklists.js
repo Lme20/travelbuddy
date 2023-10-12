@@ -27,8 +27,11 @@ router.get('/api/checklists/:id', async (req, res) => {
         const checklist = await Checklist.findOne({_id:req.params.id});
         if (!checklist) {
             return res.status(404).send({ message: 'Checklist not found' });
+        } else if (!req.body.owner) {
+            res.status(400).send({ message: 'Owner missing' })
+        } else {
+            res.status(200).send({ 'checklists': checklist });
         }
-        res.status(200).send(checklist);
     } catch (error) {
         res.status(500).send({ message: 'Error in GET checklists/id', error: error.message });
     }
@@ -40,8 +43,11 @@ router.put('/api/checklists/:id', async (req, res) => {
         const checklist = await Checklist.findOneAndUpdate({_id:req.params.id}, req.body, { new: true });
         if (!checklist) {
             return res.status(404).send({ message: 'Checklist not found' });
+        } else if (!req.body.owner) {
+            res.status(400).send({ message: 'Owner missing' })
+        } else {
+            res.status(200).send(checklist);
         }
-        res.status(200).send(checklist);
     } catch (error) {
         res.status(500).send({ message: 'Error in PUT checklists/id', error: error.message });
     }
@@ -94,7 +100,7 @@ router.get('/api/users/:id/checklists', async (req, res) => {
         if (!user) {
             return res.status(404).send({message: "User not found"});
         }
-        res.send(user.checklists);
+        res.status(200).send({ 'checklists': user.checklists });
     } catch (error) {
         res.status(500).send({ message: 'Error in GET /users/id/checklists/', error: error.message });
     }
@@ -111,7 +117,7 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
         if (!checklist) {
             return res.status(404).send({ message: "Checklist not found" });
         }
-        res.send(checklist);
+        res.status(200).send({ 'checklists': checklist });
     } catch (error) {
         res.status(500).send({ message: 'Error in GET /users/uid/checklists/cid', error: error.message });
     }

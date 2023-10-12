@@ -1,65 +1,178 @@
 <template>
-    <div class="col-3">
-        <h1>Create new user</h1>
-      <b-form id="create-user" @submit="onSubmit" @reset="onReset" v-if="show">
+  <div class="col-9">
+    <h1>Settings</h1>
 
-        <b-form-group id="nameInput" label="" label-for="nameInput">
-          <b-form-input
-            id="nameInput"
-            v-model="form.name"
-            placeholder="Enter name..."
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="currencySelect" label="" label-for="currencySelect">
-          <b-form-select
-            id="currencySelect"
-            v-model="form.prefCurrency"
-            :options="currency"
-            required
-          ></b-form-select>
-        </b-form-group>
-
-        <b-form-group id="unitSelect" label="" label-for="unitSelect">
-          <b-form-select
-            id="unitSelect"
-            v-model="form.prefUnit"
-            :options="unit"
-            required
-          ></b-form-select>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
-      <b-card class="mt-3" header="Form Data Result">
-        <pre class="m-0">{{ form }}</pre>
+    <b-card-group columns>
+      <b-card header="Users">
+        <b-button @click="contentToDisplay = 3">Create User</b-button>
+        <b-button variant="danger" @click="deleteUsers()">Delete all</b-button>
+        <b-list-group>
+          <b-list-group-item v-for="user in users" :key="user._id">
+            {{ user.name }}
+          </b-list-group-item>
+        </b-list-group>
       </b-card>
-    </div>
-  </template>
+      <b-card header="Checklists">
+        <b-button variant="danger" @click="deleteChecklists()">Delete all</b-button>
+        <b-list-group>
+          <b-list-group-item v-for="checklist in checklists" :key="checklist._id">
+            {{ checklist.title }}
+          </b-list-group-item>
+        </b-list-group>
+      </b-card>
+      <b-card header="Journals">
+        <b-button variant="danger" @click="deleteJournals()">Delete all</b-button>
+        <b-list-group>
+          <b-list-group-item v-for="journal in Journals" :key="journal._id">
+            {{ journal.title }}
+          </b-list-group-item>
+        </b-list-group>
+      </b-card>
+      <b-card header="Locations">
+        <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
+        <b-list-group>
+          <b-list-group-item v-for="location in locations" :key="location._id">
+            {{ location.placeName }}
+          </b-list-group-item>
+        </b-list-group>
+      </b-card>
+    </b-card-group>
+
+    <right-sidebar :contentToDisplay="contentToDisplay" />
+  </div>
+</template>
 
 <script>
 import { Api } from '@/Api'
+import RightSidebar from '@/components/RightSidebar.vue'
 
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        prefCurrency: '',
-        prefUnit: ''
-      },
-      currency: [{ text: 'Currency...', value: null }, 'SEK', 'EUR', 'USD'],
-      unit: [{ text: 'Unit...', value: null }, 'metric', 'imperical'],
+      users: [],
+      checklists: [],
+      journals: [],
+      locations: [],
+      contentToDisplay: null,
       show: true
     }
   },
+  mounted() {
+    this.getUsers()
+    this.getChecklists()
+    this.getJournals()
+    this.getLocations()
+  },
+  components: {
+    'right-sidebar': RightSidebar
+  },
   methods: {
+    getUsers() {
+      Api.get('/users')
+        .then(response => {
+          this.users = response.data.users
+        })
+        .catch(error => {
+          this.users = []
+          console.log(error)
+          //   TODO: display some error message instead of logging to console
+        })
+        .then(() => {
+          console.log('This runs every time after success or error.')
+        })
+    },
+    getChecklists() {
+      Api.get('/checklists')
+        .then(response => {
+          this.checklists = response.data.checklists
+        })
+        .catch(error => {
+          this.checklists = []
+          console.log(error)
+          //   TODO: display some error message instead of logging to console
+        })
+        .then(() => {
+          console.log('This runs every time after success or error.')
+        })
+    },
+    getJournals() {
+      Api.get('/journals')
+        .then(response => {
+          this.journals = response.data.journals
+        })
+        .catch(error => {
+          this.journals = []
+          console.log(error)
+          //   TODO: display some error message instead of logging to console
+        })
+        .then(() => {
+          console.log('This runs every time after success or error.')
+        })
+    },
+    getLocations() {
+      Api.get('/locations')
+        .then(response => {
+          this.locations = response.data.locations
+        })
+        .catch(error => {
+          this.locations = []
+          console.log(error)
+          //   TODO: display some error message instead of logging to console
+        })
+        .then(() => {
+          console.log('This runs every time after success or error.')
+        })
+    },
+    deleteUsers() {
+      Api.delete('/users')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getUsers())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteChecklists() {
+      Api.delete('/checklists')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getChecklists())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteJournals() {
+      Api.delete('/journals')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getJournals())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
+    deleteLocations() {
+      Api.delete('/locations')
+        .then(response => {
+          console.log('Success:', response.data)
+        })
+        .then(this.getLocations())
+        .catch(error => {
+          console.error('Failure:', error)
+          // Handle the error and display an error message to the user
+        })
+    },
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
       this.createUser()
+      this.getUsers()
+      this.$router.push({ path: '/settings' })
     },
     onReset(event) {
       event.preventDefault()
@@ -77,6 +190,7 @@ export default {
       Api.post('/users', this.form)
         .then(response => {
           console.log('Success: ', response.data)
+          this.$router.push({ path: '/settings' })
           // TODO set cookie?
         })
         .catch(error => {
@@ -87,5 +201,4 @@ export default {
 }
 </script>
 
-  <style scoped>
-  </style>
+<style scoped></style>
