@@ -10,6 +10,10 @@
           <checklist-entry :data="[this.sidebarUser, this.sidebarEntry]"/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
+        <div v-else-if="sidebarContents === 3" class="px-3 py-2">
+          <user-entry :user="this.sidebarUser"/>
+          <b-button @click="closeSidebar">Close</b-button>
+        </div>
       </b-sidebar>
     </div>
   </template>
@@ -17,6 +21,7 @@
 <script>
 import JournalEntry from '@/components/JournalEntry.vue'
 import ChecklistEntry from '@/components/ChecklistEntry.vue'
+import UserEntry from '@/components/UserEntry.vue'
 
 export default {
   data() {
@@ -58,6 +63,8 @@ export default {
         this.sidebarTitle = 'Create Journal Entry'
       } else if (component === 2) {
         this.sidebarTitle = 'Create Checklist'
+      } else if (component === 3) {
+        this.sidebarTitle = 'Create User'
       } else {
         this.sidebarTitle = 'Create new'
       }
@@ -73,6 +80,8 @@ export default {
         this.sidebarTitle = 'Edit Journal Entry'
       } else if (components[0] === 2) {
         this.sidebarTitle = 'Edit Checklist'
+      } else if (components[0] === 3) {
+        this.sidebarTitle = 'Edit User'
       } else {
         this.sidebarTitle = 'Edit other'
       }
@@ -84,7 +93,8 @@ export default {
   },
   components: {
     'journal-entry': JournalEntry,
-    'checklist-entry': ChecklistEntry
+    'checklist-entry': ChecklistEntry,
+    'user-entry': UserEntry
   }
 }
 </script>

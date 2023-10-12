@@ -63,7 +63,6 @@ export default {
       locations: [],
       elem: '',
       owner: null,
-      httpmethod: () => { this.postChecklist() },
       show: true
     }
   },
@@ -143,7 +142,7 @@ export default {
         })
     },
     postChecklist() {
-      Api.post('/users/' + this.owner + '/checklists', this.form)
+      Api.post(`/users/${this.owner}/checklists`, this.form)
         .then(response => {
           console.log('Success: ', response.data)
         })

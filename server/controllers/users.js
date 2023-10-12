@@ -4,10 +4,15 @@ const User = require('../models/user');
 
 // POST user
 router.post('/api/users', async (req, res) => {
+    console.log(req.body.name)
     try {
-        const user = new User(req.body);
-        await user.save();
-        res.status(201).send(user);
+        if (req.body.name) {
+            const user = new User(req.body);
+            await user.save();
+            res.status(201).send(user);
+        } else {
+            res.status(400).send({ message: 'Name missing' });
+        }
     } catch (error) {
         res.status(500).send({ message: 'Error in POST /users', error: error.message });
     }
@@ -42,8 +47,11 @@ router.put('/api/users/:id', async (req, res) => {
         const user = await User.findOneAndUpdate({_id:req.params.id}, req.body, { new: true });
         if (!user) {
             return res.status(404).send({ message: 'User not found' });
+        } else if (!req.body.name) {
+            res.status(400).send({ message: 'Name missing' })
+        } else {
+            res.status(200).send(user);
         }
-        res.status(200).send(user);
     } catch (error) {
         res.status(500).send({ message: 'Error in PUT /user/id', error: error.message });
     }
