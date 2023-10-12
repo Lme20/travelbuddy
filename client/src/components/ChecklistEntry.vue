@@ -2,13 +2,18 @@
   <div>
     <b-form id="checklist-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
+      <b-form-group id="ownerSelect" label="User:" label-for="ownerSelect">
         <b-form-select
           id="ownerselect"
           v-model="owner"
           :options="users"
           :text-field="'name'"
           :value-field="'_id'"
-        ></b-form-select>
+          placeholder="Select user"
+          required
+        >
+      </b-form-select>
+      </b-form-group>
 
       <b-form-group id="titleInput" label="" label-for="titleInput">
         <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title..." required></b-form-input>
