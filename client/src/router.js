@@ -35,7 +35,7 @@ export default new Router({
       component: Locations
     },
     {
-      path: '/locations/:id', // Accept an id parameter
+      path: '/locations/:id',
       name: 'locationEntry',
       component: Locations
     },
