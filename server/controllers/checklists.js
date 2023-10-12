@@ -30,7 +30,7 @@ router.get('/api/checklists/:id', async (req, res) => {
         } else if (!req.body.owner) {
             res.status(400).send({ message: 'Owner missing' })
         } else {
-            res.status(200).send(checklist);
+            res.status(200).send({ 'checklists': checklist });
         }
     } catch (error) {
         res.status(500).send({ message: 'Error in GET checklists/id', error: error.message });
@@ -100,7 +100,7 @@ router.get('/api/users/:id/checklists', async (req, res) => {
         if (!user) {
             return res.status(404).send({message: "User not found"});
         }
-        res.send(user.checklists);
+        res.status(200).send({ 'checklists': user.checklists });
     } catch (error) {
         res.status(500).send({ message: 'Error in GET /users/id/checklists/', error: error.message });
     }
@@ -117,7 +117,7 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
         if (!checklist) {
             return res.status(404).send({ message: "Checklist not found" });
         }
-        res.send(checklist);
+        res.status(200).send({ 'checklists': checklist });
     } catch (error) {
         res.status(500).send({ message: 'Error in GET /users/uid/checklists/cid', error: error.message });
     }

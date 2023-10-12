@@ -22,7 +22,7 @@ router.post('/api/users', async (req, res) => {
 router.get('/api/users', async (req, res) => {
     try {
         const users = await User.find();
-        res.status(200).send(users);
+        res.status(200).send({ 'users': users });
     } catch (error) {
         res.status(500).send({ message: 'Error in GET /users', error: error.message });
     }
