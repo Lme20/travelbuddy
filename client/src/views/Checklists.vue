@@ -3,22 +3,29 @@
     <div class="text-center">
       <h1>Checklists</h1>
     </div>
+    <div v-if="checklists.length > 0">
+      <b-card-group columns>
+        <b-card v-for="checklist in checklists" :key="checklist._id" v-bind:header="checklist.title" v-model="checklists">
 
-    <b-card-group columns>
-      <b-card v-for="checklist in checklists" :key="checklist._id" v-bind:header="checklist.title" v-model="checklists">
+          <b-list-group>
+            <b-list-group-item v-for="item in checklist.items" :key="item._id">{{ item }}</b-list-group-item>
+          </b-list-group>
 
-        <b-list-group>
-          <b-list-group-item v-for="item in checklist.items" :key="item._id">{{ item }}</b-list-group-item>
-        </b-list-group>
+          <b-button-group>
+            <b-button variant="success"
+              @click="contentToDisplay = 2, userId = checklist.owner, entryId = checklist._id">Edit</b-button>
+            <b-button variant="danger" @click="onDelete(checklist.owner, checklist._id)">Delete</b-button>
+          </b-button-group>
+        </b-card>
+      </b-card-group>
 
-        <b-button-group>
-          <b-button variant="success" @click="contentToDisplay=2, userId=checklist.owner, entryId=checklist._id">Edit</b-button>
-          <b-button variant="danger" @click="onDelete(checklist.owner, checklist._id)">Delete</b-button>
-        </b-button-group>
-      </b-card>
-    </b-card-group>
-
-    <right-sidebar :contents="[contentToDisplay,userId,entryId]" />
+      <right-sidebar :contents="[contentToDisplay, userId, entryId]" />
+    </div>
+    <div v-else class="text-center">
+      <p>No checklists yet.</p>
+      <b-button variant="success" @click="contentToDisplay=2">Create new checklist</b-button>
+      <right-sidebar :contentToDisplay="contentToDisplay"/>
+    </div>
 
   </div>
 </template>

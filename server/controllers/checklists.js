@@ -4,7 +4,7 @@ const Checklist = require('../models/checklist');
 const User = require('../models/user');
 
 // POST checklist
-// should not be exposed? owner needed.
+// should not be exposed. owner needed.
 // router.post('/api/checklists', async (req, res) => {
 //     const checklist = new Checklist(req.body);
 //     await checklist.save();
@@ -62,15 +62,19 @@ router.put('/api/checklists/:id', async (req, res) => {
 // });
 
 // DELETE all checklists
-// Note: fix for owners needed (decoupling)
-// router.delete('/api/checklists', async (req, res) => {
-//     try {
-//         await Checklist.deleteMany({});
-//         res.status(200).send({ message: 'Success' });
-//     } catch (error) {
-//         res.status(500).send({ message: 'Error in DELETE checklists', error: error.message });
-//     }
-// });
+router.delete('/api/checklists', async (req, res) => {
+    try {
+        var users = await User.find();
+        for (user in users) {
+            user.checklists = [];
+            await user.save();
+        }
+        await Checklist.deleteMany({});
+        res.status(200).send({ message: 'Success' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error in DELETE checklists', error: error.message });
+    }
+});
 
 // DELETE checklist (id)
 // should probably not be exposed, use DELETE /users/:uid/checklists/:cid instead
