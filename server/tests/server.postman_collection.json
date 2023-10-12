@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ba98fc0-c4a1-4217-85d0-c6af1ed55916",
+		"_postman_id": "a38aa9ad-c837-4fdb-a474-ac152783319b",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "29410838"
@@ -823,47 +823,23 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}\r\n"
 						},
-						"url": {
-							"raw": "{{host}}/api/journals",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"journals"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /api/journals Copy",
-					"event": [
 						{
-							"listen": "prerequest",
+							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"// Save response data in environment variable\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.environment.set(\"journal_id1\", jsonData._id);\r",
+									"\r",
+									"// Use variable in later request\r",
+									"// GET {{host}}/api/locations/{{location_id}}\r",
+									"var getLocationId = pm.variables.get(\"journal_id1\");\r",
+									"\r",
+									"// Test assertion examples\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -885,7 +861,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}\r\n"
+							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "{{host}}/api/journals",
@@ -905,6 +881,15 @@
 					"event": [
 						{
 							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
 							"script": {
 								"exec": [
 									""
@@ -932,21 +917,15 @@
 							"raw": "{\r\n    \"locations\": \"Sweden\"}\r\n"
 						},
 						"url": {
-							"raw": "{{host}}/api/journals/:id/locations",
+							"raw": "{{host}}/api/journals/{{journal_id1}}/locations",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"journals",
-								":id",
+								"{{journal_id1}}",
 								"locations"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6527105d5f55f3610c529a9c"
-								}
 							]
 						}
 					},
@@ -1010,6 +989,15 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"protocolProfileBehavior": {
@@ -1034,20 +1022,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/journals/:id",
+							"raw": "{{host}}/api/journals/{{journal_id1}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"journals",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "652699b348001f3852912e23"
-								}
+								"{{journal_id1}}"
 							]
 						}
 					},
@@ -1088,72 +1070,15 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/journals/:id/locations",
+							"raw": "{{host}}/api/journals/{{journal_id1}}/locations",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"journals",
-								":id",
+								"{{journal_id1}}",
 								"locations"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "652699b348001f3852912e23"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete /api/journals/id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"mainBodyText\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}"
-						},
-						"url": {
-							"raw": "{{host}}/api/journals/:id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"journals",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "652699b348001f3852912e23"
-								}
 							]
 						}
 					},
@@ -1191,20 +1116,14 @@
 							"raw": "{\r\n    \"title\": \"Gothenburg visit1\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!1\",\r\n    \"date\": \"12-10-2023\",\r\n    \"locations\": \"Gothenburg\"\r\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/journals/:id",
+							"raw": "{{host}}/api/journals/{{journal_id1}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"journals",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "652699b348001f3852912e23"
-								}
+								"{{journal_id1}}"
 							]
 						}
 					},
@@ -1242,20 +1161,59 @@
 							"raw": "{\r\n    \"title\": \"Gothenburg visit2\"\r\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/journals/:id",
+							"raw": "{{host}}/api/journals/{{journal_id1}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"journals",
-								":id"
+								"{{journal_id1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /api/journals/id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"mainBodyText\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/journals/{{journal_id1}}",
+							"host": [
+								"{{host}}"
 							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "652699b348001f3852912e23"
-								}
+							"path": [
+								"api",
+								"journals",
+								"{{journal_id1}}"
 							]
 						}
 					},
