@@ -55,7 +55,7 @@ router.delete('/api/locations', async (req, res) => {
     }
 });
 
-// GET Single location by ID - NOT OK
+// GET Single location by ID - OK
 router.get('/api/locations/:id', async (req, res) => {
     var id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -71,7 +71,7 @@ router.get('/api/locations/:id', async (req, res) => {
 });
 
 
-// PUT (update) Single location by ID - NOT OK
+// PUT (update) Single location by ID - OK
 router.put('/api/locations/:id', async (req, res) => {
     try {
         var id = req.params.id;
@@ -83,7 +83,7 @@ router.put('/api/locations/:id', async (req, res) => {
     }
 });
 
-// PATCH (partial update) Single location by ID - NOT OK
+// PATCH (partial update) Single location by ID - OK
 router.patch('/api/locations/:id', async (req, res) => {
     try {
         const id = req.params.id;
