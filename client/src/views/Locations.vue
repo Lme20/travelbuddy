@@ -2,7 +2,7 @@
   <div>
     <h1>All Locations</h1>
     <div v-for="location in locations" :key="location._id">
-      <b-card :title="location.address" :img-src="imageUrls[location._id]" img-alt="Image" img-top>
+      <b-card :title="cityNames[location._id]" :img-src="imageUrls[location._id]" img-alt="Image" img-top>
         <b-card-text>
           {{ location.placeCoordinates.lat }}, {{ location.placeCoordinates.lng }}
         </b-card-text>
@@ -20,22 +20,37 @@ export default {
   data() {
     return {
       locations: [],
-      imageUrls: {}
+      imageUrls: {},
+      cityNames: {}
     }
   },
   async mounted() {
     try {
-      const id = this.$route.params.id // Get the id from the route parameter
-      const response = await Api.get(`/locations/${id}`)
-      this.locations = [response.data.location] // Make it an array for consistency
-      console.log('location response:', response.data) // Debug
+      const id = this.$route.params.id // Get the _id from the route parameters
 
-      // Fetch images for the location
-      const cityName = this.locations[0].address.split(',').pop().trim() // Extract city name from address
-      const imageUrl = await this.fetchUnsplashImage(cityName) // Use city name for image fetching
-      this.$set(this.imageUrls, this.locations[0]._id, imageUrl)
+      if (id) {
+        // Fetch a specific location by its _id
+        const response = await Api.get(`/locations/${id}`)
+        this.locations = [response.data] // Set it as an array containing only this location
+        console.log('API Response:', response.data) // DEBUG
+      } else {
+        // Fetch all locations (existing code)
+        const response = await Api.get('/locations')
+        this.locations = response.data
+        console.log('API Response:', response.data) // DEBUG
+      }
+
+      // Fetch images for each location
+      for (const location of this.locations) {
+        const cityName = location.address.split(',').pop().trim() // Extract city name from address
+        this.$set(this.cityNames, location._id, cityName)
+        console.log('Extracted City Name:', cityName) // Debug
+        const imageUrl = await this.fetchUnsplashImage(cityName) // Use city name for image fetching
+        this.$set(this.imageUrls, location._id, imageUrl)
+      }
     } catch (error) {
       console.error(error)
+      this.locations = [] // Set empty array in case of an error
     }
   },
   methods: {
