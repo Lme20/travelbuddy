@@ -67,7 +67,7 @@ export default {
       .then(response => {
         const journalData = response.data
         console.log('API Response:', journalData)
-        // Update your component's data with the fetched journal data
+
         this.form.title = journalData.title
         this.form.date = journalData.date
         this.form.journalTextEntry = journalData.journalTextEntry
@@ -75,32 +75,26 @@ export default {
       })
       .catch(error => {
         console.error('Error fetching journal data:', error)
-        // Handle errors or display an error message to the user
       })
     Api.get(`/journals/${journalId}/locations`)
       .then(response => {
         const locationsData = response.data
         console.log('Location Response:', locationsData)
-        // Update your component's data with the fetched journal data
         this.form.location = locationsData
       })
       .catch(error => {
         console.error('Error fetching journal data:', error)
-        // Handle errors or display an error message to the user
       })
     Api.get('locations')
       .then(response => {
         console.log('Locations:', response)
         const locationData = response.data
-        // Create a Set to store unique location names
         const uniqueLocations = new Set(locationData.map(location => location.place_name))
 
-        // Convert the Set back to an array (if needed)
         this.locations = [...uniqueLocations]
       })
       .catch(error => {
         console.error('Error fetching location data:', error)
-        // Handle errors or display an error message to the user
       })
   },
   methods: {
@@ -121,7 +115,7 @@ export default {
       this.form.location = ''
       this.form.date = ''
       this.form.journalTextEntry = ''
-      // Trick to reset/clear native browser form validation state
+
       this.show = false
       this.$nextTick(() => {
         this.show = true
@@ -137,16 +131,26 @@ export default {
         })
         .catch(error => {
           console.error('Error deleting journal entry:', error)
-          // Handle the error and display an error message to the user
         })
     },
     updateJournalEntry(journalId) {
       const requestData = {
-        title: this.form.title,
         date: this.form.date,
         journalTextEntry: this.form.journalTextEntry,
         locations: this.form.location
       }
+      const patchTitle = {
+        title: this.form.title
+      }
+
+      Api.patch(`/journals/${journalId}`, patchTitle)
+        .then(response => {
+          console.log('Journal entry updated successfully patch:', response.data)
+        })
+        .catch(error => {
+          console.error('Error updating journal entry:', error)
+        // Handle the error, e.g., show an error message to the user
+        })
       Api.put(`/journals/${journalId}`, requestData)
         .then(response => {
           console.log('Journal entry updated successfully:', response.data)
@@ -176,6 +180,6 @@ export default {
 
 <style scoped>
 .container {
-  padding: 10px; /* Add padding to create spacing from side walls */
+  padding: 10px;
 }
 </style>

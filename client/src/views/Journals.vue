@@ -29,7 +29,6 @@ export default {
       .catch(error => {
         this.journals = []
         console.log(error)
-        //   TODO: display some error message instead of logging to console
       })
   },
   data() {
