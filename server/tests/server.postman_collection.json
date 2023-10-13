@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a38aa9ad-c837-4fdb-a474-ac152783319b",
+		"_postman_id": "52592d9a-831f-4730-b040-cad708d365f0",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29410838"
+		"_exporter_id": "19472229"
 	},
 	"item": [
 		{
@@ -1222,6 +1222,181 @@
 			]
 		},
 		{
+			"name": "locations",
+			"item": [
+				{
+					"name": "POST /api/locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save response data in environment variable",
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"location_id\", jsonData._id);",
+									"",
+									"// Use variable in later request",
+									"// GET {{host}}/api/locations/{{location_id}}",
+									"var getLocationId = pm.variables.get(\"location_id\");",
+									"",
+									"// Test assertion examples",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"placeId\": \"dummyPlaceId123\",\n  \"placeName\": \"Dummy Place\",\n  \"placeType\": [\"dummy_type1\", \"dummy_type2\"],\n  \"placeCoordinates\": {\n    \"lat\": 40.7128,\n    \"lng\": 74.0060\n  },\n  \"address\": \"123 Dummy St, Dummy City, DM\",\n  \"isVisited\": false,\n  \"optionalReview\": \"This is a dummy review.\",\n  \"isOnBucketlist\": true,\n  \"distanceToLocations\": 5.0,\n  \"checklists\": [],\n  \"activities\": [],\n  \"reviews\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/locations",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/locations",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/locations/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/locations/{{location_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{{location_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /api/locations/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/locations/{{location_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{{location_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/locations/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/locations/{{location_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{{location_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/locations/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/locations/{{location_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{{location_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/locations",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/locations",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "GET /api",
 			"event": [
 				{
@@ -1338,135 +1513,6 @@
 					"path": [
 						"api",
 						"activities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/locations",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /api/locations",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /api/locations",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /api/locations/:id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations/:uid",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations",
-						":uid"
-					],
-					"variable": [
-						{
-							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PUT /api/locations/:id",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations/:uid",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations",
-						":uid"
-					],
-					"variable": [
-						{
-							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH /api/locations/:id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/locations/:uid",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"locations",
-						":uid"
-					],
-					"variable": [
-						{
-							"key": "uid",
-							"value": "65020ad57d446e28d9bc598b"
-						}
 					]
 				}
 			},
