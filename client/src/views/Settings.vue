@@ -129,6 +129,7 @@ export default {
           console.log('Success:', response.data)
         })
         .then(this.getUsers())
+        .then(this.deleteChecklists())
         .catch(error => {
           console.error('Failure:', error)
           // Handle the error and display an error message to the user
