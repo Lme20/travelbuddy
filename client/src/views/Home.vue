@@ -2,41 +2,43 @@
   <div class="home-container" :style="{ backgroundImage: `url(${backgroundImage})` }">
     <div class="hero-section">
       <h1>EXPLORE THE WORLD</h1>
-      <b-button @click="scrollToMap" class="button-style">Find my destination</b-button>
-      <!-- <user-modal :options="showModal"/> -->
-      <b-modal id="user-modal" v-model="show" hide-footer>
+      <b-button @click="scrollToMap" class="b-button">Find my destination</b-button>
+      <!--<user-modal :options="show"/>-->
+      <b-modal id="user-modal" v-model="showModal" hide-footer>
         <template #modal-title>
             Create new user
         </template>
         <user-entry/>
         <b-button class="mt-3" block @click="$bvModal.hide('user-modal').then(getUsers())">Close</b-button>
-    </b-modal>
+      </b-modal>
     </div>
-    <b-container fluid>
-      <!-- Input and Button for Location -->
-      <b-form @submit.prevent="addLocation">
-        <b-form-group label="Enter your destination" description="placeholder text" label-cols-sm="4" label-cols-lg="3"
-          content-cols-sm content-cols-lg="7">
-          <div class="d-flex align-items-center">
-            <!-- Create location request -->
-            <b-input v-model="userLocation" placeholder="Where are you going?" size="sm" class="search-box"></b-input>
-            <b-button type="submit">Confirm Location</b-button>
-            <!-- Create journal request -->
-            <b-button @click="contentToDisplay = 1">Create Journal</b-button>
-            <!-- Create checklist request -->
-            <b-button @click="contentToDisplay = 2">Create Checklist</b-button>
-          </div>
-        </b-form-group>
-      </b-form>
-      <b-row class="h-100">
-        <b-col lg="12" md="12" sm="12" class="h-100">
-          <!-- Sidebar -->
-          <right-sidebar :contentToDisplay="contentToDisplay" />
-          <!-- Google map -->
-          <GoogleMap ref="googleMapRef" :userLocation="userLocation" v-if="showMap" />
-        </b-col>
-      </b-row>
-    </b-container>
+    <div v-if="showMap">
+      <b-container fluid>
+        <!-- Input and Button for Location -->
+        <b-form @submit.prevent="addLocation">
+          <b-form-group label="Enter your destination" description="placeholder text" label-cols-sm="4" label-cols-lg="3"
+            content-cols-sm content-cols-lg="7">
+            <div class="d-flex align-items-center">
+              <!-- Create location request -->
+              <b-input v-model="userLocation" placeholder="Where are you going?" size="sm" class="search-box"></b-input>
+              <b-button type="submit">Confirm Location</b-button>
+              <!-- Create journal request -->
+              <b-button @click="contentToDisplay = 1">Create Journal</b-button>
+              <!-- Create checklist request -->
+              <b-button @click="contentToDisplay = 2">Create Checklist</b-button>
+            </div>
+          </b-form-group>
+        </b-form>
+        <b-row class="h-100">
+          <b-col lg="12" md="12" sm="12" class="h-100">
+            <!-- Sidebar -->
+            <right-sidebar :contentToDisplay="contentToDisplay" />
+            <!-- Google map -->
+            <GoogleMap ref="googleMapRef" :userLocation="userLocation"/>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
@@ -56,7 +58,7 @@ export default {
       showMap: false,
       showModal: false,
       backgroundImage: '',
-      contentToDisplay: null,
+      contentToDisplay: 0,
       isButtonActive: false,
       users: []
     }
@@ -143,6 +145,8 @@ export default {
 </script>
 
 <style scoped>
+
+/* CONTAINER STYLING */
 .home-container {
   height: 100vh;
   /* Making it full height */
@@ -159,7 +163,22 @@ export default {
   justify-content: center;
 }
 
-.button-style {
+/* LINK STYLING */
+/* Default link styling */
+.b-link {
+  color: #596267;
+  text-decoration: none;
+}
+
+/* Selected link styling */
+.selected-link {
+  color: #e751e4;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* BUTTON STYLING */
+.b-button {
   border-color: #e751e4;
   background: #e070de00;
   border-width: 2px;
@@ -170,16 +189,36 @@ export default {
   text-transform: uppercase;
 }
 
-.button-style:hover {
+.b-button:hover {
+  background-color: #e751e4;
+  border-color: #e751e4;
+}
+.b-button:active {
   background-color: #e751e4;
   border-color: #e751e4;
 }
 
-.button-style:active {
+.b-location {
+  border: none;
+  background: #596267;
+  font-family: var(--ff-montserrat);
+  border-radius: 100px;
+  padding: 10px 30px;
+  color: var(--white);
+  margin: 0 10px;
+}
+
+.b-location:hover {
   background-color: #e751e4;
   border-color: #e751e4;
 }
 
+.b-location:active {
+  background-color: #e751e4;
+  border-color: #e751e4;
+}
+
+/* HERO STYLING */
 .hero-section {
   align-items: center;
   text-align: center;
@@ -188,7 +227,7 @@ export default {
   padding-top: 350px;
   height: 100vh;
   background-blend-mode: overlay;
-  border-bottom: 2px solid hsla(0, 0%, 100%, 0.1);
+  border-bottom: 4px solid hsla(0, 0%, 100%, 0.1);
 }
 
 .hero-section h1 {
@@ -198,11 +237,10 @@ export default {
 
 .hero-section button {
   margin-top: 60px;
-  /* Styling as you wish */
 }
 
+/* TEXTFIELD STYLING */
 .search-box {
   width: 30%;
-  /* or whatever width you prefer */
 }
 </style>

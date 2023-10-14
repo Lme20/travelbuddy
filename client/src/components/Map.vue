@@ -123,6 +123,8 @@ export default {
             console.log('Marker placed at: ', result.geometry.location) // Debug
           }
         })
+        // Set the zoom level to 2 after placing markers
+        this.googleMapInstance.setZoom(13)
       } catch (error) {
         console.error('Error in placeMarkers:', error)
       }
