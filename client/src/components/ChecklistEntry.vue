@@ -130,11 +130,9 @@ export default {
     },
     onReset(event) {
       event.preventDefault()
-      // Reset our form values
       this.form.title = ''
       this.form.items = []
       this.form.location = ''
-      // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
         this.show = true
@@ -148,14 +146,12 @@ export default {
       Api.get(`/users/${uid}/checklists/${cid}`)
         .then(response => {
           console.log('got ', response.data)
-          // Update your component's data with the fetched journal data
           this.form.title = response.data.title
           this.form.location = response.data.location
           this.form.items = response.data.items
         })
         .catch(error => {
           console.error('Error fetching checklist data:', error)
-          // Handle errors or display an error message to the user
         })
     },
     postChecklist() {
@@ -184,7 +180,6 @@ export default {
         })
         .catch(error => {
           console.error('Failure:', error)
-          // Handle the error and display an error message to the user
         })
     },
     getUsers() {
@@ -195,7 +190,6 @@ export default {
         .catch(error => {
           this.users = []
           console.log(error)
-          //   TODO: display some error message instead of logging to console
         })
     }//,
     // getLocationss() {
@@ -206,7 +200,6 @@ export default {
     //     .catch(error => {
     //       this.locations = []
     //       console.log(error)
-    //       //   TODO: display some error message instead of logging to console
     //     })
     // }
   }
