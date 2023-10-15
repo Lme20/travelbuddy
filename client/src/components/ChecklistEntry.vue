@@ -93,9 +93,7 @@ export default {
     }
   },
   watch: {
-    data(newVal) {
-      this.loadData(newVal)
-    }
+    data(newVal) {}
   },
   mounted() {
     this.getUsers()
@@ -110,7 +108,6 @@ export default {
       this.owner = uid
       this.getChecklist(uid, cid)
     }
-    console.log(this.owner)
   },
   methods: {
     onAddItem() {
@@ -145,7 +142,6 @@ export default {
     getChecklist(uid, cid) {
       Api.get(`/users/${uid}/checklists/${cid}`)
         .then(response => {
-          console.log('got ', response.data)
           this.form.title = response.data.title
           this.form.location = response.data.location
           this.form.items = response.data.items

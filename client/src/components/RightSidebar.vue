@@ -3,7 +3,7 @@
       <b-sidebar v-model="sidebarOpen" id="sidebar-create" :title="sidebarTitle" right>
         <!-- Conditional content based on button clicked -->
         <div v-if="sidebarContents === 1" class="px-3 py-2">
-          <journal-entry :id="this.sidebarEntry"/>
+          <journal-entry :entry="this.sidebarEntry"/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
         <div v-else-if="sidebarContents === 2" class="px-3 py-2">
@@ -78,6 +78,8 @@ export default {
 
       if (components[0] === 1) {
         this.sidebarTitle = 'Edit Journal Entry'
+        console.log('rsb user: ' + this.sidebarUser)
+        console.log('rsb entry: ' + this.sidebarEntry)
       } else if (components[0] === 2) {
         this.sidebarTitle = 'Edit Checklist'
       } else if (components[0] === 3) {

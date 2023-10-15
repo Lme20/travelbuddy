@@ -6,7 +6,7 @@
       </div>
       <div v-if="journals.length > 0">
         <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4">
-          <b-link @click="contentToDisplay = 1, entryId = journal._id">
+          <b-link @click="contentToDisplay = 1, userId = journal.owner, entryId = journal._id">
             {{ journal.title }}
           </b-link>
           <div>

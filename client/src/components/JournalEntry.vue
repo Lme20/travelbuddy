@@ -1,27 +1,43 @@
 <template>
   <div class="container">
-    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show">
+    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show" v-model="form">
 
       <b-form-group id="ownerSelect" label="User:" label-for="ownerSelect">
-        <b-form-select id="ownerselect" v-model="owner" :options="users" :text-field="'name'" :value-field="'_id'"
-          placeholder="Select user" required></b-form-select>
+        <b-form-select id="ownerselect"
+          v-model="owner"
+          :options="users"
+          :text-field="'name'"
+          :value-field="'_id'"
+          placeholder="Select user"
+          required></b-form-select>
       </b-form-group>
 
       <b-form-group id="titleInput" label="Your Title:" label-for="titleInput">
-        <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title" required></b-form-input>
+        <b-form-input
+          id="titleInput"
+          v-model="form.title"
+          placeholder="Enter title"
+          required></b-form-input>
       </b-form-group>
 
       <b-form-group id="locationSelect" label="Locations:" label-for="locationSelect">
-        <b-form-select id="locationselect" v-model="form.location" :options="locations" :text-field="'name'"
+        <b-form-select
+          id="locationselect"
+          v-model="form.location"
+          :options="locations"
+          :text-field="'name'"
           :value-field="'name'"></b-form-select>
       </b-form-group>
 
       <b-form-group id="datePicker" label="Date:" label-for="datePicker">
-        <b-form-datepicker id="datepicker" v-model="form.date" class="mb-2"></b-form-datepicker>
+        <b-form-datepicker id="datepicker" v-model="form.date" class="mb-2"/>
       </b-form-group>
 
       <b-form-group id="journalEntryText" label="Journal entry:" label-for="journalEntryText">
-        <b-form-textarea id="journalentry" v-model="form.journalTextEntry" placeholder="Enter something..."
+        <b-form-textarea
+          id="journalentry"
+          v-model="form.journalTextEntry"
+          placeholder="Enter something..."
           rows="3"></b-form-textarea>
       </b-form-group>
 
@@ -41,6 +57,7 @@
 
 <script>
 import { Api } from '@/Api'
+
 export default {
   name: 'journalEntry',
   data() {
@@ -59,17 +76,18 @@ export default {
     }
   },
   props: {
-    id: {
+    entry: {
       type: String,
       default: null
     }
   },
   watch: {
-    id(newVal) {
+    entry(newVal) {
       this.journalId = newVal
     }
   },
   mounted() {
+    this.journalId = this.entry
     this.getUsers()
     this.getLocations()
     if (this.journalEntry) {
@@ -102,14 +120,14 @@ export default {
     },
     onDelete(event) {
       event.preventDefault()
-      this.deleteJournalEntry(this.journalId)
+      if (this.journalId) {
+        this.deleteJournalEntry(this.journalId)
+      }
     },
     getJournalEntry(journalId) {
       Api.get(`/journals/${journalId}`)
         .then(response => {
           const journalData = response.data
-          console.log('API Response:', journalData)
-
           this.form.title = journalData.title
           this.form.date = journalData.date
           this.form.journalTextEntry = journalData.journalTextEntry
@@ -201,7 +219,7 @@ export default {
       Api.delete(`/journals/${journalId}`)
         .then(response => {
           console.log('Journal entry deleted successfully:', response.data)
-          this.$router.push({ path: '/journals' })
+          // this.$router.push({ path: '/journals' })
         })
         .catch(error => {
           console.error('Error deleting journal entry:', error)
