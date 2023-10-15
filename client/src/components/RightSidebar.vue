@@ -3,7 +3,7 @@
       <b-sidebar v-model="sidebarOpen" id="sidebar-create" :title="sidebarTitle" right>
         <!-- Conditional content based on button clicked -->
         <div v-if="sidebarContents === 1" class="px-3 py-2">
-          <journal-entry/>
+          <journal-entry :entry="this.sidebarEntry"/>
           <b-button @click="closeSidebar">Close</b-button>
         </div>
         <div v-else-if="sidebarContents === 2" class="px-3 py-2">
@@ -70,7 +70,6 @@ export default {
       }
     },
     openEditSidebar(components) {
-      console.log(components)
       this.sidebarContents = components[0]
       this.sidebarUser = components[1]
       this.sidebarEntry = components[2]

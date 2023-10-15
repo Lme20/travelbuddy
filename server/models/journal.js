@@ -7,8 +7,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/animalDevelopmentDB',
 */
 
 var journalSchema = new Schema({
-    title: { type: String },
-    journalTextEntry: { type: String },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'user' , required: true },
+    title: { type: String, required: true },
+    journalTextEntry: { type: String, required: true },
     date: { type: Date },
     locations: {  type: String, ref: 'locations'}
 });

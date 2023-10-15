@@ -11,12 +11,16 @@
           :value-field="'_id'"
           placeholder="Select user"
           required
-        >
-      </b-form-select>
+        ></b-form-select>
       </b-form-group>
 
       <b-form-group id="titleInput" label="" label-for="titleInput">
-        <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title..." required></b-form-input>
+        <b-form-input
+          id="titleInput"
+          v-model="form.title"
+          placeholder="Enter title..."
+          required
+        ></b-form-input>
       </b-form-group>
 
       <!-- <b-form-group id="locationSelect" label="" label-for="locationSelect">
@@ -24,7 +28,9 @@
           id="locationSelect"
           v-model="form.location"
           :options="locations"
-          required
+          :text-field="'title'"
+          :value-field="'_id'"
+          placeholder="Select location"
         ></b-form-select>
       </b-form-group> -->
 
@@ -87,9 +93,7 @@ export default {
     }
   },
   watch: {
-    data(newVal) {
-      this.loadData(newVal)
-    }
+    data(newVal) {}
   },
   mounted() {
     this.getUsers()
@@ -104,7 +108,6 @@ export default {
       this.owner = uid
       this.getChecklist(uid, cid)
     }
-    console.log(this.owner)
   },
   methods: {
     onAddItem() {
@@ -124,11 +127,9 @@ export default {
     },
     onReset(event) {
       event.preventDefault()
-      // Reset our form values
       this.form.title = ''
       this.form.items = []
       this.form.location = ''
-      // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
         this.show = true
@@ -141,15 +142,12 @@ export default {
     getChecklist(uid, cid) {
       Api.get(`/users/${uid}/checklists/${cid}`)
         .then(response => {
-          console.log('got ', response.data)
-          // Update your component's data with the fetched journal data
           this.form.title = response.data.title
           this.form.location = response.data.location
           this.form.items = response.data.items
         })
         .catch(error => {
           console.error('Error fetching checklist data:', error)
-          // Handle errors or display an error message to the user
         })
     },
     postChecklist() {
@@ -178,7 +176,6 @@ export default {
         })
         .catch(error => {
           console.error('Failure:', error)
-          // Handle the error and display an error message to the user
         })
     },
     getUsers() {
@@ -189,12 +186,18 @@ export default {
         .catch(error => {
           this.users = []
           console.log(error)
-          //   TODO: display some error message instead of logging to console
         })
-        .then(() => {
-          console.log('This runs every time after success or error.')
-        })
-    }
+    }//,
+    // getLocationss() {
+    //   Api.get('/locations')
+    //     .then(response => {
+    //       this.locations = response.data.locations
+    //     })
+    //     .catch(error => {
+    //       this.locations = []
+    //       console.log(error)
+    //     })
+    // }
   }
 }
 </script>

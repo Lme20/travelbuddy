@@ -6,7 +6,7 @@
     <div v-if="checklists.length > 0">
       <b-card-group columns>
         <b-card v-for="checklist in checklists" :key="checklist._id" v-bind:header="checklist.title" v-model="checklists">
-
+          <!-- <p>At {{ checklist.location.placeName }}</p> -->
           <b-list-group>
             <b-list-group-item v-for="item in checklist.items" :key="item._id">{{ item }}</b-list-group-item>
           </b-list-group>
@@ -37,13 +37,11 @@ import RightSidebar from '@/components/RightSidebar.vue'
 export default {
   name: 'checklists',
   mounted() {
-    console.log('PAGE is loaded!')
     this.getChecklists()
   },
   data() {
     return {
       checklists: [],
-      username: '',
       contentToDisplay: null,
       userId: '',
       entryId: ''
@@ -65,9 +63,6 @@ export default {
           console.log(error)
           //   TODO: display some error message instead of logging to console
         })
-        .then(() => {
-          console.log('This runs every time after success or error.')
-        })
     },
     onDelete(user, entry) {
       Api.delete('/users/' + user + '/checklists/' + entry)
@@ -79,9 +74,6 @@ export default {
           this.checklists = []
           console.log(error)
           //   TODO: display some error message instead of logging to console
-        })
-        .then(() => {
-          console.log('This runs every time after success or error.')
         })
     }
   }
