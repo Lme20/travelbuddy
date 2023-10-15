@@ -159,8 +159,8 @@ export default {
           console.log('Failure: ', error)
         })
     },
-    putChecklist(cid) {
-      Api.put(`/checklists/${cid}`, this.form)
+    putChecklist(uid, cid) {
+      Api.put(`/users/${uid}/checklists/${cid}`, this.form)
         .then(response => {
           console.log('Success: ', response.data)
         })
