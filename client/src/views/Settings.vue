@@ -21,7 +21,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Journals">
-        <b-button variant="danger" @click="deleteJournals()">Delete all</b-button>
+        <b-button variant="danger" @click="deleteJournals(journals)">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="journal in journals" :key="journal._id">
             {{ journal.title }}
@@ -117,7 +117,8 @@ export default {
           console.log('Success:', response.data)
         })
         .then(this.getUsers())
-        .then(this.deleteChecklists())
+        // .then(this.deleteUserChecklists())
+        // .then(this.deleteUserJournals())
         .catch(error => {
           console.error('Failure:', error)
           // Handle the error and display an error message to the user
@@ -134,16 +135,18 @@ export default {
           // Handle the error and display an error message to the user
         })
     },
-    deleteJournals() {
-      Api.delete('/journals')
-        .then(response => {
-          console.log('Success:', response.data)
-        })
-        .then(this.getJournals())
-        .catch(error => {
-          console.error('Failure:', error)
+    deleteJournals(ids) {
+      for (let i = 0; i < ids.length; i++) {
+        Api.delete(`/journals/${ids[i]._id}`)
+          .then(response => {
+            console.log('Success:', response.data)
+          })
+          .then(this.getJournals())
+          .catch(error => {
+            console.error('Failure:', error)
           // Handle the error and display an error message to the user
-        })
+          })
+      }
     },
     deleteLocations() {
       Api.delete('/locations')
