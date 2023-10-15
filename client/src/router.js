@@ -5,7 +5,6 @@ import Settings from './views/Settings.vue'
 import About from './views/About.vue'
 import Locations from './views/Locations.vue'
 import Journals from './views/Journals.vue'
-import JournalEntry from './components/JournalEntry.vue'
 import Checklists from './views/Checklists.vue'
 
 Vue.use(Router)
@@ -43,11 +42,6 @@ export default new Router({
       path: '/journals',
       name: 'journals',
       component: Journals
-    },
-    {
-      path: '/journalEntry/:id',
-      name: 'journalEntry',
-      component: JournalEntry
     },
     {
       path: '/checklists',
