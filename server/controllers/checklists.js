@@ -64,11 +64,11 @@ router.put('/api/checklists/:id', async (req, res) => {
 // DELETE all checklists
 router.delete('/api/checklists', async (req, res) => {
     try {
-        var users = await User.find();
-        for (user in users) {
-            user.checklists = [];
-            await user.save();
-        }
+        // var users = await User.find();
+        // for (user in users) {
+        //     user.checklists = [];
+        //     await user.save();
+        // }
         await Checklist.deleteMany({});
         res.status(200).send({ message: 'Success' });
     } catch (error) {
