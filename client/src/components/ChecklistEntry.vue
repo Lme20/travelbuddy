@@ -11,12 +11,16 @@
           :value-field="'_id'"
           placeholder="Select user"
           required
-        >
-      </b-form-select>
+        ></b-form-select>
       </b-form-group>
 
       <b-form-group id="titleInput" label="" label-for="titleInput">
-        <b-form-input id="titleInput" v-model="form.title" placeholder="Enter title..." required></b-form-input>
+        <b-form-input
+          id="titleInput"
+          v-model="form.title"
+          placeholder="Enter title..."
+          required
+        ></b-form-input>
       </b-form-group>
 
       <!-- <b-form-group id="locationSelect" label="" label-for="locationSelect">
@@ -24,7 +28,9 @@
           id="locationSelect"
           v-model="form.location"
           :options="locations"
-          required
+          :text-field="'title'"
+          :value-field="'_id'"
+          placeholder="Select location"
         ></b-form-select>
       </b-form-group> -->
 
@@ -191,10 +197,18 @@ export default {
           console.log(error)
           //   TODO: display some error message instead of logging to console
         })
-        .then(() => {
-          console.log('This runs every time after success or error.')
-        })
-    }
+    }//,
+    // getLocationss() {
+    //   Api.get('/locations')
+    //     .then(response => {
+    //       this.locations = response.data.locations
+    //     })
+    //     .catch(error => {
+    //       this.locations = []
+    //       console.log(error)
+    //       //   TODO: display some error message instead of logging to console
+    //     })
+    // }
   }
 }
 </script>
