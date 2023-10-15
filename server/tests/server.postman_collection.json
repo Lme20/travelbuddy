@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "52592d9a-831f-4730-b040-cad708d365f0",
+		"_postman_id": "a6168c59-e6a6-4236-8744-e6587e1684e8",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19472229"
+		"_exporter_id": "29410972"
 	},
 	"item": [
 		{
@@ -813,6 +813,62 @@
 			"name": "journals",
 			"item": [
 				{
+					"name": "POST /api/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.environment.set(\"user_id\", jsonData._id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"user!\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/users/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST /api/journals",
 					"event": [
 						{
@@ -861,7 +917,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\"\r\n}\r\n"
+							"raw": "{\r\n    \"title\": \"Gothenburg visit\",\r\n    \"journalTextEntry\": \"Gothenburg is a great place to visit!\",\r\n    \"date\": \"12-09-2023\",\r\n    \"owner\": \"{{user_id}}\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "{{host}}/api/journals",

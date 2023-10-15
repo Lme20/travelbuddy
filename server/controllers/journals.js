@@ -71,6 +71,7 @@ router.patch('/api/journals/:id', async function (req, res, next) {
         journal.journalTextEntry = (req.body.journalTextEntry || journal.journalTextEntry);
         journal.date = (req.body.date || journal.date);
         journal.locations = (req.body.locations || journal.locations)
+        journal.owner = (req.body.owner || journal.owner)
         await journal.save();
 
         res.json(journal);
