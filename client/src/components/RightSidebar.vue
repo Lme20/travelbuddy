@@ -70,7 +70,6 @@ export default {
       }
     },
     openEditSidebar(components) {
-      console.log(components)
       this.sidebarContents = components[0]
       this.sidebarUser = components[1]
       this.sidebarEntry = components[2]
@@ -78,8 +77,6 @@ export default {
 
       if (components[0] === 1) {
         this.sidebarTitle = 'Edit Journal Entry'
-        console.log('rsb user: ' + this.sidebarUser)
-        console.log('rsb entry: ' + this.sidebarEntry)
       } else if (components[0] === 2) {
         this.sidebarTitle = 'Edit Checklist'
       } else if (components[0] === 3) {

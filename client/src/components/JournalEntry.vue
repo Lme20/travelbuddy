@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show" v-model="form">
+    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show">
 
       <b-form-group id="ownerSelect" label="User:" label-for="ownerSelect">
         <b-form-select id="ownerselect"
@@ -38,7 +38,8 @@
           id="journalentry"
           v-model="form.journalTextEntry"
           placeholder="Enter something..."
-          rows="3"></b-form-textarea>
+          rows="3"
+          required></b-form-textarea>
       </b-form-group>
 
       <div class="d-flex justify-content-between">
@@ -90,7 +91,7 @@ export default {
     this.journalId = this.entry
     this.getUsers()
     this.getLocations()
-    if (this.journalEntry) {
+    if (this.journalId) {
       this.getJournalEntry(this.journalId)
       this.getJournalLocations(this.journalId)
     }
@@ -100,7 +101,6 @@ export default {
       event.preventDefault()
       if (this.journalId) {
         this.updateJournalEntry(this.journalId)
-        this.$router.push({ path: '/journals' })
       } else {
         this.createJournalEntry()
       }
@@ -142,7 +142,7 @@ export default {
       Api.get(`/journals/${journalId}/locations`)
         .then(response => {
           const locationsData = response.data
-          console.log('Location Response:', locationsData)
+          // console.log('Location Response:', locationsData)
           this.form.location = locationsData
         })
         .catch(error => {
@@ -152,7 +152,7 @@ export default {
     getLocations() {
       Api.get('/locations')
         .then(response => {
-          console.log('Locations:', response)
+          // console.log('Locations:', response)
           const locationData = response.data
           const uniqueLocations = new Set(locationData.map(location => location.place_name))
 
@@ -230,7 +230,6 @@ export default {
       Api.delete(`/journals/${id}`)
         .then(response => {
           console.log('Journal entry deleted successfully:', response.data)
-          // this.$router.push({ path: '/journals' })
         })
         .catch(error => {
           console.error('Error deleting journal entry:', error)
