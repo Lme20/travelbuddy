@@ -1,6 +1,6 @@
 <template>
   <div class="col-9">
-    <h1>Settings (i.e. temporary test data page)</h1>
+    <h1>All entries</h1>
 
     <b-card-group columns>
       <b-card header="Users">
@@ -23,7 +23,7 @@
       <b-card header="Journals">
         <b-button variant="danger" @click="deleteJournals()">Delete all</b-button>
         <b-list-group>
-          <b-list-group-item v-for="journal in Journals" :key="journal._id">
+          <b-list-group-item v-for="journal in journals" :key="journal._id">
             {{ journal.title }}
           </b-list-group-item>
         </b-list-group>
@@ -77,9 +77,6 @@ export default {
           console.log(error)
           //   TODO: display some error message instead of logging to console
         })
-        .then(() => {
-          console.log('This runs every time after success or error.')
-        })
     },
     getChecklists() {
       Api.get('/checklists')
@@ -90,9 +87,6 @@ export default {
           this.checklists = []
           console.log(error)
           //   TODO: display some error message instead of logging to console
-        })
-        .then(() => {
-          console.log('This runs every time after success or error.')
         })
     },
     getJournals() {
@@ -105,9 +99,6 @@ export default {
           console.log(error)
           //   TODO: display some error message instead of logging to console
         })
-        .then(() => {
-          console.log('This runs every time after success or error.')
-        })
     },
     getLocations() {
       Api.get('/locations')
@@ -118,9 +109,6 @@ export default {
           this.locations = []
           console.log(error)
           //   TODO: display some error message instead of logging to console
-        })
-        .then(() => {
-          console.log('This runs every time after success or error.')
         })
     },
     deleteUsers() {
