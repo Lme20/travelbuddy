@@ -183,21 +183,10 @@ export default {
         title: this.form.title
       }
 
-      Api.patch(`/journals/${journalId}`, patchTitle)
-        .then(response => {
-          console.log('Journal entry updated successfully patch:', response.data)
-        })
-        .catch(error => {
-          console.error('Error updating journal entry:', error)
-          // Handle the error, e.g., show an error message to the user
-        })
-      Api.put(`/journals/${journalId}`, requestData)
-        .then(response => {
-          console.log('Journal entry updated successfully:', response.data)
-        })
-        .catch(error => {
-          console.error('Error updating journal entry:', error)
-        })
+      if (journalId) {
+        this.patchJournalEntry(journalId, patchTitle)
+        this.putJournalEntry(journalId, requestData)
+      }
     },
     createJournalEntry() {
       const requestData = {
@@ -207,7 +196,10 @@ export default {
         locations: this.form.location,
         owner: this.owner
       }
-      Api.post('/journals', requestData)
+      this.postJournalEntry(requestData)
+    },
+    postJournalEntry(data) {
+      Api.post('/journals', data)
         .then(response => {
           console.log('New journal entry created successfully:', response.data)
         })
@@ -215,8 +207,27 @@ export default {
           console.error('Error creating new journal entry:', error)
         })
     },
-    deleteJournalEntry(journalId) {
-      Api.delete(`/journals/${journalId}`)
+    putJournalEntry(id, data) {
+      Api.put(`/journals/${id}`, data)
+        .then(response => {
+          console.log('Journal entry updated successfully:', response.data)
+        })
+        .catch(error => {
+          console.error('Error updating journal entry:', error)
+        })
+    },
+    patchJournalEntry(id, patchData) {
+      Api.patch(`/journals/${id}`, patchData)
+        .then(response => {
+          console.log('Journal entry updated successfully patch:', response.data)
+        })
+        .catch(error => {
+          console.error('Error updating journal entry:', error)
+          // Handle the error, e.g., show an error message to the user
+        })
+    },
+    deleteJournalEntry(id) {
+      Api.delete(`/journals/${id}`)
         .then(response => {
           console.log('Journal entry deleted successfully:', response.data)
           // this.$router.push({ path: '/journals' })
