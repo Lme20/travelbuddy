@@ -19,10 +19,6 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Location = require('../models/location');
-const Checklist = require('../models/checklist');
-const Activity = require('../models/activity');
-const Review = require('../models/review');
-const User = require('../models/user');
 
 // POST Create Location OK
 router.post('/api/locations', async (req, res) => {

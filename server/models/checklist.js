@@ -13,12 +13,12 @@ var checklistSchema = new Schema({
 module.exports = mongoose.model('Checklist', checklistSchema);
 
 // TODO this does not work.
-checklistSchema.pre('save', function(next) {
-    if (this.costItems != null) {
-        module.exports.aggregate(
-            this.totalCost = { $sum: "$cost" }
-        );
-        console.log("did it");
-    }
-    next()
-})
+// checklistSchema.pre('save', function(next) {
+//     if (this.costItems != null) {
+//         module.exports.aggregate(
+//             this.totalCost = { $sum: "$cost" }
+//         );
+//         console.log("did it");
+//     }
+//     next()
+// })
