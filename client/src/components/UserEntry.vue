@@ -69,7 +69,7 @@ export default {
     if (this.data) {
       this.getUser(this.data)
     } else {
-      this.getUser(this.$route.params.uid)
+      this.getUser(this.$route.params.id)
     }
   },
   methods: {
@@ -103,6 +103,7 @@ export default {
         .then(response => {
           console.log('got ', response.data)
           // Update your component's data with the fetched journal data
+          this.$emit('user-fetched', response.data)
           this.form.name = response.data.name
           this.form.prefCurrency = response.data.prefCurrency
           this.form.prefUnit = response.data.prefUnit
@@ -116,6 +117,9 @@ export default {
       Api.post('/users/', this.form)
         .then(response => {
           console.log('Success: ', response.data)
+
+          // Emit the 'user-added' event after successfully creating user
+          this.$emit('user-added')
         })
         .catch(error => {
           console.log('Failure: ', error)

@@ -14,7 +14,10 @@
     </div>
     <!-- Conditional rendering: Show table if a location is selected -->
     <div v-else>
-      <b-button @click="hideTable">X</b-button>
+      <b-iconstack @click="hideTable" font-scale="2.5" style="color: #e751e4;">
+        <b-icon stacked icon="square-fill" style="color: #e751e4;"></b-icon>
+        <b-icon stacked icon="BIconArrowLeft" variant="white"></b-icon>
+      </b-iconstack>
       <table class="locations-table">
         <thead>
           <tr>
@@ -217,6 +220,13 @@ export default {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  padding: 8px;
 }
 
 .landmark-color {

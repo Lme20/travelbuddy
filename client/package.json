@@ -11,6 +11,7 @@
     "@vue/runtime-dom": "^3.3.4",
     "axios": "^1.4.0",
     "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.11.1",
     "bootstrap-vue": "^2.23.1",
     "unsplash-js": "^7.0.18",
     "volar-service-vetur": "^0.0.14",

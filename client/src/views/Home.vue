@@ -2,14 +2,15 @@
   <div class="home-container" :style="{ backgroundImage: `url(${backgroundImage})` }">
     <div class="hero-section">
       <h1>EXPLORE THE WORLD</h1>
-      <b-button @click="scrollToMap" class="b-button">Find my destination</b-button>
+      <b-button v-if="users.length === 0" @click="$bvModal.show('user-modal')" class="b-button">Register to start exploring!</b-button>
+      <b-button v-if="users.length > 0" @click="scrollToMap" class="b-button">Find my destination</b-button>
       <!--<user-modal :options="show"/>-->
       <b-modal id="user-modal" v-model="showModal" hide-footer>
         <template #modal-title>
             Create new user
         </template>
-        <user-entry/>
-        <b-button class="mt-3" block @click="$bvModal.hide('user-modal').then(getUsers())">Close</b-button>
+        <user-entry @user-added="handleUserAdded"/>
+        <b-button class="mt-3" block @click="$bvModal.hide('user-modal')">Close</b-button>
       </b-modal>
     </div>
     <div v-if="showMap">
@@ -95,6 +96,10 @@ export default {
           this.message = error
         })
     },
+    handleUserAdded() {
+      this.getUsers() // Fetch updated list of users
+      this.showModal = false // Close modal
+    },
     async addLocation() {
       const apiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.userLocation}&key=${apiKey}`
@@ -118,17 +123,11 @@ export default {
       }
     },
     scrollToMap() {
-      this.getUsers()
-      if (this.users.length <= 0) {
-        this.$bvModal.show('user-modal')
-      } else {
-        this.showModal = false
-        this.showMap = true
-        this.$nextTick(() => {
-          const mapElement = this.$refs.googleMapRef.$el
-          mapElement.scrollIntoView({ behavior: 'smooth' })
-        })
-      }
+      this.showMap = true
+      this.$nextTick(() => {
+        const mapElement = this.$refs.googleMapRef.$el
+        mapElement.scrollIntoView({ behavior: 'smooth' })
+      })
     },
     async fetchImage() {
       try {
@@ -172,14 +171,14 @@ export default {
 
 /* Selected link styling */
 .selected-link {
-  color: #e751e4;
+  color: #fa70cd;
   font-weight: bold;
   text-decoration: none;
 }
 
 /* BUTTON STYLING */
 .b-button {
-  border-color: #e751e4;
+  border-color: #fa70cd;
   background: #e070de00;
   border-width: 2px;
   font-family: var(--ff-montserrat);
@@ -190,12 +189,12 @@ export default {
 }
 
 .b-button:hover {
-  background-color: #e751e4;
-  border-color: #e751e4;
+  background-color: #fa70cd;
+  border-color: #fa70cd;
 }
 .b-button:active {
-  background-color: #e751e4;
-  border-color: #e751e4;
+  background-color: #fa70cd;
+  border-color: #fa70cd;
 }
 
 .b-location {
@@ -209,13 +208,13 @@ export default {
 }
 
 .b-location:hover {
-  background-color: #e751e4;
-  border-color: #e751e4;
+  background-color: #fa70cd;
+  border-color: #fa70cd;
 }
 
 .b-location:active {
-  background-color: #e751e4;
-  border-color: #e751e4;
+  background-color: #fa70cd;
+  border-color: #fa70cd;
 }
 
 /* HERO STYLING */
