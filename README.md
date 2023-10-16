@@ -90,7 +90,7 @@ The travel companion is an app that helps you plan, track your travels, and crea
 
 ### Entity-Relationship (ER) Diagram
 
-![ER Diagram](./images/er_diagram.png)
+![ER Diagram](./images/ERdiagram_TravelBuddy.jpg)
 
 ## Teaser (MS3)
 
