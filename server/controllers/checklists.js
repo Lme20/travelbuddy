@@ -27,8 +27,6 @@ router.get('/api/checklists/:id', async (req, res) => {
         const checklist = await Checklist.findOne({_id:req.params.id});
         if (!checklist) {
             return res.status(404).send({ message: 'Checklist not found' });
-        } else if (!req.body.owner) {
-            res.status(400).send({ message: 'Owner missing' })
         } else {
             res.status(200).send(checklist);
         }

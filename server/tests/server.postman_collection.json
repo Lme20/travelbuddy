@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a6168c59-e6a6-4236-8744-e6587e1684e8",
+		"_postman_id": "8b9ced7a-a6b2-4319-94d6-4c98cf79874e",
 		"name": "server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "29410972"
@@ -26,24 +26,19 @@
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();",
-									"var userId = jsonData._id",
-									"pm.environment.set(\"_id\", userId);",
-									"",
-									"var getUserId = pm.variables.get(\"_id\");",
+									"pm.environment.set(\"user_id\", jsonData._id);",
 									"",
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"",
 									"pm.test(\"Contents are correct\", function () {",
-									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.name).to.eql(\"Ben\");",
 									"    pm.expect(jsonData.prefCurrency).to.eql(\"SEK\");",
 									"    pm.expect(jsonData.prefUnit).to.eql(\"metric\");",
 									"});",
 									"",
-									"pm.test(\"Body has _id\", function () {",
-									"    var jsonData = pm.response.json();",
+									"pm.test(\"Body has user_id\", function () {",
 									"    pm.expect(jsonData._id).to.be.a('String');",
 									"});",
 									""
@@ -85,7 +80,7 @@
 					"response": []
 				},
 				{
-					"name": "POST /api/users/:id/checklists",
+					"name": "GET /api/users",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -100,79 +95,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//var jsonData = pm.response.json();",
-									"//var userId = jsonData._id",
-									"//pm.environment.set(\"_id\", userId);",
+									"var jsonData = pm.response.json();",
 									"",
-									"//var getUserId = pm.variables.get(\"_id\");",
-									"",
-									"//pm.test(\"Status code is 201\", function () {",
-									"//    pm.response.to.have.status(201);",
-									"//});",
-									"",
-									"//pm.test(\"Contents are correct\", function () {",
-									"//    var jsonData = pm.response.json();",
-									"//    pm.expect(jsonData.owner).to.eql(\"6515fd5a0f7d46b2c289a718\");",
-									"//    pm.expect(jsonData.costItems).to.eql(\"\\[\\{\\\"item\\\": \\\"clothes\\\", \\\"cost\\\": 200\\}, \\{\\\"item\\\": \\\"shoes\\\", \\\"cost\\\": 300\\}\\]\");",
-									"//});",
-									"",
-									"//pm.test(\"Body has _id\", function () {",
-									"//    var jsonData = pm.response.json();",
-									"//    pm.expect(jsonData._id).to.be.a('String');",
-									"//});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"costItems\": [{\"item\": \"clothes\", \"cost\": 200}, {\"item\": \"shoes\", \"cost\": 300}]\r\n}"
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:id/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id",
-								"checklists"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6515fd5a0f7d46b2c289a718"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -223,6 +150,19 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"protocolProfileBehavior": {
@@ -247,20 +187,78 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:id",
+							"raw": "{{host}}/api/users/{{user_id}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":id"
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/users/:id/checklists",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"checklist_id\", jsonData._id)",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"List is created\", function () {",
+									"    pm.expect(jsonData.costItems).length.to.greaterThan(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"owner\": \"{{user_id}}\",\r\n    \"title\": \"hello title\",\r\n    \"costItems\": [{\"item\": \"clothes\", \"cost\": 200}, {\"item\": \"shoes\", \"cost\": 300}]\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{user_id}}/checklists",
+							"host": [
+								"{{host}}"
 							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6515fd5a0f7d46b2c289a718"
-								}
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}",
+								"checklists"
 							]
 						}
 					},
@@ -274,6 +272,19 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -324,6 +335,19 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"protocolProfileBehavior": {
@@ -348,20 +372,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/checklists/:id",
+							"raw": "{{host}}/api/checklists/{{checklist_id}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"checklists",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "651600a176271bd1d8a67f52"
-								}
+								"{{checklist_id}}"
 							]
 						}
 					},
@@ -378,58 +396,16 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
 						},
-						"url": {
-							"raw": "{{host}}/api/users/:id/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id",
-								"checklists"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6515fd5a0f7d46b2c289a718"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET /api/users/:id/checklists/:cid",
-					"event": [
 						{
-							"listen": "prerequest",
+							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -457,26 +433,78 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
+							"raw": "{{host}}/api/users/{{user_id}}/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":uid",
-								"checklists",
-								":cid"
+								"{{user_id}}",
+								"checklists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/users/:id/checklists/:cid",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{user_id}}/checklists/{{checklist_id}}",
+							"host": [
+								"{{host}}"
 							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": "6515fd5a0f7d46b2c289a718"
-								},
-								{
-									"key": "cid",
-									"value": "651600a176271bd1d8a67f52"
-								}
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}",
+								"checklists",
+								"{{checklist_id}}"
 							]
 						}
 					},
@@ -490,6 +518,30 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var this_user = pm.environment.get(\"user_id\");",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Contents are correct\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Ben2\");",
+									"    pm.expect(jsonData.prefCurrency).to.eql(\"EUR\");",
+									"    pm.expect(jsonData.prefUnit).to.eql(\"metric\");",
+									"});",
+									"",
+									"pm.test(\"user_id is same\", function () {",
+									"    pm.expect(jsonData._id).to.equal(this_user);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -514,20 +566,14 @@
 							"raw": "{\n    \"name\": \"Ben2\",\n    \"gpsLocation\": \"\",\n    \"prefCurrency\": \"EUR\",\n    \"prefUnit\": \"metric\"\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:id",
+							"raw": "{{host}}/api/users/{{user_id}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6515fd5a0f7d46b2c289a718"
-								}
+								"{{user_id}}"
 							]
 						}
 					},
@@ -544,54 +590,29 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"items\": [\"clothes\",\"shoes\"],\n    \"costItems\": []\n}"
 						},
-						"url": {
-							"raw": "{{host}}/api/checklists/:id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"checklists",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "651600a176271bd1d8a67f52"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT /api/users/:uid/checklists/:cid",
-					"event": [
 						{
-							"listen": "prerequest",
+							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var this_checklist = pm.environment.get(\"checklist_id\");",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"List is created\", function () {",
+									"    pm.expect(jsonData.items).length.to.greaterThan(0);",
+									"});",
+									"",
+									"pm.test(\"Old list is removed\", function () {",
+									"    pm.expect(jsonData.costItems).length.to.be.empty;",
+									"});",
+									"",
+									"pm.test(\"checklist_id is same\", function () {",
+									"    pm.expect(jsonData._id).to.equal(this_checklist);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -613,29 +634,197 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"items\": [\"clothes\",\"shoes\",\"backpack\"],\n    \"costItems\": []\n}"
+							"raw": "{\n    \"owner\": \"{{user_id}}\",\n    \"title\": \"hello title 2\",\n    \"items\": [\"clothes\",\"shoes\"],\n    \"costItems\": []\n}"
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
+							"raw": "{{host}}/api/checklists/{{checklist_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"checklists",
+								"{{checklist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /api/users/:uid/checklists/:cid",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var this_checklist = pm.environment.get(\"checklist_id\");",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"owner\": \"{{user_id}}\",\n    \"title\": \"hello title 3\",\n    \"items\": [\"clothes\",\"shoes\",\"backpack\"],\n    \"costItems\": []\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{user_id}}/checklists/{{checklist_id}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":uid",
+								"{{user_id}}",
 								"checklists",
-								":cid"
+								"{{checklist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/users/:uid/checklists/:cid",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{user_id}}/checklists/{{checklist_id}}",
+							"host": [
+								"{{host}}"
 							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": "6515fd5a0f7d46b2c289a718"
-								},
-								{
-									"key": "cid",
-									"value": "651600a176271bd1d8a67f52"
-								}
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}",
+								"checklists",
+								"{{checklist_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/users/:id/checklists",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/users/{{user_id}}/checklists",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}",
+								"checklists"
 							]
 						}
 					},
@@ -649,6 +838,19 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -679,85 +881,41 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:id",
+							"raw": "{{host}}/api/users/{{user_id}}/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE /api/users/:id/checklists",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/api/users/:id/checklists",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								":id",
+								"{{user_id}}",
 								"checklists"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "DELETE /api/users/:uid/checklists/:cid",
+					"name": "DELETE /api/checklists",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -775,6 +933,12 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -782,26 +946,76 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/api/users/:uid/checklists/:cid",
+							"raw": "{{host}}/api/checklists",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
-								"users",
-								":uid",
-								"checklists",
-								":cid"
+								"checklists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /api/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/users",
+							"host": [
+								"{{host}}"
 							],
-							"variable": [
-								{
-									"key": "uid",
-									"value": ""
-								},
-								{
-									"key": "cid",
-									"value": ""
-								}
+							"path": [
+								"api",
+								"users"
 							]
 						}
 					},
@@ -830,7 +1044,10 @@
 								"exec": [
 									"const jsonData = pm.response.json();",
 									"pm.environment.set(\"user_id\", jsonData._id);",
-									""
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -948,7 +1165,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -995,6 +1216,19 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1050,7 +1284,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1099,6 +1337,19 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1151,6 +1402,19 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -1196,6 +1460,19 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -1238,6 +1515,19 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1331,6 +1621,21 @@
 				},
 				{
 					"name": "GET /api/locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1349,6 +1654,21 @@
 				},
 				{
 					"name": "GET /api/locations/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1368,6 +1688,21 @@
 				},
 				{
 					"name": "PATCH /api/locations/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -1396,6 +1731,21 @@
 				},
 				{
 					"name": "PUT /api/locations/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1414,26 +1764,22 @@
 					"response": []
 				},
 				{
-					"name": "DELETE /api/locations/:id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/locations/{{location_id}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"locations",
-								"{{location_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "DELETE /api/locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1451,128 +1797,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "GET /api",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/users",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Ben\",\r\n    \"gpsLocation\": \"\",\r\n    \"prefCurrency\": \"SEK\",\r\n    \"prefUnit\": \"metric\"\r\n}"
-				},
-				"url": {
-					"raw": "{{host}}/api/users",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /api/activities",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Visit Sweden\",\r\n    \"is_visited\": \"true\",\r\n    \"is_on_bucketlist\": \"true\",\r\n    \"review\": \"Must visit\"\r\n}"
-				},
-				"url": {
-					"raw": "{{host}}/api/activities",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"activities"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [

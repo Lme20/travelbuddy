@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" @delete="onDelete" v-if="show">
+    <b-form id="journal-entry" @submit="onSubmit" @reset="onReset" v-if="show">
 
       <b-form-group id="ownerSelect" label="User:" label-for="ownerSelect">
         <b-form-select id="ownerselect"
@@ -44,8 +44,7 @@
 
       <div class="d-flex justify-content-between">
         <div>
-          <b-button type="submit" variant="outline-primary" class="mx-1">Submit</b-button>
-          <b-button type="delete" variant="outline-danger" @click="onDelete" class="mx-1">Delete</b-button>
+          <b-button type="submit" variant="outline-primary" class="mx-1">Save</b-button>
         </div>
         <b-button type="reset" variant="outline-danger" class="mx-1">Reset</b-button>
       </div>
@@ -224,15 +223,6 @@ export default {
         .catch(error => {
           console.error('Error updating journal entry:', error)
           // Handle the error, e.g., show an error message to the user
-        })
-    },
-    deleteJournalEntry(id) {
-      Api.delete(`/journals/${id}`)
-        .then(response => {
-          console.log('Journal entry deleted successfully:', response.data)
-        })
-        .catch(error => {
-          console.error('Error deleting journal entry:', error)
         })
     }
   }

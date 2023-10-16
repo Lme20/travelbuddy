@@ -5,14 +5,18 @@
         <h1>All Journals</h1>
       </div>
       <div v-if="journals.length > 0">
-        <b-list-group-item v-for="journal in journals" v-bind:key="journal._id" cols="12" sm="6" md="4">
-          <b-link @click="contentToDisplay = 1, userId = journal.owner, entryId = journal._id">
-            {{ journal.title }}
-          </b-link>
-          <div>
-            <div class="detail"> date {{ journal.date }}</div>
-          </div>
-        </b-list-group-item>
+        <b-card-group columns>
+          <b-card v-for="journal in journals" :key="journal._id" v-bind:header="journal.title" v-model="journals">
+            <b-card-text>
+              {{ journal.journalTextEntry }}
+            </b-card-text>
+            <b-button-group>
+              <b-button variant="success"
+                @click="contentToDisplay = 1, userId = journal.owner, entryId = journal._id">Edit</b-button>
+              <b-button variant="danger" @click="deleteJournalEntry(journal._id)">Delete</b-button>
+            </b-button-group>
+          </b-card>
+        </b-card-group>
         <right-sidebar :contents="[contentToDisplay, userId, entryId]" />
       </div>
 
@@ -52,6 +56,16 @@ export default {
         .catch(error => {
           this.journals = []
           console.log(error)
+        })
+    },
+    deleteJournalEntry(id) {
+      Api.delete(`/journals/${id}`)
+        .then(response => {
+          console.log('Journal entry deleted successfully:', response.data)
+        })
+        .then(this.getJournals())
+        .catch(error => {
+          console.error('Error deleting journal entry:', error)
         })
     }
   },
