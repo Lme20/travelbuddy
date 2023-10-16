@@ -18,9 +18,7 @@ import GlobalHeader from './components/GlobalHeader.vue'
 export default {
   data() {
     return {
-      user: {
-        name: 'Louis Mercier' // placeholder name
-      }
+
     }
   },
   components: {

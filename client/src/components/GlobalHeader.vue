@@ -1,21 +1,21 @@
 <template>
-    <b-navbar class="app-header">
-      <!-- Hamburger menu -->
-      <div class="hamburger-menu" @click="$root.$emit('bv::toggle::collapse', 'sidebar-left')">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <b-navbar-brand class="ml-3" href="/">
-        <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
-      </b-navbar-brand>
-      <!-- User profile section -->
-      <div class="user-profile" v-if="user">
-        <img src="@/assets/placeholderPicture.png" alt="User Profile" class="profile-pic"/>
-        <b-link :to="{ name: 'Settings' }">{{ user.name }}</b-link>
-      </div>
-    </b-navbar>
-  </template>
+  <b-navbar class="app-header">
+    <!-- Hamburger menu -->
+    <div class="hamburger-menu" @click="$root.$emit('bv::toggle::collapse', 'sidebar-left')">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <b-navbar-brand class="ml-3" href="/">
+      <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
+    </b-navbar-brand>
+    <!-- User profile section -->
+    <div class="user-profile" v-if="users.length > 0">
+      <img src="@/assets/placeholderPicture.png" alt="User Profile" class="profile-pic"/>
+      <b-link :to="{ name: 'Settings' }">{{ users[0].name }}</b-link>
+    </div>
+  </b-navbar>
+</template>
 
 <script>
 import { Api } from '@/Api'
@@ -23,27 +23,19 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
-      user: null
+      users: []
     }
   },
   mounted() {
-    // Assuming that you have some way to get the UID,
-    // otherwise, adapt the following code accordingly
-    const uid = this.$route.params.id || null
-    if (uid) {
-      this.getUser(uid)
-    }
+    Api.get('/users/652dcdd6d6e570e193b147f5') // Replace 'someUserId' with actual user ID
+      .then(response => {
+        this.users = [response.data]
+      })
+      .catch(error => {
+        console.log(error)
+      })
   },
   methods: {
-    getUser(uid) {
-      Api.get(`/users/${uid}`)
-        .then(response => {
-          this.user = response.data
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error)
-        })
-    }
   }
 }
 </script>

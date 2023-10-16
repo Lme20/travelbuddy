@@ -1,7 +1,6 @@
 <template>
   <div class="col-9">
     <h1>All entries</h1>
-
     <b-card-group columns>
       <b-card header="Users">
         <b-button @click="contentToDisplay = 3">Create User</b-button>
@@ -183,6 +182,7 @@ export default {
         .then(response => {
           console.log('Success: ', response.data)
           this.$router.push({ path: '/settings' })
+          localStorage.setItem('userId', response.data._id) // Save user ID to local storage
           // TODO set cookie?
         })
         .catch(error => {
