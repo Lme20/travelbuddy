@@ -5,6 +5,7 @@ var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
+// NOTE: Activities and reviews not implemented in frontend
 var activitiesController = require('./controllers/activities');
 var checklistController = require('./controllers/checklists');
 var journalsController = require('./controllers/journals');
@@ -45,14 +46,13 @@ app.get('/api', function(req, res) {
 });
 
 /* CONTROLLERS */
+// NOTE: Activities and reviews not implemented in frontend
 app.use(activitiesController);
 app.use(checklistController);
 app.use(journalsController);
 app.use(usersController);
 app.use(locationsController);
 app.use(reviewsController);
-app.use(usersController);
-
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
