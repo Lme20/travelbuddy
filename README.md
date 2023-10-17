@@ -63,30 +63,29 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-The travel companion is an app that helps you plan, track your travels, and create lifetime memories of each trip. The web based app creates an all in one package of important features to make your trip smooth sailing and unforgettable. You can list your visited destinations, create destination bucket lists, and plan your trips and expenses.
+The travel companion is an app that helps you plan, track your travels, and create lifetime memories of each trip. The web based app creates an all in one package of important features to make your trip smooth sailing and unforgettable. You can list your visited destinations, create packing and bucket lists, and plan your trips and expenses.
 
 ### Features
 
 - Destination map and planner (chaining to a path to plan roundtrip: "travel via")
-- Journal/notes: simple text-based + images (write about a trip while being able to add pics and vids)
+- Journal/notes: 
+  - Text-based
+  - (Not implemented: *Images*)
 - Checklists:
-  - Packing lists:
-    - general
-    - specific, like “I should bring my camera to the museum” connected to museum destination/activity
-  - Bucket lists:
-    - Destinations
-    - Activities
-  - Expenses lists:
-    - Travel expenses, including calculation of sum and currency converter
-- Reviews of destinations and activities
+  - Packing lists
+  - (Not implemented: *Bucket lists:*
+    - *Destinations*
+    - *Activities*)
+  - (Not implemented: *Expenses lists:*
+    - *Travel expenses, including calculation of sum and currency converter*)
+- (Not implemented: *Reviews of destinations and activities*)
 
 ### Pages
 
-- Main page containing a map for searching and/or saving possible destinations, activities, and chaining paths. Clicking on the map brings up a menu containing options like “Save to destination bucketlist” or “Save to visited”
-- Left Sidebar Menu containing entries for Journal, Locations, Activities, Checklists, User preferences etc
-- Right Sidebar Menu for additional details and options of location/list/note, pops up when location/list/note is selected
-- Page for Journal with access to checklists, destinations
-- User page for gps location, with saved preferences and with access to saved checklist, locations and quick access to journal.
+- Main page containing a map for searching and/or saving possible destinations and activities. Clicking on the map brings up a menu containing options like “Save location” or "Create journal entry"
+- Left Sidebar Menu containing entries for Journal, Locations, Activities, Checklists, preferences etc
+- Right Sidebar Menu for additional details and options for list and note entries; pops up when entry is selected for creation/editing
+- Pages for Journals, Checklists, Locations and an overview of all entries
 
 ### Entity-Relationship (ER) Diagram
 
