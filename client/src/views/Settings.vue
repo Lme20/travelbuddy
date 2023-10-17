@@ -31,7 +31,7 @@
         <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="location in locations" :key="location._id">
-            {{ location.placeName }}
+            {{ location }}
           </b-list-group-item>
         </b-list-group>
       </b-card>
@@ -102,7 +102,9 @@ export default {
     getLocations() {
       Api.get('/locations')
         .then(response => {
-          this.locations = response.data.locations
+          const locationData = response.data
+          const uniqueLocations = new Set(locationData.map(location => location.placeName))
+          this.locations = [...uniqueLocations]
         })
         .catch(error => {
           this.locations = []
