@@ -2,7 +2,6 @@
   <div id="app">
     <!-- Navbar -->
     <GlobalHeader/>
-    <GlobalHeader/>
     <!-- Sidebar -->
     <left-sidebar/>
     <!-- Main Content -->
