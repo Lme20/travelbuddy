@@ -2,6 +2,7 @@
   <div id="app">
     <!-- Navbar -->
     <GlobalHeader/>
+    <GlobalHeader/>
     <!-- Sidebar -->
     <left-sidebar/>
     <!-- Main Content -->
@@ -14,6 +15,7 @@
 <script>
 import LeftSidebar from './components/LeftSidebar.vue'
 import GlobalHeader from './components/GlobalHeader.vue'
+import GlobalHeader from './components/GlobalHeader.vue'
 
 export default {
   data() {
@@ -22,6 +24,16 @@ export default {
     }
   },
   components: {
+    'left-sidebar': LeftSidebar,
+    GlobalHeader
+  },
+  mounted() {
+
+  },
+  methods: {
+    fetchUser(uid) {
+
+    }
     'left-sidebar': LeftSidebar,
     GlobalHeader
   },
@@ -55,8 +67,12 @@ export default {
 /* Global effect for all buttons */
 b-button:hover {
   background-color: #fa70cd;
+b-button:hover {
+  background-color: #fa70cd;
 }
 
+b-button:active {
+  background-color: #fa70cd;
 b-button:active {
   background-color: #fa70cd;
 }
@@ -77,5 +93,6 @@ input:focus, textarea:focus {
 .location-btn:active {
   background-color: darkgreen;
 }
+
 
 </style>

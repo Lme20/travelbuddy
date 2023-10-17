@@ -12,7 +12,7 @@
     <!-- User profile section -->
     <div class="user-profile" v-if="users.length > 0">
       <img src="@/assets/placeholderPicture.png" alt="User Profile" class="profile-pic"/>
-      <b-link :to="{ name: 'Settings' }">{{ users[0].name }}</b-link>
+      <b-link :to="{ name: 'settings' }">{{ users[0].name }}</b-link>
     </div>
   </b-navbar>
 </template>
@@ -23,15 +23,18 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
-      users: []
+      users: [],
+      currentUser: ''
     }
   },
   mounted() {
-    Api.get('/users/652dcdd6d6e570e193b147f5') // Replace 'someUserId' with actual user ID
+    this.currentUser = localStorage.getItem('userId')
+    Api.get('/users') // Replace 'someUserId' with actual user ID
       .then(response => {
-        this.users = [response.data]
+        this.users = response.data.users
       })
       .catch(error => {
+        this.users = []
         console.log(error)
       })
   },

@@ -81,6 +81,7 @@ export default {
       } else {
         this.postUser()
       }
+      localStorage.setItem('userId', this.user._id) // Save user ID to local storage
     },
     onReset(event) {
       event.preventDefault()
