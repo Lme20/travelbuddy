@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="container">
     <div class="text-center">
         <h1 class="montserrat-bold" >My Locations</h1>
       </div>
     <!-- Conditional rendering: Show cards if no location is selected -->
     <div v-if="!selectedLocation" class="row">
-      <div class="col-12 col-md-6 col-lg-4" v-for="(locations, cityName) in groupedLocations" :key="cityName">
+      <div class="col-12 col-md-6 col-lg-3" v-for="(locations, cityName) in groupedLocations" :key="cityName">
         <!-- Added @click event to show the table when the card is clicked -->
         <b-card @click="showTable(cityName)" :title="cityName" :img-src="imageUrls[locations[0]._id]" img-alt="Image" img-top class="custom-card montserrat">
           <b-card-text >
@@ -16,9 +16,9 @@
     </div>
     <!-- Conditional rendering: Show table if a location is selected -->
     <div v-else>
-      <b-iconstack @click="hideTable" font-scale="2.5" style="color: #fa70cd;">
+      <b-iconstack @click="hideTable" font-scale="2.5" style="color: #fa70cd; margin:10px" >
         <b-icon stacked icon="square-fill" style="color: #fa70cd;"></b-icon>
-        <b-icon stacked icon="BIconArrowLeft" variant="white"></b-icon>
+        <b-icon stacked icon="BIconArrowLeft" variant="white" font-scale="5"></b-icon>
       </b-iconstack>
       <table class="locations-table">
         <thead>
@@ -39,7 +39,7 @@
               </span>
             </td>
             <td>
-              <b-button @click="deleteLocationId" >Delete</b-button>
+              <b-button @click="deleteLocationId" variant="danger">Delete</b-button>
             </td>
           </tr>
         </tbody>
@@ -97,8 +97,8 @@ export default {
     async fetchUnsplashImage(locationName) {
       try {
         const apiKey = process.env.VUE_APP_UNSPLASH_ACCESS_KEY // Access the API key from .env
-        const width = 318
-        const height = 100
+        const width = 159
+        const height = 50
         const orientation = 'landscape'
 
         const response = await axios.get(`https://api.unsplash.com/search/photos?query=${locationName}&client_id=${apiKey}&orientation=${orientation}&w=${width}&h=${height}`)
@@ -197,13 +197,21 @@ export default {
 </script>
 
 <style>
+.container {
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .custom-card img {
-  max-height: 200px;  /* Maximum height for images */
+  max-height: 150px;  /* Maximum height for images */
   object-fit: cover; /* Cover entire area */
 }
 
 .custom-card {
-  height: 100%;
+  height: auto;  /* Make it flexible based on content */
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .custom-card:hover {
