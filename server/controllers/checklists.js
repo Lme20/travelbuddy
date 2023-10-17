@@ -24,6 +24,9 @@ router.get('/api/checklists', async (req, res) => {
 // GET checklist (id)
 router.get('/api/checklists/:id', async (req, res) => {
   try {
+    if (!req.params.id || req.params.id == "undefined") {
+      return res.status(400).send({ message: "No id" });
+    }
     const checklist = await Checklist.findOne({ _id: req.params.id });
     if (!checklist) {
       return res.status(404).send({ message: 'Checklist not found' });
@@ -38,6 +41,9 @@ router.get('/api/checklists/:id', async (req, res) => {
 // PUT checklist (id)
 router.put('/api/checklists/:id', async (req, res) => {
   try {
+    if (!req.params.id || req.params.id == "undefined") {
+      return res.status(400).send({ message: "No id" });
+    }
     const checklist = await Checklist.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
     if (!checklist) {
       return res.status(404).send({ message: 'Checklist not found' });
@@ -94,6 +100,9 @@ router.post('/api/users/:id/checklists', async (req, res) => {
 // GET user's checklists
 router.get('/api/users/:id/checklists', async (req, res) => {
   try {
+    if (!req.params.id || req.params.id == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).send({ message: "User not found" });
@@ -153,6 +162,9 @@ router.put('/api/users/:uid/checklists/:cid', async (req, res) => {
 // DELETE user's checklists
 router.delete('/api/users/:uid/checklists', async (req, res) => {
   try {
+    if (!req.params.uid || req.params.uid == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     const user = await User.findById(req.params.uid)
     if (!user) {
       return res.status(404).send({ message: "User not found" });
@@ -168,6 +180,9 @@ router.delete('/api/users/:uid/checklists', async (req, res) => {
 // DELETE user's checklist (id)
 router.delete('/api/users/:uid/checklists/:cid', async (req, res) => {
   try {
+    if (!req.params.uid || req.params.uid == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     const checklist = await Checklist.findOneAndDelete({ _id: req.params.cid, owner: req.params.uid });
     if (!checklist) {
       return res.status(404).send({ message: "Checklist not found" });
