@@ -153,7 +153,7 @@ export default {
         .then(response => {
           // console.log('Locations:', response)
           const locationData = response.data
-          const uniqueLocations = new Set(locationData.map(location => location.place_name))
+          const uniqueLocations = new Set(locationData.map(location => location.placeName))
 
           this.locations = [...uniqueLocations]
         })
