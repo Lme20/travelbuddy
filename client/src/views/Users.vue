@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="container">
     <div class="text-center">
       <h1>Users</h1>
     </div>
     <div v-if="users.length > 0">
-      <b-card-group columns>
+      <b-card-group>
         <b-card v-for="user in users" :key="user._id" v-bind:header="user.name" v-model="users">
           <b-button-group>
             <b-button variant="success" @click="contentToDisplay = 3, userId = user._id">Edit</b-button>
@@ -74,4 +74,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.container {
+  padding: 10px;
+}
+</style>

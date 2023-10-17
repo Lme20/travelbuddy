@@ -143,4 +143,10 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#user-entry{
+  padding: 12px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
+</style>
