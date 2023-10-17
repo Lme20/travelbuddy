@@ -23,12 +23,10 @@ import { Api } from '@/Api'
 export default {
   data() {
     return {
-      users: [],
-      currentUser: ''
+      users: []
     }
   },
   mounted() {
-    this.currentUser = localStorage.getItem('userId')
     Api.get('/users') // Replace 'someUserId' with actual user ID
       .then(response => {
         this.users = response.data.users

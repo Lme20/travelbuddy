@@ -2,16 +2,8 @@
   <div class="col-9">
     <h1>All entries</h1>
     <b-card-group columns>
-      <b-card header="Users">
-        <b-button @click="contentToDisplay = 3">Create User</b-button>
-        <b-button variant="danger" @click="deleteUsers()">Delete all</b-button>
-        <b-list-group>
-          <b-list-group-item v-for="user in users" :key="user._id">
-            {{ user.name }}
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
       <b-card header="Checklists">
+        <b-button :to="{name: 'checklists'}">View checklists</b-button>
         <b-button variant="danger" @click="deleteChecklists()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="checklist in checklists" :key="checklist._id">
@@ -20,6 +12,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Journals">
+        <b-button :to="{name: 'journals'}">View journal entries</b-button>
         <b-button variant="danger" @click="deleteJournals(journals)">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="journal in journals" :key="journal._id">
@@ -28,6 +21,7 @@
         </b-list-group>
       </b-card>
       <b-card header="Locations">
+        <b-button :to="{name: 'locations'}">View locations</b-button>
         <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
         <b-list-group>
           <b-list-group-item v-for="location in locations" :key="location._id">
@@ -48,7 +42,6 @@ import RightSidebar from '@/components/RightSidebar.vue'
 export default {
   data() {
     return {
-      users: [],
       checklists: [],
       journals: [],
       locations: [],
@@ -57,7 +50,6 @@ export default {
     }
   },
   mounted() {
-    this.getUsers()
     this.getChecklists()
     this.getJournals()
     this.getLocations()
@@ -66,17 +58,6 @@ export default {
     'right-sidebar': RightSidebar
   },
   methods: {
-    getUsers() {
-      Api.get('/users')
-        .then(response => {
-          this.users = response.data.users
-        })
-        .catch(error => {
-          this.users = []
-          console.log(error)
-          //   TODO: display some error message instead of logging to console
-        })
-    },
     getChecklists() {
       Api.get('/checklists')
         .then(response => {
@@ -110,19 +91,6 @@ export default {
           this.locations = []
           console.log(error)
           //   TODO: display some error message instead of logging to console
-        })
-    },
-    deleteUsers() {
-      Api.delete('/users')
-        .then(response => {
-          console.log('Success:', response.data)
-        })
-        .then(this.getUsers())
-        // .then(this.deleteUserChecklists())
-        // .then(this.deleteUserJournals())
-        .catch(error => {
-          console.error('Failure:', error)
-          // Handle the error and display an error message to the user
         })
     },
     deleteChecklists() {
@@ -178,18 +146,6 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
-    },
-    createUser() {
-      Api.post('/users', this.form)
-        .then(response => {
-          console.log('Success: ', response.data)
-          this.$router.push({ path: '/settings' })
-          localStorage.setItem('userId', response.data._id) // Save user ID to local storage
-          // TODO set cookie?
-        })
-        .catch(error => {
-          console.log('Failure: ', error)
-        })
     }
   }
 }

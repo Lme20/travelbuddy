@@ -46,7 +46,6 @@ export default {
         prefUnit: ''
       },
       locations: [],
-      elem: '',
       currency: ['SEK', 'EUR', 'USD'],
       unit: ['metric', 'imperial'],
       show: true
@@ -64,10 +63,8 @@ export default {
     }
   },
   mounted() {
-    console.log('mounting')
-    console.log(this.data)
-    if (this.data) {
-      this.getUser(this.data)
+    if (this.user) {
+      this.getUser(this.user)
     } else {
       this.getUser(this.$route.params.id)
     }
@@ -81,7 +78,6 @@ export default {
       } else {
         this.postUser()
       }
-      localStorage.setItem('userId', this.user._id) // Save user ID to local storage
     },
     onReset(event) {
       event.preventDefault()
@@ -102,9 +98,6 @@ export default {
     getUser(uid) {
       Api.get(`/users/${uid}`)
         .then(response => {
-          console.log('got ', response.data)
-          // Update your component's data with the fetched journal data
-          this.$emit('user-fetched', response.data)
           this.form.name = response.data.name
           this.form.prefCurrency = response.data.prefCurrency
           this.form.prefUnit = response.data.prefUnit
