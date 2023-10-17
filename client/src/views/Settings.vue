@@ -184,7 +184,6 @@ export default {
         .then(response => {
           console.log('Success: ', response.data)
           this.$router.push({ path: '/settings' })
-          localStorage.setItem('userId', response.data._id) // Save user ID to local storage
           // TODO set cookie?
         })
         .catch(error => {
