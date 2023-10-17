@@ -91,7 +91,7 @@ export default {
 }
 
 @media (max-width: 760px) {
-  .journal-entry {
+  .montserrat {
     display: none;
   }
 }
