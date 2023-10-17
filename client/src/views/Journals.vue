@@ -2,12 +2,12 @@
   <div class = "container">
     <b-list-group>
       <div class="text-center">
-        <h1>All Journals</h1>
+        <h1 class="montserrat-bold" >My Journals</h1>
       </div>
       <div v-if="journals.length > 0">
         <b-card-group columns>
-          <b-card v-for="journal in journals" :key="journal._id" v-bind:header="journal.title" v-model="journals">
-            <b-card-text>
+          <b-card v-for="journal in journals" :key="journal._id" v-bind:header="journal.title" v-model="journals" header-class="montserrat-bold" >
+            <b-card-text class="montserrat">
               {{ journal.journalTextEntry }}
             </b-card-text>
             <b-button-group>
@@ -79,4 +79,15 @@ export default {
 .container {
   padding: 10px;
 }
+
+/* TEXT STYLING ONLY */
+.montserrat-bold {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
 </style>

@@ -178,10 +178,10 @@ export default {
 
 /* BUTTON STYLING */
 .b-button {
+  font-family: 'Montserrat', sans-serif;
   border-color: #fa70cd;
   background: #e070de00;
   border-width: 2px;
-  font-family: var(--ff-montserrat);
   border-radius: 100px;
   padding: 15px 50px;
   color: var(--white);
@@ -230,6 +230,8 @@ export default {
 }
 
 .hero-section h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 4em;
   color: rgb(255, 255, 255);
 }

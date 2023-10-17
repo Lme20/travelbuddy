@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="text-center">
-      <h1>Users</h1>
+      <h1 class="montserrat-bold">Users</h1>
     </div>
     <div v-if="users.length > 0">
       <b-card-group>
-        <b-card v-for="user in users" :key="user._id" v-bind:header="user.name" v-model="users">
+        <b-card v-for="user in users" :key="user._id" v-bind:header="user.name" header-class="montserrat-bold" v-model="users">
           <b-button-group>
             <b-button variant="success" @click="contentToDisplay = 3, userId = user._id">Edit</b-button>
             <b-button variant="danger" @click="onDelete(user._id)">Delete</b-button>
@@ -16,7 +16,7 @@
       <right-sidebar :contents="[contentToDisplay, userId, entryId]" />
     </div>
     <div v-else class="text-center">
-      <p>No users yet.</p>
+      <p class="montserrat">No users yet.</p>
       <b-button variant="success" @click="contentToDisplay = 3">Create new user</b-button>
       <right-sidebar :contentToDisplay="contentToDisplay" />
     </div>
