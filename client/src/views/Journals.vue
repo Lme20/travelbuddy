@@ -7,7 +7,7 @@
       <div v-if="journals.length > 0">
         <b-card-group columns>
           <b-card v-for="journal in journals" :key="journal._id" v-bind:header="journal.title" v-model="journals">
-            <b-card-text>
+            <b-card-text class = "journal-entry">
               {{ journal.journalTextEntry }}
             </b-card-text>
             <b-button-group>
@@ -79,4 +79,10 @@ export default {
 .container {
   padding: 10px;
 }
+@media (max-width: 760px) {
+  .journal-entry {
+    display: none;
+  }
+}
+
 </style>
