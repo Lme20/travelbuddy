@@ -44,7 +44,7 @@ router.put('/api/checklists/:id', async (req, res) => {
     } else if (!req.body.owner) {
       res.status(400).send({ message: 'Owner missing' })
     } else if (!req.body.title) {
-      res.status(400).send({ messag: 'Title missing' })
+      res.status(400).send({ message: 'Title missing' })
     } else {
       res.status(200).send(checklist);
     }
@@ -53,22 +53,10 @@ router.put('/api/checklists/:id', async (req, res) => {
   }
 });
 
-// // PATCH checklists (update total cost)
-// // Note: work in progress
-// router.patch('/api/checklists', async(req, res) => {
-//     // Checklist.find().then(
-//     //     aggregate(....)
-//     // )
-// });
-
 // DELETE all checklists
 router.delete('/api/checklists', async (req, res) => {
   try {
-    // var users = await User.find();
-    // for (user in users) {
-    //     user.checklists = [];
-    //     await user.save();
-    // }
+    // TODO: Decouple from users
     await Checklist.deleteMany({});
     res.status(200).send({ message: 'Success' });
   } catch (error) {
@@ -88,7 +76,7 @@ router.post('/api/users/:id/checklists', async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
     if (!req.body.title) {
-      res.status(400).send({ messag: 'Title missing' })
+      res.status(400).send({ message: 'Title missing' })
     }
     checklist.owner = user;
     await checklist.save();
@@ -142,7 +130,7 @@ router.put('/api/users/:uid/checklists/:cid', async (req, res) => {
       return res.status(404).send({ message: "Checklist not found" });
     }
     if (!req.body.title) {
-      res.status(400).send({ messag: 'Title missing' })
+      res.status(400).send({ message: 'Title missing' })
     }
     checklist.owner = user;
     await checklist.save();
