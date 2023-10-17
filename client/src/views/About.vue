@@ -1,3 +1,6 @@
 <template>
-    <h1>An about page.</h1>
+    <div>
+        <h1>About Travelbuddy</h1>
+        <p>This application was created by Benjamin, Jitish and Louis for the course DIT342 Web Development (2023).</p>
+    </div>
 </template>
