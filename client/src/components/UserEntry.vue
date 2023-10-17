@@ -45,7 +45,6 @@ export default {
         prefCurrency: '',
         prefUnit: ''
       },
-      userEntry: null,
       locations: [],
       currency: ['SEK', 'EUR', 'USD'],
       unit: ['metric', 'imperial'],
@@ -64,8 +63,8 @@ export default {
     }
   },
   mounted() {
-    if (this.data) {
-      this.getUser(this.data)
+    if (this.user) {
+      this.getUser(this.user)
     } else {
       this.getUser(this.$route.params.id)
     }
@@ -99,7 +98,9 @@ export default {
     getUser(uid) {
       Api.get(`/users/${uid}`)
         .then(response => {
-          this.userEntry = response.data
+          this.form.name = response.data.name
+          this.form.prefCurrency = response.data.prefCurrency
+          this.form.prefUnit = response.data.prefUnit
         })
         .catch(error => {
           console.error('Error fetching checklist data:', error)

@@ -10,7 +10,7 @@
         <router-link to="/checklists">Checklists</router-link><br>
         <br>
         <router-link to="/settings">Manage all entries</router-link><br>
-        <router-link to="/users">Manage users</router-link><br>
+        <router-link to="/users">Manage user</router-link><br>
         <br>
         <router-link to="/about">About...</router-link>
       </div>
