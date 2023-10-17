@@ -108,6 +108,7 @@ input:focus, textarea:focus {
   border: 2px solid #007bff;
 }
 
+/* Default state: Show the profile */
 .user-profile {
   position: absolute;
   right: 20px;
@@ -117,6 +118,53 @@ input:focus, textarea:focus {
   align-items: center;
   margin-right: 65px;
   font-weight: 600;
+}
+
+/* For screens with max width of 768px */
+@media (max-width: 768px) {
+  .navbar-logo { /* resize the logo */
+    max-height: 50px;
+    max-width: 200px;
+  }
+
+  /* hide the user profile */
+  .user-profile {
+    display: none;
+  }
+
+  .hero-button {
+    font-size: 14px;
+    padding: 8px 15px;
+    margin: 5px;
+  }
+
+  .hero-text {
+    font-size: 24px;
+  }
+}
+
+/* For iPhone SE */
+@media (max-width: 320px) {
+  .navbar-logo { /* resize the logo even smaller */
+    max-height: 40px;
+    max-width: 150px;
+  }
+
+  /* hide the user profile */
+  .user-profile {
+    display: none;
+  }
+
+  .hero-button {
+    font-size: 12px;
+    padding: 6px 12px;
+    margin: -10px 4px 4px 4px; /* Move the button up */
+  }
+
+  .hero-text {
+    font-size: 20px;
+    margin-top: -20px; /* Move the hero text up */
+  }
 }
 
 .user-profile b-link,
