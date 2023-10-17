@@ -12,7 +12,7 @@
           required></b-form-select>
       </b-form-group>
 
-      <b-form-group id="titleInput" label="Your Title:" label-for="titleInput">
+      <b-form-group id="titleInput" label="Title:" label-for="titleInput">
         <b-form-input
           id="titleInput"
           v-model="form.title"
@@ -20,7 +20,7 @@
           required></b-form-input>
       </b-form-group>
 
-      <b-form-group id="locationSelect" label="Locations:" label-for="locationSelect">
+      <b-form-group id="locationSelect" label="Location:" label-for="locationSelect">
         <b-form-select
           id="locationselect"
           v-model="form.location"
