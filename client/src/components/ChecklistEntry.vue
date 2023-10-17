@@ -14,7 +14,7 @@
         ></b-form-select>
       </b-form-group>
 
-      <b-form-group id="titleInput" label="" label-for="titleInput">
+      <b-form-group id="titleInput" label="Title:" label-for="titleInput">
         <b-form-input
           id="titleInput"
           v-model="form.title"
@@ -23,7 +23,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <!-- <b-form-group id="locationSelect" label="" label-for="locationSelect">
+      <b-form-group id="locationSelect" label="Location:" label-for="locationSelect">
         <b-form-select
           id="locationSelect"
           v-model="form.location"
@@ -32,7 +32,7 @@
           :value-field="'_id'"
           placeholder="Select location"
         ></b-form-select>
-      </b-form-group> -->
+      </b-form-group>
 
       <table class="table mb-4">
         <thead>
@@ -97,6 +97,7 @@ export default {
   },
   mounted() {
     this.getUsers()
+    this.getLocations()
     if (this.data[0]) {
       const uid = this.data[0]
       const cid = this.data[1]
@@ -188,17 +189,19 @@ export default {
           this.users = []
           console.log(error)
         })
-    }//,
-    // getLocationss() {
-    //   Api.get('/locations')
-    //     .then(response => {
-    //       this.locations = response.data.locations
-    //     })
-    //     .catch(error => {
-    //       this.locations = []
-    //       console.log(error)
-    //     })
-    // }
+    },
+    getLocations() {
+      Api.get('/locations')
+        .then(response => {
+          const locationData = response.data
+          const uniqueLocations = new Set(locationData.map(location => location.placeName))
+          this.locations = [...uniqueLocations]
+        })
+        .catch(error => {
+          this.locations = []
+          console.log(error)
+        })
+    }
   }
 }
 </script>
