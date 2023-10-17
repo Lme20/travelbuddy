@@ -103,6 +103,7 @@ export default {
     handleUserAdded() {
       this.getUsers() // Fetch updated list of users
       this.showModal = false // Close modal
+      this.showToast('User created successfully!', 'success')
     },
     async addLocation() {
       const apiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY
@@ -119,11 +120,20 @@ export default {
           }
           console.log('Geocoded location: ', location) // Debug
           this.$refs.googleMapRef.updateLocation(location)
+
+          // Show toast when location is successfully added
+          this.showToast('Locations found!', 'success')
         } else {
           console.error('No results found for the location.')
+
+          // Show toast when location isn't found
+          this.showToast('No results found for the location.', 'warning')
         }
       } catch (error) {
         console.error('Geocoding Error:', error)
+
+        // Show toast when there's an error adding location
+        this.showToast('Error adding location.', 'danger')
       }
     },
     scrollToMap() {
@@ -131,6 +141,14 @@ export default {
       this.$nextTick(() => {
         const mapElement = this.$refs.googleMapRef.$el
         mapElement.scrollIntoView({ behavior: 'smooth' })
+      })
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
       })
     },
     async fetchImage() {

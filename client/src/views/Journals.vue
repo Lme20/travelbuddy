@@ -62,11 +62,21 @@ export default {
       Api.delete(`/journals/${id}`)
         .then(response => {
           console.log('Journal entry deleted successfully:', response.data)
+          this.showToast('Journal entry deleted successfully!', 'success')
+          this.getJournals() // Refresh the list
         })
-        .then(this.getJournals())
         .catch(error => {
           console.error('Error deleting journal entry:', error)
+          this.showToast('Error deleting journal entry.', 'danger')
         })
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
+      })
     }
   },
   components: {

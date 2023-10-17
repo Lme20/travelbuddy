@@ -51,24 +51,37 @@ export default {
           console.log(response.data)
           this.users = response.data.users
           console.log(this.users)
+          this.showToast('User created successfully!', 'success')
         })
         .catch(error => {
           this.users = []
           console.log(error)
+          this.showToast('Failed to create user', 'danger')
           //   TODO: display some error message instead of logging to console
         })
     },
     onDelete(user) {
       Api.delete(`/users/${user}`)
         .then(response => {
+          this.getUsers() // fetch the updated user list
+          this.contentToDisplay = null // Reset to neutral state
           console.log(response.data)
+          this.showToast('Users deleted succesfully!', 'success')
         })
-        .then(this.getUsers())
         .catch(error => {
           this.users = []
           console.log(error)
-          //   TODO: display some error message instead of logging to console
+          this.showToast('Failed to delete users.', 'danger')
+          // TODO: display some error message instead of logging to console
         })
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
+      })
     }
   }
 }

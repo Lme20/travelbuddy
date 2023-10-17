@@ -57,24 +57,34 @@ export default {
           console.log(response.data)
           this.checklists = response.data.checklists
           console.log(this.checklists)
+          this.showToast('Checklists fetched successfully!', 'success')
         })
         .catch(error => {
           this.checklists = []
           console.log(error)
-          //   TODO: display some error message instead of logging to console
+          this.showToast('Failed to fetch checklists.', 'danger')
         })
     },
     onDelete(user, entry) {
       Api.delete('/users/' + user + '/checklists/' + entry)
         .then(response => {
           console.log(response.data)
+          // Refresh the checklists after successful deletion
+          this.getChecklists()
+          this.showToast('Checklist deleted successfully!', 'success')
         })
-        .then(this.getChecklists())
         .catch(error => {
-          this.checklists = []
-          console.log(error)
-          //   TODO: display some error message instead of logging to console
+          console.error('Failure:', error)
+          this.showToast('Failed to delete the checklist.', 'danger')
         })
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
+      })
     }
   }
 }
@@ -94,5 +104,4 @@ export default {
 .montserrat {
   font-family: 'Montserrat', sans-serif;
 }
-
 </style>

@@ -179,10 +179,12 @@ export default {
       Api.delete(`/locations/${id}`)
         .then(response => {
           console.log('Success:', response.data)
+          this.showToast('Location deleted succesfully!', 'success')
         })
         .then(this.getLocations())
         .catch(error => {
           console.error('Failure:', error)
+          this.showToast('Failed to delete location', 'danger')
           // Handle the error and display an error message to the user
         })
     },
@@ -191,6 +193,14 @@ export default {
     },
     hideTable() {
       this.selectedLocation = null // Reset the selected location
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
+      })
     }
   }
 }

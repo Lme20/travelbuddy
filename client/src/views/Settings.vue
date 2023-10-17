@@ -49,14 +49,17 @@ export default {
     }
   },
   mounted() {
-    this.getChecklists()
-    this.getJournals()
-    this.getLocations()
+    this.refreshData()
   },
   components: {
     'right-sidebar': RightSidebar
   },
   methods: {
+    refreshData() {
+      this.getChecklists()
+      this.getJournals()
+      this.getLocations()
+    },
     getChecklists() {
       Api.get('/checklists')
         .then(response => {
@@ -96,42 +99,49 @@ export default {
       Api.delete('/checklists')
         .then(response => {
           console.log('Success:', response.data)
+          // Refresh the checklists after successful deletion
+          this.refreshData()
+          this.showToast('Checklists deleted successfully!', 'success')
         })
-        .then(this.getChecklists())
         .catch(error => {
           console.error('Failure:', error)
-          // Handle the error and display an error message to the user
+          this.showToast('Failed to delete checklists.', 'danger')
         })
     },
     deleteJournals(ids) {
-      for (let i = 0; i < ids.length; i++) {
-        Api.delete(`/journals/${ids[i]._id}`)
-          .then(response => {
-            console.log('Success:', response.data)
-          })
-          .then(this.getJournals())
-          .catch(error => {
-            console.error('Failure:', error)
-          // Handle the error and display an error message to the user
-          })
-      }
+      const deletePromises = ids.map(id => {
+        return Api.delete(`/journals/${id._id}`)
+      })
+
+      Promise.all(deletePromises)
+        .then(() => {
+          console.log('All journals deleted successfully.')
+          this.refreshData()
+          this.showToast('Journals deleted successfully!', 'success')
+        })
+        .catch(error => {
+          console.error('Failure:', error)
+          this.showToast('Failed to delete journals.', 'danger')
+        })
     },
     deleteLocations() {
       Api.delete('/locations')
         .then(response => {
           console.log('Success:', response.data)
+          this.refreshData()
+          this.getLocations()
+          this.showToast('Locations deleted successfully!', 'success')
         })
-        .then(this.getLocations())
         .catch(error => {
           console.error('Failure:', error)
-          // Handle the error and display an error message to the user
+          this.showToast('Failed to delete locations.', 'danger')
         })
     },
     onSubmit(event) {
       event.preventDefault()
       alert(JSON.stringify(this.form))
       this.createUser()
-      this.getUsers()
+      this.refreshData()
       this.$router.push({ path: '/settings' })
     },
     onReset(event) {
@@ -144,6 +154,14 @@ export default {
       this.show = false
       this.$nextTick(() => {
         this.show = true
+      })
+    },
+    showToast(message, variant = null) {
+      this.$bvToast.toast(message, {
+        title: 'Notification',
+        variant,
+        solid: true,
+        toaster: 'b-toaster-bottom-right'
       })
     }
   }
