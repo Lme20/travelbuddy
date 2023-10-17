@@ -7,7 +7,7 @@
       <div></div>
     </div>
     <b-navbar-brand class="ml-3" href="/">
-      <img src="@/assets/TB_logo.png" alt="Travelbuddy" class="navbar-logo" height="75" />
+      <img src="@/assets/TB_logo.png" alt="logo" class="navbar-logo" height="75" />
     </b-navbar-brand>
     <!-- User profile section -->
     <div class="user-profile" v-if="users.length > 0">

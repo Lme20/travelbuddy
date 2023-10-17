@@ -17,7 +17,7 @@
       <b-container fluid>
         <!-- Input and Button for Location -->
         <b-form @submit.prevent="addLocation" class="location-form">
-          <b-form-group description="placeholder text" label-cols-sm="4" label-cols-lg="3"
+          <b-form-group description="Type in a city or landmark" label-cols-sm="4" label-cols-lg="3"
             content-cols-sm content-cols-lg="7">
             <!-- Custom label -->
             <template #label>
