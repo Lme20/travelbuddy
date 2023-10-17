@@ -112,6 +112,7 @@ export default {
   methods: {
     onAddItem() {
       this.form.items.push(this.elem)
+      this.elem = ''
     },
     onDeleteItem(index) {
       this.form.items.splice(index, 1)
