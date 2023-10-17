@@ -45,7 +45,7 @@
           <tr v-for="(item, index) in form.items" :key="item">
             <td>{{ item }}</td>
             <td>
-              <b-button variant="danger" @click="onDeleteItem(index)">X</b-button>
+              <b-button variant="danger" @click="onDeleteItem(index)">x</b-button>
             </td>
           </tr>
         </tbody>
@@ -58,8 +58,10 @@
         <b-button variant="primary" @click="onAddItem">Add</b-button>
       </b-form>
 
-      <b-button type="submit" variant="primary">Save</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <div style="margin-bottom: 20px;"></div>
+
+      <b-button type="submit" variant="outline-primary" class="mx-1">Save</b-button>
+      <b-button type="reset" variant="outline-danger" class="mx-1">Reset</b-button>
     </b-form>
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -206,4 +208,10 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#checklist-entry{
+  padding: 12px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
+</style>
