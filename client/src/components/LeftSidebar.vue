@@ -7,7 +7,7 @@
       </div>
 
       <!-- Menu Links -->
-      <div class="menu-section">
+      <div class="menu-section montserrat-bold">
         <div class="menu-item"><router-link to="/">Map</router-link></div>
         <div class="menu-item"><router-link to="/locations">Locations</router-link></div>
         <div class="menu-item"><router-link to="/journals">Journals</router-link></div>
@@ -33,7 +33,6 @@ import About from '@/views/About.vue'
 
 export default {
   views: {
-    // Define the name of the component here
     settings: Settings,
     about: About
   }
@@ -49,8 +48,10 @@ export default {
   width: 70%;
 }
 
+/* Style for the router-links */
+
 .menu-item {
-  padding: 10px 20px;
+  padding: 15px 20px;
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -73,17 +74,4 @@ export default {
   text-decoration: none;
 }
 
-/* Style for the router-links */
-router-link {
-  display: block;
-  padding: 10px 20px;
-  font-size: 1.1em;
-  color: #333;
-  transition: background-color 0.3s;
-}
-
-router-link:hover {
-  background-color: #f5f5f5;
-  text-decoration: none;
-}
 </style>
