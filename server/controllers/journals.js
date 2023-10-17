@@ -8,9 +8,9 @@ router.post('/api/journals', async (req, res, next) => {
     if (!req.body.owner) {
       res.status(400).send({ message: 'Owner missing' })
     } else if (!req.body.title) {
-      res.status(400).send({ messag: 'Title missing' })
+      res.status(400).send({ message: 'Title missing' })
     } else if (!req.body.journalTextEntry) {
-      res.status(400).send({ messag: 'Text body missing' })
+      res.status(400).send({ message: 'Text body missing' })
     } else {
       const journal = new Journal(req.body);
       const savedJournal = await journal.save();
@@ -60,9 +60,9 @@ router.put('/api/journals/:id', async (req, res) => {
     if (!journal) {
       return res.status(404).send({ message: 'Journal not found' });
     } else if (!req.body.title) {
-      res.status(400).send({ messag: 'Title missing' })
+      res.status(400).send({ message: 'Title missing' })
     } else if (!req.body.journalTextEntry) {
-      res.status(400).send({ messag: 'Text body missing' })
+      res.status(400).send({ message: 'Text body missing' })
     } else {
       res.status(200).send(journal);
     }
