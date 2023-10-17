@@ -16,17 +16,21 @@
     <div v-if="showMap">
       <b-container fluid>
         <!-- Input and Button for Location -->
-        <b-form @submit.prevent="addLocation">
-          <b-form-group label="Enter your destination" description="placeholder text" label-cols-sm="4" label-cols-lg="3"
+        <b-form @submit.prevent="addLocation" class="location-form">
+          <b-form-group description="placeholder text" label-cols-sm="4" label-cols-lg="3"
             content-cols-sm content-cols-lg="7">
+            <!-- Custom label -->
+            <template #label>
+              <label class="montserrat-bold label-custom">Enter your destination</label>
+            </template>
+            <!-- location, checklist & journal buttons -->
             <div class="d-flex align-items-center">
-              <!-- Create location request -->
-              <b-input v-model="userLocation" placeholder="Where are you going?" size="sm" class="search-box"></b-input>
-              <b-button type="submit">Confirm Location</b-button>
+              <b-input v-model="userLocation" placeholder="Where are you going?" size="sm" class="search-box montserrat"></b-input>
+              <b-button type="submit" variant="primary" class="mr-2">Confirm Location</b-button>
               <!-- Create journal request -->
-              <b-button @click="contentToDisplay = 1">Create Journal</b-button>
+              <b-button @click="contentToDisplay = 1" variant="primary" class="mr-2">Create Journal</b-button>
               <!-- Create checklist request -->
-              <b-button @click="contentToDisplay = 2">Create Checklist</b-button>
+              <b-button @click="contentToDisplay = 2" variant="primary">Create Checklist</b-button>
             </div>
           </b-form-group>
         </b-form>
@@ -240,8 +244,21 @@ export default {
   margin-top: 60px;
 }
 
-/* TEXTFIELD STYLING */
+/* MAP SECTION STYLING */
 .search-box {
   width: 30%;
+  margin-right: 10px;
 }
+
+/* addLocation styling */
+.location-form {
+  padding: 10px 0;
+}
+
+/* custom Label styling */
+.label-custom {
+  font-size: larger;
+  margin-left: 15px;
+}
+
 </style>

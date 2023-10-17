@@ -1,6 +1,6 @@
 <template>
   <b-row>
-      <GmapMap ref="gmap" v-if="center" :center='center' :zoom='10' style='width:100%; height:91vh;' >
+      <GmapMap ref="gmap" v-if="center" :center='center' :zoom='10' style='width:100%; height:88vh;' >
         <GmapAutocomplete />
         <!-- Path -->
         <GmapPolyline :options="{ strokeColor: '#f87425', strokeOpacity: 0, strokeWeight: 3 }"/>

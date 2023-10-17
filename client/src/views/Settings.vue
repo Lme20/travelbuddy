@@ -152,11 +152,4 @@ export default {
 
 <style scoped>
 
-/* TITLE TEXT STYLING ONLY */
-
-.center-horizontally {
-  align-items: center;
-  justify-content: center;
-}
-
 </style>
