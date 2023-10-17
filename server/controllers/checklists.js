@@ -70,6 +70,9 @@ router.delete('/api/checklists', async (req, res) => {
 // POST checklist to user (owner)
 router.post('/api/users/:id/checklists', async (req, res) => {
   try {
+    if (!req.params.id || req.params.id == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     var checklist = new Checklist(req.body);
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -104,6 +107,9 @@ router.get('/api/users/:id/checklists', async (req, res) => {
 // GET user's checklist (id)
 router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
   try {
+    if (!req.params.uid || req.params.uid == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     const user = await User.findById(req.params.uid);
     if (!user) {
       return res.status(404).send({ message: "User not found" });
@@ -121,6 +127,9 @@ router.get('/api/users/:uid/checklists/:cid', async (req, res) => {
 // PUT user's checklist (id)
 router.put('/api/users/:uid/checklists/:cid', async (req, res) => {
   try {
+    if (!req.params.uid || req.params.uid == "undefined") {
+      return res.status(400).send({ message: "No user" });
+    }
     const user = await User.findById(req.params.uid);
     if (!user) {
       return res.status(404).send({ message: "User not found" });
