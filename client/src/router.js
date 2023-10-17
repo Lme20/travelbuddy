@@ -6,6 +6,7 @@ import About from './views/About.vue'
 import Locations from './views/Locations.vue'
 import Journals from './views/Journals.vue'
 import Checklists from './views/Checklists.vue'
+import Users from './views/Users.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/checklists',
       name: 'checklists',
       component: Checklists
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: Users
     }
   ]
 })

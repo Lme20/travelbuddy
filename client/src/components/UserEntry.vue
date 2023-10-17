@@ -45,8 +45,8 @@ export default {
         prefCurrency: '',
         prefUnit: ''
       },
+      userEntry: null,
       locations: [],
-      elem: '',
       currency: ['SEK', 'EUR', 'USD'],
       unit: ['metric', 'imperial'],
       show: true
@@ -64,8 +64,6 @@ export default {
     }
   },
   mounted() {
-    console.log('mounting')
-    console.log(this.data)
     if (this.data) {
       this.getUser(this.data)
     } else {
@@ -101,12 +99,7 @@ export default {
     getUser(uid) {
       Api.get(`/users/${uid}`)
         .then(response => {
-          console.log('got ', response.data)
-          // Update your component's data with the fetched journal data
-          this.$emit('user-fetched', response.data)
-          this.form.name = response.data.name
-          this.form.prefCurrency = response.data.prefCurrency
-          this.form.prefUnit = response.data.prefUnit
+          this.userEntry = response.data
         })
         .catch(error => {
           console.error('Error fetching checklist data:', error)
