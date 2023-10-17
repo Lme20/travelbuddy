@@ -1,7 +1,7 @@
 <template>
   <div class = "container">
     <div class="text-center">
-      <h1>Checklists</h1>
+      <h1 class="montserrat-bold" >My Checklists</h1>
     </div>
     <div v-if="checklists.length > 0">
       <b-card-group columns>
@@ -21,8 +21,8 @@
 
       <right-sidebar :contents="[contentToDisplay, userId, entryId]" />
     </div>
-    <div v-else class="text-center">
-      <p>No checklists yet.</p>
+    <div v-else class="text-center" >
+      <p class="montserrat" >No checklists yet.</p>
       <b-button variant="success" @click="contentToDisplay=2">Create new checklist</b-button>
       <right-sidebar :contentToDisplay="contentToDisplay"/>
     </div>
@@ -84,4 +84,15 @@ export default {
 .container {
   padding: 10px;
 }
+
+/* TEXT STYLING ONLY */
+.montserrat-bold {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
 </style>

@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h1>My locations</h1>
+    <div class="text-center">
+        <h1 class="montserrat-bold" >My Locations</h1>
+      </div>
     <!-- Conditional rendering: Show cards if no location is selected -->
     <div v-if="!selectedLocation" class="row">
       <div class="col-12 col-md-6 col-lg-4" v-for="(locations, cityName) in groupedLocations" :key="cityName">
         <!-- Added @click event to show the table when the card is clicked -->
-        <b-card @click="showTable(cityName)" :title="cityName" :img-src="imageUrls[locations[0]._id]" img-alt="Image" img-top class="custom-card">
-          <b-card-text>
+        <b-card @click="showTable(cityName)" :title="cityName" :img-src="imageUrls[locations[0]._id]" img-alt="Image" img-top class="custom-card montserrat">
+          <b-card-text >
             Discover the hidden gems of {{ cityName }}, your adventure starts here!
           </b-card-text>
         </b-card>
@@ -14,8 +16,8 @@
     </div>
     <!-- Conditional rendering: Show table if a location is selected -->
     <div v-else>
-      <b-iconstack @click="hideTable" font-scale="2.5" style="color: #e751e4;">
-        <b-icon stacked icon="square-fill" style="color: #e751e4;"></b-icon>
+      <b-iconstack @click="hideTable" font-scale="2.5" style="color: #fa70cd;">
+        <b-icon stacked icon="square-fill" style="color: #fa70cd;"></b-icon>
         <b-icon stacked icon="BIconArrowLeft" variant="white"></b-icon>
       </b-iconstack>
       <table class="locations-table">
@@ -262,6 +264,16 @@ export default {
   border-radius: 4px;
   background-color: #a600ce;
   color: white;
+}
+
+/* TEXT STYLING ONLY */
+.montserrat-bold {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
 }
 
 </style>

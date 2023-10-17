@@ -121,6 +121,7 @@ input:focus, textarea:focus {
 
 .user-profile b-link,
 .user-profile a {
+  font-family: 'Montserrat', sans-serif;
   text-decoration: none;
   font-size: 1.5em;
   color: #fa70cd; /* This is the new color for the username text */

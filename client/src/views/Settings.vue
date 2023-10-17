@@ -1,38 +1,37 @@
 <template>
-  <div class="col-9">
-    <h1>All entries</h1>
-    <b-card-group columns>
-      <b-card header="Checklists">
-        <b-button :to="{name: 'checklists'}">View checklists</b-button>
-        <b-button variant="danger" @click="deleteChecklists()">Delete all</b-button>
-        <b-list-group>
-          <b-list-group-item v-for="checklist in checklists" :key="checklist._id">
-            {{ checklist.title }}
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
-      <b-card header="Journals">
-        <b-button :to="{name: 'journals'}">View journal entries</b-button>
-        <b-button variant="danger" @click="deleteJournals(journals)">Delete all</b-button>
-        <b-list-group>
-          <b-list-group-item v-for="journal in journals" :key="journal._id">
-            {{ journal.title }}
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
-      <b-card header="Locations">
-        <b-button :to="{name: 'locations'}">View locations</b-button>
-        <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
-        <b-list-group>
-          <b-list-group-item v-for="location in locations" :key="location._id">
-            {{ location }}
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
-    </b-card-group>
-
-    <right-sidebar :contentToDisplay="contentToDisplay" />
-  </div>
+    <div class="col-9 mx-auto text-center">
+      <h1 class="montserrat-bold">All Entries</h1>
+      <b-card-group columns>
+        <b-card header="Checklists">
+          <b-button :to="{name: 'checklists'}">View checklists</b-button>
+          <b-button variant="danger" @click="deleteChecklists()">Delete all</b-button>
+          <b-list-group>
+            <b-list-group-item v-for="checklist in checklists" :key="checklist._id">
+              {{ checklist.title }}
+            </b-list-group-item>
+          </b-list-group>
+        </b-card>
+        <b-card header="Journals">
+          <b-button :to="{name: 'journals'}">View journal entries</b-button>
+          <b-button variant="danger" @click="deleteJournals(journals)">Delete all</b-button>
+          <b-list-group>
+            <b-list-group-item v-for="journal in journals" :key="journal._id">
+              {{ journal.title }}
+            </b-list-group-item>
+          </b-list-group>
+        </b-card>
+        <b-card header="Locations">
+          <b-button :to="{name: 'locations'}">View locations</b-button>
+          <b-button variant="danger" @click="deleteLocations()">Delete all</b-button>
+          <b-list-group>
+            <b-list-group-item v-for="location in locations" :key="location._id">
+              {{ location }}
+            </b-list-group-item>
+          </b-list-group>
+        </b-card>
+      </b-card-group>
+      <right-sidebar :contentToDisplay="contentToDisplay" />
+    </div>
 </template>
 
 <script>
@@ -151,4 +150,6 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
