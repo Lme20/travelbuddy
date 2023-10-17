@@ -51,6 +51,16 @@ router.delete('/api/locations', async (req, res) => {
     }
 });
 
+// Delete single locations OK
+router.delete('/api/locations/:id', async (req, res) => {
+    try {
+        await Location.deleteMany({});
+        res.status(200).send({ message: 'location deleted successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting location', error: error.message });
+    }
+});
+
 // GET Single location by ID - OK
 router.get('/api/locations/:id', async (req, res) => {
     var id = req.params.id;

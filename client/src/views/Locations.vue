@@ -37,7 +37,6 @@
               </span>
             </td>
             <td>
-              <b-button>Edit</b-button>
               <b-button @click="deleteLocationId" >Delete</b-button>
             </td>
           </tr>
@@ -171,7 +170,7 @@ export default {
         }
       }
     },
-    // TODO: FIX ENDPOINT IN BACKEND!
+    // Should be working now
     deleteLocationId() {
       const id = this.$route.params.id // Get the _id from the route parameters
 

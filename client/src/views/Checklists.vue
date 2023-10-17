@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class = "container">
     <div class="text-center">
       <h1>Checklists</h1>
     </div>
@@ -80,4 +80,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.container {
+  padding: 10px;
+}
+</style>

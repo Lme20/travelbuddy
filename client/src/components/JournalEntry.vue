@@ -233,4 +233,9 @@ export default {
 .container {
   padding: 10px;
 }
+#journal-entry{
+  padding: 12px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
 </style>
