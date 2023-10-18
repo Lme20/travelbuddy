@@ -262,6 +262,43 @@ export default {
   margin-top: 60px;
 }
 
+/* For screens with max width of 768px */
+@media (max-width: 768px) {
+
+  .hero-button {
+    font-size: 14px;
+    padding: 8px 15px;
+    margin: 5px;
+  }
+
+  .hero-text {
+    font-size: 24px;
+  }
+
+  .hero-section {
+    padding-top: 250px;
+  }
+}
+
+/* For iPhone SE */
+@media (max-width: 320px) {
+
+  .hero-button {
+    font-size: 12px;
+    padding: 6px 12px;
+    margin: -10px 4px 4px 4px; /* Move the button up */
+  }
+
+  .hero-text {
+    font-size: 20px;
+    margin-top: -40px; /* Move the hero text up */
+  }
+
+  .hero-section {
+    padding-top: 250px;
+  }
+}
+
 /* MAP SECTION STYLING */
 .search-box {
   width: 30%;

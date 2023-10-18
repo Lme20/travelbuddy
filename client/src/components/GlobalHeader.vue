@@ -130,16 +130,6 @@ input:focus, textarea:focus {
   .user-profile {
     display: none;
   }
-
-  .hero-button {
-    font-size: 14px;
-    padding: 8px 15px;
-    margin: 5px;
-  }
-
-  .hero-text {
-    font-size: 24px;
-  }
 }
 
 /* For iPhone SE */
@@ -152,17 +142,6 @@ input:focus, textarea:focus {
   /* hide the user profile */
   .user-profile {
     display: none;
-  }
-
-  .hero-button {
-    font-size: 12px;
-    padding: 6px 12px;
-    margin: -10px 4px 4px 4px; /* Move the button up */
-  }
-
-  .hero-text {
-    font-size: 20px;
-    margin-top: -20px; /* Move the hero text up */
   }
 }
 
