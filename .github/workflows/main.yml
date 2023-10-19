@@ -1,0 +1,62 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:14-alpine
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: server/node_modules/
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: |
+          cd server
+          npm install
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: node:14-alpine
+    services:
+      mongo:
+        image: mvertes/alpine-mongo:latest
+        ports:
+          - 27017:27017
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          cd server
+          npm run ci-test
+        env:
+          MONGODB_URI: "mongodb://mongo:27017/serverTestDB"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        run: |
+          apk update && apk add git curl
+          gem install dpl
+          dpl --provider=heroku --app=${{ secrets.HEROKU_APP_NAME }} --api-key=${{ secrets.HEROKU_API_KEY }}
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
